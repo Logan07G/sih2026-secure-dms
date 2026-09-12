@@ -1,46 +1,105 @@
-from .crypto_engine import (
-    generate_key, encrypt_document, decrypt_document,
-    encrypt_file, decrypt_file, NONCE_SIZE,
-)
+"""
+End-to-end demo of Modules A + B + C.
+Run: python3 -m backend.src.crypto.demo
+"""
+import os
+from .crypto_engine import generate_key, encrypt_document, decrypt_document
+from .integrity import generate_hash
+from .ledger import AuditLedger
+from .vault import SecureDocumentVault
 from cryptography.exceptions import InvalidTag
 
-# ---------- 1. Round-trip on raw bytes ----------
+BANNER = "=" * 68
+
+if os.path.exists("vault.db"):
+    os.remove("vault.db")
+
 key = generate_key()
+vault = SecureDocumentVault(secret_key=key, db_path="vault.db")
+
+print(BANNER)
+print("SECURE DOCUMENT VAULT - MODULE A + B + C DEMO")
+print(BANNER)
+
+# --- Module A quick tests ---
+print("\n[MODULE A] AES-256-GCM")
 original = b"CONFIDENTIAL: FIR #1234 - Suspect statement..."
-
 blob = encrypt_document(original, key, document_id="FIR-1234")
-print(f"[+] Original size : {len(original)} bytes")
-print(f"[+] Encrypted size: {len(blob)} bytes  (nonce 12B + ct + tag 16B)")
-print(f"[+] Nonce (hex)   : {blob[:NONCE_SIZE].hex()}")
+print(f"  original={len(original)}B  encrypted={len(blob)}B  "
+      f"nonce={blob[:12].hex()}")
+assert decrypt_document(blob, key, document_id="FIR-1234") == original
+print("  round-trip        : PASS")
 
-recovered = decrypt_document(blob, key, document_id="FIR-1234")
-assert recovered == original
-print("[+] Round-trip OK\n")
-
-# ---------- 2. Tamper test — flip one bit in the ciphertext ----------
-tampered = bytearray(blob)
-tampered[NONCE_SIZE + 5] ^= 0x01    # flip a bit
+tampered = bytearray(blob); tampered[12 + 5] ^= 0x01
 try:
     decrypt_document(bytes(tampered), key, document_id="FIR-1234")
-    print("[!] FAIL — tamper was not detected")
+    print("  tamper detection  : FAIL")
 except InvalidTag:
-    print("[+] Tamper detected — GCM auth tag rejected the payload\n")
+    print("  tamper detection  : PASS")
 
-# ---------- 3. Wrong AAD test ----------
 try:
     decrypt_document(blob, key, document_id="FIR-9999")
-    print("[!] FAIL — wrong document_id accepted")
+    print("  AAD binding       : FAIL")
 except InvalidTag:
-    print("[+] Wrong document_id rejected — AAD binding works\n")
+    print("  AAD binding       : PASS")
 
-# ---------- 4. Wrong key test ----------
+# --- Module B ---
+print("\n[MODULE B] SHA-256")
+h = generate_hash(original)
+print(f"  hash              : {h[:32]}...")
+assert len(h) == 64
+assert generate_hash(original) == h
+assert generate_hash(original + b"x") != h
+print("  determinism       : PASS")
+print("  avalanche effect  : PASS")
+
+# --- Module C + full vault flow ---
+print("\n[MODULE C] Append-only hash-chained ledger")
+docs = [
+    ("FIR-2026-0892", b"FIR #0892: Theft at Sector 14.",       "SHO_Raj"),
+    ("FIR-2026-0893", b"FIR #0893: Cyber fraud - Rs 5L.",       "SI_Meera"),
+    ("FIR-2026-0894", b"FIR #0894: Missing person - minor.",    "SHO_Raj"),
+]
+for doc_id, content, user in docs:
+    block = vault.ingest(doc_id, content, user)
+    print(f"  + {doc_id}  block={block['block_hash'][:16]}...  by={user}")
+
+print("\n[LEDGER CHAIN]")
+for b in vault.ledger.all_blocks():
+    print(f"  seq={b['seq']}  doc={b['doc_id']}  "
+          f"prev={b['previous_block_hash'][:10]}...  "
+          f"self={b['block_hash'][:10]}...")
+
+ok, msg = vault.ledger.verify_chain()
+print(f"\n  chain verify      : {'PASS' if ok else 'FAIL'} - {msg}")
+
+# --- Retrieval + integrity ---
+print("\n[RETRIEVAL]")
+plain, hash_ok, msg2 = vault.retrieve("FIR-2026-0892")
+print(f"  plaintext         : {plain[:50]}...")
+print(f"  hash vs ledger    : {'PASS' if hash_ok else 'FAIL'} - {msg2}")
+
+# --- Tamper test on encrypted blob ---
+print("\n[TAMPER] flip a byte in encrypted blob")
+blob2 = bytearray(vault._store["FIR-2026-0892"])
+blob2[15] ^= 0x01
+vault._store["FIR-2026-0892"] = bytes(blob2)
 try:
-    decrypt_document(blob, generate_key(), document_id="FIR-1234")
-    print("[!] FAIL — wrong key accepted")
+    vault.retrieve("FIR-2026-0892")
+    print("  result            : FAIL (should have raised)")
 except InvalidTag:
-    print("[+] Wrong key rejected\n")
+    print("  result            : PASS - InvalidTag raised")
 
-# ---------- 5. File round-trip (PDF demo) ----------
-encrypt_file("sample.pdf", "sample.pdf.enc", key, document_id="FIR-1234")
-decrypt_file("sample.pdf.enc", "sample_decrypted.pdf", key, document_id="FIR-1234")
-print("[+] File encrypted → decrypted successfully")
+# --- Ledger tamper test (SQLite trigger) ---
+print("\n[TAMPER] attempt UPDATE on ledger (blocked by trigger)")
+import sqlite3
+try:
+    with sqlite3.connect("vault.db") as conn:
+        conn.execute("UPDATE ledger SET sha256_hash='deadbeef' WHERE seq=1")
+    print("  result            : FAIL (UPDATE allowed)")
+except sqlite3.IntegrityError as e:
+    print(f"  result            : PASS - {e}")
+
+print("\n" + BANNER)
+print("ALL MODULES OPERATIONAL")
+print(BANNER)

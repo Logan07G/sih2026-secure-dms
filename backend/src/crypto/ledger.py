@@ -36,7 +36,7 @@ def _compute_block_hash(block: dict) -> str:
     Block hash = SHA256( canonical_json(block without 'block_hash' field) ).
     The 'block_hash' field itself is excluded so we don't have a circular dependency.
     """
-    fields = {k: v for k, v in block.items() if k != "block_hash"}
+    fields = {k: v for k, v in block.items() if k not in ("block_hash", "seq")}
     return hashlib.sha256(_canonical_json(fields)).hexdigest()
 
 
