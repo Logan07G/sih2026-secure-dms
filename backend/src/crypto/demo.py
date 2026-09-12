@@ -1,4 +1,4 @@
-from crypto_engine import (
+from .crypto_engine import (
     generate_key, encrypt_document, decrypt_document,
     encrypt_file, decrypt_file, NONCE_SIZE,
 )

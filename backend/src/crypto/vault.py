@@ -13,9 +13,9 @@ Retrieval flow:
   4. ok     = verify_hash(plain, block.sha256_hash)       [Module B]
 """
 
-from crypto_engine import encrypt_document, decrypt_document
-from integrity import generate_hash, verify_hash
-from ledger import AuditLedger
+from .crypto_engine import encrypt_document, decrypt_document
+from .integrity import generate_hash, verify_hash
+from .ledger import AuditLedger
 
 
 class SecureDocumentVault:
