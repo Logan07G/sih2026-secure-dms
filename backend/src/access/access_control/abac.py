@@ -1,4 +1,4 @@
-# ABAC - Attribute Based Access Control
+
 
 CLEARANCE_LEVELS = {
     "LOW": 1,
@@ -63,7 +63,7 @@ def check_abac(user, resource, action):
         user_value = user.get(attribute)
         resource_value = resource.get(attribute)
 
-        # Missing attribute = deny
+        
         if user_value is None or resource_value is None:
             return False
 
