@@ -1,4 +1,4 @@
-# RBAC - Role Based Access Control
+
 
 ROLE_PERMISSIONS = {
     "ADMIN": {
@@ -34,5 +34,5 @@ ROLE_PERMISSIONS = {
 def check_permission(role, action):
     permissions = ROLE_PERMISSIONS.get(role, set())
 
-    # Deny by default
+    
     return action in permissions
