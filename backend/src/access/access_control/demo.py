@@ -1,7 +1,7 @@
 from .middleware import authorize, audit_ledger
 
 
-# Protected function
+
 @authorize("view")
 def view_document(user, resource):
 
@@ -26,7 +26,7 @@ def download_document(user, resource):
     return "SUCCESS"
 
 
-# Users
+
 investigator = {
     "name": "Rahul",
     "role": "INVESTIGATOR",
@@ -43,7 +43,7 @@ officer = {
 }
 
 
-# Documents
+
 cyber_document = {
     "case_id": "CASE-001",
     "department": "CYBER_CELL",
@@ -65,7 +65,7 @@ def main():
     print("======================================")
 
 
-    # ALLOW CASE
+   
     print("\n[CASE 1] Investigator views document")
 
     print(
@@ -76,7 +76,7 @@ def main():
     )
 
 
-    # RBAC DENY
+ 
     print("\n[CASE 2] Officer tries to delete")
 
     print(
@@ -87,7 +87,7 @@ def main():
     )
 
 
-    # ABAC DENY
+   
     print("\n[CASE 3] Investigator accesses another department")
 
     print(
@@ -98,7 +98,7 @@ def main():
     )
 
 
-    # ABAC clearance DENY
+  
     print("\n[CASE 4] Medium clearance officer downloads HIGH document")
 
     print(
@@ -109,11 +109,10 @@ def main():
     )
 
 
-    # Show audit
     audit_ledger.display()
 
 
-    # Verify chain
+   
     print("\n========== CHAIN VERIFICATION ==========")
 
     if audit_ledger.verify_chain():
