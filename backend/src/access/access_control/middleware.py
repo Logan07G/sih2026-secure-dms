@@ -19,7 +19,7 @@ def authorize(action):
             print("Action:", action)
             print("User:", user.get("name"))
 
-            # 1. RBAC
+            
             if not check_permission(
                 user.get("role"),
                 action
@@ -38,7 +38,7 @@ def authorize(action):
 
             print("RBAC: ALLOWED")
 
-            # 2. ABAC
+            
             if not check_abac(
                 user,
                 resource,
@@ -58,7 +58,7 @@ def authorize(action):
 
             print("ABAC: ALLOWED")
 
-            # 3. Audit
+           
             audit_ledger.record(
                 user,
                 action,
@@ -68,7 +68,6 @@ def authorize(action):
 
             print("AUDIT: Recorded")
 
-            # 4. Run actual function
             return function(
                 user,
                 resource,
