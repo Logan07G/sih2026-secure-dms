@@ -12,6 +12,32 @@
 
 <body>
 
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- SPLASH SCREEN -->
+<div id="splash" class="splash">
+    <div class="splash-content">
+
+        <div class="splash-logo">
+            <div class="splash-logo-ring"></div>
+            <div class="splash-logo-icon">🔐</div>
+        </div>
+
+        <h1 class="splash-title">
+            <span>C</span><span>A</span><span>S</span><span>E</span><span class="accent">V</span><span class="accent">A</span><span class="accent">U</span><span class="accent">L</span><span class="accent">T</span>
+        </h1>
+
+        <p class="splash-subtitle">Secure Evidence Management System</p>
+
+        <div class="splash-loader">
+            <div class="splash-loader-bar"></div>
+        </div>
+
+        <p class="splash-status" id="splashStatus">Initializing secure environment...</p>
+
+    </div>
+</div>
+
     <!-- LOGIN SCREEN -->
     <section id="loginScreen" class="login-screen">
 
@@ -1192,9 +1218,9 @@
                             </p>
                         </div>
 
-                        <span class="security-badge">
-                            🛡️ Log Integrity Verified
-                        </span>
+                        <button id="verifyChainBtn" class="security-badge" style="border:none;cursor:pointer;">
+                        🛡️ Verify Chain
+                        </button>
 
                     </div>
 
@@ -1476,14 +1502,14 @@
 
                         <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 8px; padding-top: 20px; border-top: 1px solid var(--border);">
                             <div>
-                                <h3>Author & Legal Notice</h3>
-                                <p style="margin-top: 4px;"><strong>Author:</strong> janvi kushwah</p>
-                                <p style="margin-top: 2px;"><strong>Contact:</strong> <a href="mailto:janvikushwah36@gmail.com" style="color: var(--blue); text-decoration: none;">janvikushwah36@gmail.com</a></p>
-                                <p style="margin-top: 2px;"><strong>GitHub:</strong> <a href="https://github.com/janvikushub" target="_blank" style="color: var(--blue); text-decoration: none;">github.com/janvikushub</a></p>
-                                <p style="margin-top: 6px; font-size: 13px; color: var(--muted);">
-                                    © 2026 janvi kushwah. All Rights Reserved. Proprietary & Confidential.
-                                </p>
-                            </div>
+                            <h3>Built By</h3>
+                            <p style="margin-top: 4px;"><strong>Team:</strong> InnoVanta</p>
+                            <p style="margin-top: 2px;"><strong>Hackathon:</strong> SIH26190 — Secure Digital Document Management System</p>
+                            <p style="margin-top: 2px;"><strong>Contact:</strong> <a href="mailto:team@innovanta.dev" style="color: var(--blue); text-decoration: none;">team@innovanta.dev</a></p>
+                            <p style="margin-top: 6px; font-size: 13px; color: var(--muted);">
+                                © 2026 Team InnoVanta. All Rights Reserved. Built for MHA.
+                            </p>
+                        </div>
                         </div>
 
                     </div>
@@ -1494,80 +1520,113 @@
                 <!-- AUTHOR PAGE -->
                 <section id="author" class="page">
 
-                    <div class="page-title">
-                        <div>
-                            <h1>Author & Developer Profile</h1>
-                            <p>
-                                Project ownership, author details, and legal licenses
-                            </p>
-                        </div>
-                    </div>
+    <div class="page-title">
+        <div>
+            <h1>Team InnoVanta</h1>
+            <p>Project ownership, team details, and legal notice</p>
+        </div>
+    </div>
 
-                    <div class="author-grid">
+    <div class="author-grid">
 
-                        <!-- Profile Card -->
-                        <div class="author-card">
-                            <div class="author-header">
-                                <div class="author-avatar">👨‍💻</div>
-                                <div class="author-meta">
-                                    <h2>InnoVanta</h2>
-                                    <p>Creator & Lead Architect</p>
-                                    <span class="author-badge">Project Owner</span>
-                                </div>
-                            </div>
-
-                            <div class="author-details-list">
-                                <div class="author-detail-item">
-                                    <strong>Application</strong>
-                                    <span>secure-vault</span>
-                                </div>
-                                <div class="author-detail-item">
-                                    <strong>Contact Email</strong>
-                                    <a href="mailto:janvikushwah36@gmail.com">janvikushwah36@gmail.com</a>
-                                </div>
-                                <div class="author-detail-item">
-                                    <strong>GitHub Profile</strong>
-                                    <a href="https://github.com/janvikushub" target="_blank">github.com/janvikushub</a>
-                                </div>
-                                <div class="author-detail-item">
-                                    <strong>Repository</strong>
-                                    <a href="https://github.com/janvikushub/secure-vault" target="_blank">janvikushub/secure-vault</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Rights & Legal Notice Card -->
-                        <div class="author-card">
-                            <div class="author-header">
-                                <div class="author-avatar" style="background: linear-gradient(135deg, #0d1b2e, #dc2626);">🛡️</div>
-                                <div class="author-meta">
-                                    <h2>Legal Notice & License</h2>
-                                    <p>Proprietary Software Rights</p>
-                                    <span class="author-badge" style="background: rgba(220, 38, 38, 0.1); color: var(--red);">All Rights Reserved</span>
-                                </div>
-                            </div>
-
-                            <div class="author-details-list">
-                                <div class="author-detail-item">
-                                    <strong>Copyright</strong>
-                                    <span>© 2026 janvi kushwah </span>
-                                </div>
-                                <div class="author-detail-item">
-                                    <strong>License Type</strong>
-                                    <span>Proprietary / Closed Source</span>
-                                </div>
-                            </div>
-
-                            <p style="margin-top: 16px; font-size: 13px; color: var(--muted); line-height: 1.6;">
-                                This software, source code, visual layout, and underlying architecture are the confidential and proprietary property of <strong>janvi kushwah</strong>. Unauthorized copying, distribution, decompilation, or commercial reuse is strictly prohibited.
-                            </p>
-                        </div>
-
-                    </div>
-
-                </section>
-
+        <!-- TEAM CARD -->
+        <div class="author-card">
+            <div class="author-header">
+                <div class="author-avatar" style="background: linear-gradient(135deg, #0d1b2e, #2563eb);">🚀</div>
+                <div class="author-meta">
+                    <h2>Team InnoVanta</h2>
+                    <p>Creator & Lead Architects</p>
+                    <span class="author-badge">Project Owner</span>
+                </div>
             </div>
+
+            <div class="author-details-list">
+                <div class="author-detail-item">
+                    <strong>Application</strong>
+                    <span>Secure CaseVault</span>
+                </div>
+                <div class="author-detail-item">
+                    <strong>Problem Statement</strong>
+                    <span>SIH26190 — MHA</span>
+                </div>
+                <div class="author-detail-item">
+                    <strong>Contact</strong>
+                    <a href="mailto:team@innovanta.dev">team@innovanta.dev</a>
+                </div>
+                <div class="author-detail-item">
+                    <strong>Repository</strong>
+                    <a href="https://github.com/Logan07G/sih2026-secure-dms" target="_blank">Logan07G/sih2026-secure-dms</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- MEMBERS CARD -->
+        <div class="author-card">
+            <div class="author-header">
+                <div class="author-avatar" style="background: linear-gradient(135deg, #0d1b2e, #16a34a);">👥</div>
+                <div class="author-meta">
+                    <h2>Team Members</h2>
+                    <p>Six roles, one mission</p>
+                </div>
+            </div>
+
+            <div class="author-details-list">
+                <div class="author-detail-item"><strong>Cryptography &amp; Security</strong><span>Member 1</span></div>
+                <div class="author-detail-item"><strong>Backend / API</strong><span>Member 2</span></div>
+                <div class="author-detail-item"><strong>Database &amp; Storage</strong><span>Member 3</span></div>
+                <div class="author-detail-item"><strong>Frontend</strong><span>Member 4</span></div>
+                <div class="author-detail-item"><strong>Access Control &amp; Audit</strong><span>Member 5</span></div>
+                <div class="author-detail-item"><strong>DevOps / Air-Gap</strong><span>Member 6</span></div>
+            </div>
+        </div>
+
+        <!-- LEGAL CARD -->
+        <div class="author-card">
+            <div class="author-header">
+                <div class="author-avatar" style="background: linear-gradient(135deg, #0d1b2e, #dc2626);">🛡️</div>
+                <div class="author-meta">
+                    <h2>Legal Notice</h2>
+                    <p>Proprietary Software Rights</p>
+                    <span class="author-badge" style="background: rgba(220,38,38,0.1); color: var(--red);">All Rights Reserved</span>
+                </div>
+            </div>
+
+            <div class="author-details-list">
+                <div class="author-detail-item">
+                    <strong>Copyright</strong>
+                    <span>© 2026 Team InnoVanta</span>
+                </div>
+                <div class="author-detail-item">
+                    <strong>License Type</strong>
+                    <span>Proprietary / Closed Source</span>
+                </div>
+            </div>
+
+            <p style="margin-top: 16px; font-size: 13px; color: var(--muted); line-height: 1.6;">
+                This software, source code, visual layout, and underlying architecture are the confidential
+                and proprietary property of <strong>Team InnoVanta</strong>. Unauthorized copying, distribution,
+                decompilation, or commercial reuse is strictly prohibited.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+            <div class="security-ticker">
+         <div class="ticker-track">
+        <span>🛡️ System Secure</span>
+        <span>🔐 AES-256-GCM Active</span>
+        <span>#️⃣ SHA-256 Integrity OK</span>
+        <span>🔗 Chain-of-Custody Verified</span>
+        <span>🚨 4 Alerts Pending Review</span>
+        <span>🛡️ System Secure</span>
+        <span>🔐 AES-256-GCM Active</span>
+        <span>#️⃣ SHA-256 Integrity OK</span>
+        <span>🔗 Chain-of-Custody Verified</span>
+        <span>🚨 4 Alerts Pending Review</span>
+        </div>
+    </div>
 
         </main>
 
@@ -1618,6 +1677,7 @@
 
 
     <script src="script.js"></script>
+
 <!-- ================= UPLOAD EVIDENCE MODAL ================= -->
 
 <div id="uploadModal" class="modal-overlay">
@@ -1747,27 +1807,20 @@
 
 
             <div class="security-option">
-
                 <span>#️⃣</span>
 
                 <div>
 
-                    <strong>
-                        SHA-256 Integrity Hash
-                    </strong>
+                <strong>SHA-256 Integrity Hash</strong>
 
-                    <small>
-                        Unique digital fingerprint generated
-                    </small>
+                <small>Unique digital fingerprint generated</small>
 
-                </div>
-
-                <span class="verified-mini">
-                    ✓
-                </span>
-
+                <code id="liveHash" style="display:block;margin-top:6px;font-size:9px;color:#60a5fa;background:#0f172a;padding:4px 6px;border-radius:4px;">SHA-256: waiting for file...</code>
             </div>
 
+                <span class="verified-mini">✓</span>
+
+            </div>
 
             <div class="security-option">
 
