@@ -2243,3 +2243,298 @@ th {
     text-decoration: underline;
 }
 
+/* =====================================================
+   LOGIN ERROR + HONEYPOT
+===================================================== */
+
+#loginError {
+    display: none;
+    margin: 0 0 14px;
+    padding: 12px 14px;
+    background: rgba(220, 38, 38, 0.08);
+    border: 1px solid rgba(220, 38, 38, 0.35);
+    border-left: 3px solid var(--red);
+    border-radius: 8px;
+    color: #fca5a5;
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: pre-line;
+    animation: errorIn 0.3s ease;
+}
+
+#loginError.severe {
+    background: rgba(220, 38, 38, 0.15);
+    border-color: var(--red);
+    color: #fecaca;
+    font-weight: 600;
+    box-shadow: 0 0 22px rgba(220, 38, 38, 0.35);
+}
+
+@keyframes errorIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.login-shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    border-color: var(--red) !important;
+    box-shadow: 0 0 40px rgba(220, 38, 38, 0.45) !important;
+}
+
+@keyframes shake {
+    10%, 90% { transform: translateX(-2px); }
+    20%, 80% { transform: translateX(4px); }
+    30%, 50%, 70% { transform: translateX(-8px); }
+    40%, 60% { transform: translateX(8px); }
+}
+
+.security-ticker {
+    position: fixed;
+    bottom: 0;
+    left: 255px;
+    right: 0;
+    height: 34px;
+    background: #0f172a;
+    border-top: 1px solid #1e293b;
+    overflow: hidden;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+}
+
+.ticker-track {
+    display: flex;
+    gap: 60px;
+    white-space: nowrap;
+    animation: ticker 30s linear infinite;
+    color: #94a3b8;
+    font-size: 11px;
+    padding-left: 100%;
+}
+
+.ticker-track span { color: #cbd5e1; }
+
+@keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+.page-container { padding-bottom: 60px; }
+
+@media (max-width: 800px) {
+    .security-ticker { left: 70px; }
+}
+
+.status-dot {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+    animation: statusPulse 2s infinite;
+}
+
+@keyframes statusPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+    70%  { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+.security-badge,
+.badge.verified {
+    transition: box-shadow 0.3s ease;
+}
+
+.security-badge:hover,
+.badge.verified:hover {
+    box-shadow: 0 0 16px rgba(37, 99, 235, 0.35);
+}
+
+/* =====================================================
+   SPLASH SCREEN
+===================================================== */
+
+.splash {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: radial-gradient(circle at 50% 50%, #0a1832, #020617 70%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.splash.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.splash-content {
+    text-align: center;
+    animation: splashIn 1s ease;
+}
+
+@keyframes splashIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Logo --- */
+.splash-logo {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 30px;
+    display: grid;
+    place-items: center;
+}
+
+.splash-logo-ring {
+    position: absolute;
+    inset: 0;
+    border: 2px solid transparent;
+    border-top-color: #3b82f6;
+    border-right-color: #60a5fa;
+    border-radius: 50%;
+    animation: ringSpin 1.5s linear infinite;
+}
+
+.splash-logo-ring::after {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 2px solid transparent;
+    border-bottom-color: #2563eb;
+    border-left-color: #3b82f6;
+    border-radius: 50%;
+    animation: ringSpin 2s linear infinite reverse;
+}
+
+@keyframes ringSpin {
+    to { transform: rotate(360deg); }
+}
+
+.splash-logo-icon {
+    font-size: 44px;
+    animation: logoPulse 1.6s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.6));
+}
+
+@keyframes logoPulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.1); }
+}
+
+/* --- Title letters --- */
+.splash-title {
+    color: white;
+    font-size: 42px;
+    letter-spacing: 10px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.splash-title span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: letterIn 0.5s ease forwards;
+}
+
+.splash-title span:nth-child(1) { animation-delay: 0.20s; }
+.splash-title span:nth-child(2) { animation-delay: 0.30s; }
+.splash-title span:nth-child(3) { animation-delay: 0.40s; }
+.splash-title span:nth-child(4) { animation-delay: 0.50s; }
+.splash-title span:nth-child(5) { animation-delay: 0.60s; }
+.splash-title span:nth-child(6) { animation-delay: 0.70s; }
+.splash-title span:nth-child(7) { animation-delay: 0.80s; }
+.splash-title span:nth-child(8) { animation-delay: 0.90s; }
+.splash-title span:nth-child(9) { animation-delay: 1.00s; }
+
+.splash-title .accent { color: #60a5fa; }
+
+@keyframes letterIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.splash-subtitle {
+    color: #64748b;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 1.3s forwards;
+}
+
+@keyframes fadeUp {
+    to { opacity: 1; }
+}
+
+/* --- Loader --- */
+.splash-loader {
+    width: 260px;
+    height: 3px;
+    background: #1e293b;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 36px auto 14px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 1.5s forwards;
+}
+
+.splash-loader-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #2563eb, #60a5fa, #06b6d4);
+    border-radius: 10px;
+    animation: loaderFill 5s ease-in-out 1.5s forwards;
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.7);
+}
+
+@keyframes loaderFill {
+    0%   { width: 0%; }
+    20%  { width: 30%; }
+    50%  { width: 55%; }
+    75%  { width: 78%; }
+    100% { width: 100%; }
+}
+
+.splash-status {
+    color: #475569;
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-family: monospace;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 1.6s forwards;
+}
+
+/* --- Mobile --- */
+@media (max-width: 550px) {
+    .splash-title { font-size: 30px; letter-spacing: 6px; }
+    .splash-loader { width: 200px; }
+}
+
+/* =====================================================
+   PARTICLE BACKGROUND
+===================================================== */
+
+#bgCanvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 30% 30%, #0a1832, #020617 65%);
+}
+
+/* Login sits above canvas, transparent so it shows through */
+.login-screen {
+    position: relative;
+    z-index: 1;
+    background: transparent !important;
+}
+
+/* App overlays the canvas completely */
+.app {
+    position: relative;
+    z-index: 2;
+    background: var(--bg);
+}
+
