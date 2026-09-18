@@ -1,0 +1,10 @@
+cd ~/Desktop/prototype/sih2026-secure-dms
+cat > requirements.txt << 'EOF'
+fastapi==0.115.0
+uvicorn[standard]==0.30.0
+python-multipart==0.0.9
+cryptography==50.0.1
+EOF
+git add requirements.txt
+git commit -m "chore: add backend requirements"
+git push
