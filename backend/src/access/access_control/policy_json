@@ -1,0 +1,32 @@
+{
+  "roles": {
+    "investigating_officer": {
+      "view_metadata": true,
+      "view_document": true,
+      "download": true,
+      "modify_upload": true,
+      "unredacted_access": true
+    },
+    "department_admin": {
+      "view_metadata": true,
+      "view_document": false,
+      "download": false,
+      "modify_upload": false,
+      "unredacted_access": false
+    },
+    "defense_counsel": {
+      "view_metadata": true,
+      "view_document": true,
+      "download": true,
+      "modify_upload": false,
+      "unredacted_access": false
+    },
+    "judge": {
+      "view_metadata": true,
+      "view_document": true,
+      "download": true,
+      "modify_upload": false,
+      "unredacted_access": true
+    }
+  }
+}
