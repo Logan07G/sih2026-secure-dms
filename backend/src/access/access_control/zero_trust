@@ -1,0 +1,44 @@
+import json
+import logging
+from datetime import datetime, timezone
+from fastapi import Depends, HTTPException, Request
+
+with open("policy.json") as f:
+    POLICY = json.load(f)["roles"]
+
+logging.basicConfig(filename="audit.log", level=logging.INFO)
+
+
+def log_audit(user_id, role, action, resource, allowed):
+    entry = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "user_id": user_id,
+        "role": role,
+        "action": action,
+        "resource": resource,
+        "result": "ALLOWED" if allowed else "DENIED",
+    }
+    logging.info(json.dumps(entry))
+
+
+def get_current_user(request: Request):
+    user_id = request.headers.get("X-User-Id")
+    role = request.headers.get("X-User-Role")
+    if not user_id or not role:
+        raise HTTPException(status_code=401, detail="Missing identity headers")
+    return {"user_id": user_id, "role": role}
+
+
+def require_permission(action: str):
+    def checker(request: Request, user=Depends(get_current_user)):
+        role = user["role"]
+        role_policy = POLICY.get(role)
+        allowed = bool(role_policy and role_policy.get(action))
+
+        log_audit(user["user_id"], role, action, str(request.url.path), allowed)
+
+        if not allowed:
+            raise HTTPException(status_code=403, detail=f"Role '{role}' not permitted for '{action}'")
+        return user
+
+    return checker
