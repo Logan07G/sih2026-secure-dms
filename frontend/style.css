@@ -4098,10 +4098,6 @@ body {
     z-index: 1;
 }
 
-#splash:not(.fade-out) ~ #loginScreen {
-    opacity: 0;
-    pointer-events: none;
-}
 
 /* ============================================================
    V3.3 — CRITICAL FIX: splash removal + opaque app background
@@ -4115,23 +4111,6 @@ body {
 .main-content,
 .page-container {
     background: transparent !important;
-}
-
-/* 2. Force splash to fully disappear after fade */
-#splash.splash.fade-out {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    display: none !important;
-    pointer-events: none !important;
-}
-
-/* 3. If JS ever fails, hide splash after 8s anyway (CSS-only fallback) */
-@keyframes autoHideSplash {
-    to { opacity: 0; visibility: hidden; display: none; }
-}
-
-#splash.splash {
-    animation: autoHideSplash 0s ease 7.5s forwards;
 }
 
 /* 4. Login screen: solid dark so nothing behind it shows */
@@ -4186,19 +4165,645 @@ html body #splash .splash-content {
     z-index: 3 !important;
 }
 
-html body #splash.splash.fade-out,
-html body #splash.hidden {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --navy: #07111f;
+    --navy-light: #0d1b2e;
+    --blue: #2563eb;
+    --blue-light: #3b82f6;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --bg: #f5f7fb;
+    --green: #16a34a;
+    --red: #dc2626;
+    --orange: #d97706;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+}
+
+/* ================= BACKGROUND CANVAS & SPLASH OVERLAY ================= */
+
+#bgCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.splash {
+    position: fixed;
+    inset: 0;
+    background: #020617;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.splash.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.splash-content {
+    text-align: center;
+    max-width: 480px;
+    width: 90%;
+    padding: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.splash-logo {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.splash-logo-ring {
+    position: absolute;
+    inset: 0;
+    border: 2px solid rgba(59, 130, 246, 0.2);
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: spinRing 3s linear infinite;
+}
+
+.splash-logo-ring2 {
+    position: absolute;
+    inset: -8px;
+    border: 1px dashed rgba(6, 182, 212, 0.3);
+    border-radius: 50%;
+    animation: spinRing 6s linear reverse infinite;
+}
+
+@keyframes spinRing {
+    to { transform: rotate(360deg); }
+}
+
+.splash-logo-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.splash-title {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 6px;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.splash-title span {
+    display: inline-block;
+}
+
+.splash-title .accent {
+    color: #60a5fa;
+}
+
+.splash-subtitle {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: #64748b;
+    margin-bottom: 24px;
+}
+
+.splash-scan {
+    width: 100%;
+    height: 3px;
+    background: rgba(30, 58, 138, 0.4);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.splash-scan-line {
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #3b82f6, #06b6d4, transparent);
+    position: absolute;
+    animation: scanMove 1.8s ease-in-out infinite;
+}
+
+@keyframes scanMove {
+    0% { left: -40%; }
+    100% { left: 100%; }
+}
+
+.splash-status {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-bottom: 28px;
+    font-family: monospace;
+}
+
+.splash-metrics {
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 18px;
+}
+
+.splash-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.metric-label {
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: #64748b;
+}
+
+.metric-value {
+    font-size: 11px;
+    font-weight: 700;
+    color: #60a5fa;
+    font-family: monospace;
+}
+
+/* ================= LOGIN ================= */
+
+.login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(circle at 20% 20%, #172554, transparent 35%),
+        radial-gradient(circle at 80% 80%, #0f172a, transparent 40%),
+        #020617;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-screen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(59,130,246,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: gridMove 12s linear infinite;
+}
+
+@keyframes gridMove {
+    from { transform: translateY(0); }
+    to { transform: translateY(40px); }
+}
+
+.login-card {
+    position: relative;
+    width: 430px;
+    padding: 42px;
+    background: rgba(15, 23, 42, .92);
+    border: 1px solid rgba(96,165,250,.25);
+    border-radius: 20px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.5);
+    animation: loginAppear .8s ease;
+    backdrop-filter: blur(15px);
+}
+
+@keyframes loginAppear {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.logo-box {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.logo-icon {
+    width: 45px;
+    height: 45px;
+    display: grid;
+    place-items: center;
+    background: #1d4ed8;
+    border-radius: 12px;
+    font-size: 23px;
+}
+
+.logo-box h1 {
+    color: white;
+    font-size: 25px;
+    letter-spacing: 2px;
+}
+
+.logo-box h1 span,
+.brand h2 span {
+    color: #60a5fa;
+}
+
+.login-subtitle {
+    color: #94a3b8;
+    margin-top: 12px;
+}
+
+.security-line {
+    height: 1px;
+    background: #1e3a8a;
+    margin: 28px 0;
+}
+
+.login-card label {
+    display: block;
+    color: #cbd5e1;
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+
+.login-card input {
+    width: 100%;
+    padding: 13px 14px;
+    margin-bottom: 18px;
+    background: #020617;
+    color: white;
+    border: 1px solid #334155;
+    border-radius: 9px;
+    outline: none;
+    transition: .3s;
+}
+
+.login-card input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+}
+
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    transition: .3s;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(37,99,235,.3);
+}
+
+.login-security {
+    text-align: center;
+    color: #64748b;
+    font-size: 12px;
+    margin-top: 22px;
+}
+
+/* ================= APP & LAYOUT ================= */
+
+.hidden {
     display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
 }
 
-@keyframes _splashKill {
-    0%, 99% { opacity: 1; visibility: visible; }
-    100%    { opacity: 0; visibility: hidden; display: none; }
+.app {
+    min-height: 100vh;
+    display: flex;
 }
 
-html body #splash.splash {
-    animation: _splashKill 0.01s linear 8s forwards !important;
+.sidebar {
+    width: 255px;
+    min-height: 100vh;
+    background: var(--navy);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 10;
 }
+
+.brand {
+    padding: 24px 20px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    border-bottom: 1px solid #172033;
+}
+
+.brand-icon {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    background: #1d4ed8;
+    border-radius: 10px;
+}
+
+.brand h2 {
+    font-size: 18px;
+    letter-spacing: 1.5px;
+}
+
+.brand p {
+    color: #64748b;
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.navigation {
+    padding: 18px 12px;
+    flex: 1;
+}
+
+.nav-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #94a3b8;
+    background: transparent;
+    padding: 12px 14px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    text-align: left;
+    transition: .25s;
+}
+
+.nav-item:hover {
+    background: #111f35;
+    color: white;
+    transform: translateX(3px);
+}
+
+.nav-item.active {
+    background: #2563eb;
+    color: white;
+    box-shadow: 0 8px 20px rgba(37,99,235,.2);
+}
+
+.alert-count {
+    margin-left: auto;
+    background: #dc2626;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 10px;
+    display: grid;
+    place-items: center;
+}
+
+.sidebar-bottom {
+    padding: 15px;
+    border-top: 1px solid #172033;
+}
+
+.system-status {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: #0d1b2e;
+    padding: 12px;
+    border-radius: 9px;
+    margin-bottom: 10px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 10px #22c55e;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    50% {
+        opacity: .4;
+        transform: scale(.8);
+    }
+}
+
+.system-status strong {
+    display: block;
+    font-size: 12px;
+}
+
+.system-status small {
+    color: #64748b;
+    font-size: 10px;
+}
+
+.logout-btn {
+    width: 100%;
+    background: transparent;
+    color: #94a3b8;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.logout-btn:hover {
+    background: #172033;
+    color: white;
+}
+
+.main-content {
+    margin-left: 255px;
+    width: calc(100% - 255px);
+}
+
+.header {
+    height: 76px;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.search-box {
+    width: 380px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f1f5f9;
+    padding: 11px 14px;
+    border-radius: 9px;
+    transition: .3s;
+}
+
+.search-box:focus-within {
+    background: white;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+}
+
+.search-box input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.notification-btn {
+    background: transparent;
+    font-size: 20px;
+    position: relative;
+}
+
+.notification-btn span {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: #ef4444;
+    border-radius: 50%;
+    right: 0;
+    top: 0;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile small,
+.profile strong {
+    display: block;
+}
+
+.profile strong {
+    font-size: 13px;
+}
+
+.profile small {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    background: #dbeafe;
+    color: #1d4ed8;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.page-container {
+    padding: 30px;
+}
+
+.page {
+    display: none;
+    animation: pageIn .45s ease;
+}
+
+.page.active-page {
+    display: block;
+}
+
+@keyframes pageIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ============================================================
+   BOOT SEQUENCE  (splash -> login -> interface)
+   Controlled by bootSequence() at the top of script.js.
+   Keep this block LAST in the file.
+   ============================================================ */
+
+/* Dark canvas behind everything, so a gap between stages
+   can never flash the light page colour */
+html { background: #020617; }
+
+/* --- Stage 1: splash --------------------------------------
+   Stays fully displayed the whole time and fades out with a
+   real transition (never display:none, which would cut it). */
+html body #splash.splash.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+/* --- Stage 2: login ---------------------------------------
+   While booting the card is invisible, inert and its entrance
+   animation is switched off, so it starts fresh the moment the
+   splash is gone. */
+body.booting #loginScreen .login-card {
+    visibility: hidden;
+    opacity: 0;
+    animation: none;
+}
+
+/* --- Stage 3: interface -----------------------------------
+   Fades in after login. Opacity only - a transform here would
+   make the fixed sidebar / ticker jump while it animates. */
+@keyframes appEnter {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+#app:not(.hidden) {
+    animation: appEnter 0.6s ease both;
+}
+
