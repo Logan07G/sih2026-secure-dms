@@ -224,3 +224,6 @@ __marimo__/
 sample.pdf
 sample_decrypted.pdf
 FIR-Draft.pdf
+screenshots/
+database/documents.db
+database/storage/

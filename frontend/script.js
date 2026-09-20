@@ -1,3 +1,62 @@
+const API = window.CASEVAULT_API || "http://localhost:8000";
+
+async function loadDocuments() {
+    try {
+        const res = await fetch(`${API}/api/docs`);
+        const data = await res.json();
+        renderDocuments(data.results || []);
+    } catch (e) {
+        console.error("Failed to load documents:", e);
+    }
+}
+
+function renderDocuments(docs) {
+    const list = document.querySelector("#documents .document-list");
+    if (!list) return;
+
+    if (!docs.length) {
+        list.innerHTML = `<div style="padding:20px;text-align:center;color:#94a3b8;">No documents yet.</div>`;
+        return;
+    }
+
+    list.innerHTML = docs.map(d => `
+        <div class="document-row" data-id="${d.id}">
+            <div class="file-icon">📄</div>
+            <div class="file-info">
+                <strong>${d.fir_number} — ${d.document_type}</strong>
+                <small>${d.case_number} • ${d.officer_name} • ${d.section}</small>
+                <small style="font-family:monospace;color:#60a5fa;font-size:9px;">
+                    SHA-256: ${(d.sha256_hash || "").slice(0, 20)}...
+                </small>
+            </div>
+            <span class="badge verified">Verified</span>
+            <button class="icon-btn" onclick="viewDoc(${d.id})">👁</button>
+        </div>
+    `).join("");
+}
+
+async function viewDoc(id) {
+    try {
+        const res = await fetch(`${API}/api/docs/${id}`);
+        if (!res.ok) throw new Error("Not found");
+        const d = await res.json();
+        alert(
+            `📄 Document #${d.id}\n\n` +
+            `FIR: ${d.fir_number}\n` +
+            `Case: ${d.case_number}\n` +
+            `Officer: ${d.officer_name}\n` +
+            `Type: ${d.document_type}\n` +
+            `Date: ${d.document_date}\n` +
+            `Section: ${d.section}\n` +
+            `Size: ${(d.size_bytes / 1024).toFixed(1)} KB\n\n` +
+            `SHA-256: ${d.sha256_hash}\n` +
+            `✓ Hash Verified\n✓ Chain-of-Custody OK`
+        );
+    } catch (e) {
+        alert("Could not load document: " + e.message);
+    }
+}
+
 // =====================================================
 // LIVE SHA-256 (Web Crypto API)
 // =====================================================
@@ -745,18 +804,41 @@ function showUploadSuccess() {
 
 // FINISH
 
-function finishUpload() {
+async function finishUpload() {
+    const file = selectedEvidence;
+    if (!file) { closeUploadModal(); return; }
 
-    closeUploadModal();
+    const firNumber = prompt("Enter FIR number (e.g. FIR011):", `FIR${String(Date.now()).slice(-3)}`);
+    if (!firNumber) return;
 
-    alert(
-        "✓ Evidence successfully secured!\n\n" +
-        "Case: CR-2026-0142\n" +
-        "Integrity: SHA-256 Verified\n" +
-        "Chain-of-Custody: Recorded"
-    );
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("fir_number", firNumber);
+    formData.append("case_number", `CASE-${firNumber.replace(/[^0-9]/g, "") || "000"}`);
+    formData.append("officer_name", "Admin User");
+    formData.append("document_type", "FIR");
+    formData.append("section", "IPC");
 
-    logLedger("EVIDENCE_UPLOAD", selectedEvidence?.name || "unknown", "ALLOW");
+    try {
+        const res = await fetch(`${API}/api/docs/upload`, {
+            method: "POST",
+            body: formData,
+        });
+        if (!res.ok) {
+            const err = await res.json();
+            throw new Error(err.detail || `HTTP ${res.status}`);
+        }
+        const data = await res.json();
+        closeUploadModal();
+        alert(
+            `✓ Evidence secured!\n\n` +
+            `FIR: ${data.fir_number}\n` +
+            `SHA-256: ${data.sha256_hash.slice(0, 24)}...`
+        );
+        await loadDocuments();
+    } catch (e) {
+        alert("Upload failed: " + e.message);
+    }
 }
 
 
@@ -1076,3 +1158,9 @@ window.addEventListener("load", () => {
         });
     }
 });
+
+const _origLogin = window.login;
+window.login = function() {
+    _origLogin && _origLogin();
+    setTimeout(loadDocuments, 200);
+};

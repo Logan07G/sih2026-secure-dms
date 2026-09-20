@@ -1,1 +1,1 @@
-window.CASEVAULT_API = "https://casevault-api-9p0y.onrender.com";
+window.CASEVAULT_API = "https://sih2026-secure-dms.vercel.app";
