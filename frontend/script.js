@@ -1204,3 +1204,20 @@ function filterCases(status, btn) {
 setTimeout(() => {
     if (window.initIcons) window.initIcons();
 }, 6600);
+/* ============================================================
+   EMERGENCY SPLASH KILLER
+   Removes any #splash element from the DOM after 6.5s no matter what.
+   ============================================================ */
+setTimeout(function () {
+    var s = document.getElementById("splash");
+    if (s && s.parentNode) {
+        s.parentNode.removeChild(s);
+        console.log("[CaseVault] splash removed");
+    }
+}, 6500);
+
+/* Also kill it on any nav within 10s just in case */
+window.addEventListener("pageshow", function () {
+    var s = document.getElementById("splash");
+    if (s && s.parentNode) s.parentNode.removeChild(s);
+});
