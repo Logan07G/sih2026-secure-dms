@@ -20,7 +20,72 @@
 
         <div class="splash-logo">
             <div class="splash-logo-ring"></div>
-            <div class="splash-logo-icon">🔐</div>
+            <div class="splash-logo-ring2"></div>
+            <div class="splash-logo-icon">
+                <svg viewBox="0 0 64 64" width="56" height="56" fill="none">
+                    <defs>
+                        <linearGradient id="vaultGrad" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#60a5fa"/>
+                            <stop offset="100%" stop-color="#06b6d4"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M32 6 L54 14 V30 C54 44 44 54 32 58 C20 54 10 44 10 30 V14 Z"
+                          stroke="url(#vaultGrad)" stroke-width="2.5" fill="rgba(59,130,246,0.08)"/>
+                    <circle cx="32" cy="27" r="5" stroke="url(#vaultGrad)" stroke-width="2.5" fill="none"/>
+                    <path d="M32 32 L32 42 M29 42 L35 42" stroke="url(#vaultGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+        </div>
+
+        <h1 class="splash-title">
+            <span>C</span><span>A</span><span>S</span><span>E</span><span class="accent">V</span><span class="accent">A</span><span class="accent">U</span><span class="accent">L</span><span class="accent">T</span>
+        </h1>
+
+        <p class="splash-subtitle">SECURE EVIDENCE MANAGEMENT SYSTEM</p>
+
+        <div class="splash-scan">
+            <div class="splash-scan-line"></div>
+        </div>
+
+        <p class="splash-status" id="splashStatus">Initializing secure environment...</p>
+
+        <div class="splash-metrics">
+            <div class="splash-metric">
+                <span class="metric-label">ENCRYPTION</span>
+                <span class="metric-value">AES-256</span>
+            </div>
+            <div class="splash-metric">
+                <span class="metric-label">INTEGRITY</span>
+                <span class="metric-value">SHA-256</span>
+            </div>
+            <div class="splash-metric">
+                <span class="metric-label">LEDGER</span>
+                <span class="metric-value">HASH-CHAINED</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+        <div class="splash-logo">
+    <div class="splash-logo-ring"></div>
+    <div class="splash-logo-ring2"></div>
+    <div class="splash-logo-icon">
+        <svg viewBox="0 0 64 64" width="56" height="56" fill="none">
+            <defs>
+                <linearGradient id="vaultGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#60a5fa"/>
+                    <stop offset="100%" stop-color="#06b6d4"/>
+                </linearGradient>
+            </defs>
+            <!-- Outer shield -->
+                <path d="M32 6 L54 14 V30 C54 44 44 54 32 58 C20 54 10 44 10 30 V14 Z"
+                  stroke="url(#vaultGrad)" stroke-width="2.5" fill="rgba(59,130,246,0.08)"/>
+            <!-- Keyhole -->
+                     <circle cx="32" cy="27" r="5" stroke="url(#vaultGrad)" stroke-width="2.5" fill="none"/>
+                    <path d="M32 32 L32 42 M29 42 L35 42" stroke="url(#vaultGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+            </div>
         </div>
 
         <h1 class="splash-title">
@@ -181,6 +246,15 @@
 
             <!-- HEADER -->
             <header class="header">
+
+                    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
 
                 <div class="search-box">
 
@@ -536,22 +610,137 @@
                 <!-- CASES PAGE -->
                 <section id="cases" class="page">
 
-                    <div class="page-title">
+    <div class="page-title">
+        <div>
+            <h1>Cases</h1>
+            <p>Manage and investigate every case in your vault</p>
+        </div>
+        <button class="primary-btn" onclick="openModal()">
+            + New Case
+        </button>
+    </div>
 
-                        <div>
-                            <h1>Cases</h1>
+    <!-- Filter chips -->
+    <div class="case-filters">
+        <button class="filter-chip active" onclick="filterCases('all', this)">All Cases <span class="chip-count">12</span></button>
+        <button class="filter-chip" onclick="filterCases('active', this)">Active <span class="chip-count">4</span></button>
+        <button class="filter-chip" onclick="filterCases('review', this)">Under Review <span class="chip-count">5</span></button>
+        <button class="filter-chip" onclick="filterCases('closed', this)">Closed <span class="chip-count">3</span></button>
+    </div>
 
-                            <p>
-                                Manage investigation cases
-                            </p>
-                        </div>
+    <!-- Hero case (featured) -->
+    <div class="case-hero">
+        <div class="case-hero-glow"></div>
+        <div class="case-hero-inner">
+            <div class="case-hero-left">
+                <span class="case-badge-pill">● ACTIVE INVESTIGATION</span>
+                <h2>Criminal Investigation Case</h2>
+                <p class="case-hero-desc">Evidence collection, forensic analysis and witness coordination for case CR-2026-0142.</p>
 
-                        <button class="primary-btn" onclick="openModal()">
-                            + New Case
-                        </button>
-
+                <div class="case-hero-metrics">
+                    <div class="hero-metric">
+                        <span>Documents</span>
+                        <strong>24</strong>
                     </div>
+                    <div class="hero-metric">
+                        <span>Evidence</span>
+                        <strong>18</strong>
+                    </div>
+                    <div class="hero-metric">
+                        <span>Team</span>
+                        <strong>6</strong>
+                    </div>
+                    <div class="hero-metric">
+                        <span>Integrity</span>
+                        <strong class="metric-green">98%</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="case-hero-right">
+                <span class="case-hero-id">CR-2026-0142</span>
+                <button class="case-hero-btn" onclick="openCaseDetails()">
+                    Open Case
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-left:6px;">
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                        <polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
 
+    <!-- Case grid -->
+    <div class="case-grid">
+
+        <div class="large-case-card" data-status="review">
+            <div class="case-top">
+                <span class="case-number">CR-2026-0138</span>
+                <span class="badge review">Under Review</span>
+            </div>
+            <h3>Financial Fraud Investigation</h3>
+            <p>Multi-bank transaction analysis with forensic accounting.</p>
+            <div class="case-info">
+                <span>📄 31 Documents</span>
+                <span>🔗 42 Evidence</span>
+                <span>👥 4 Users</span>
+            </div>
+            <div class="case-progress">
+                <div class="case-progress-label">
+                    <span>Progress</span>
+                    <strong>72%</strong>
+                </div>
+                <div class="case-progress-bar"><div style="width:72%"></div></div>
+            </div>
+            <button class="secondary-btn full">View Case →</button>
+        </div>
+
+        <div class="large-case-card" data-status="closed">
+            <div class="case-top">
+                <span class="case-number">CR-2026-0129</span>
+                <span class="badge closed">Closed</span>
+            </div>
+            <h3>Cyber Crime Investigation</h3>
+            <p>Digital forensics and chain-of-custody complete.</p>
+            <div class="case-info">
+                <span>📄 56 Documents</span>
+                <span>🔗 63 Evidence</span>
+                <span>👥 8 Users</span>
+            </div>
+            <div class="case-progress">
+                <div class="case-progress-label">
+                    <span>Progress</span>
+                    <strong>100%</strong>
+                </div>
+                <div class="case-progress-bar"><div style="width:100%"></div></div>
+            </div>
+            <button class="secondary-btn full">View Case →</button>
+        </div>
+
+        <div class="large-case-card" data-status="active">
+            <div class="case-top">
+                <span class="case-number">CR-2026-0155</span>
+                <span class="badge active">Active</span>
+            </div>
+            <h3>Narcotics Investigation</h3>
+            <p>Surveillance logs and chain-of-custody for seized evidence.</p>
+            <div class="case-info">
+                <span>📄 18 Documents</span>
+                <span>🔗 27 Evidence</span>
+                <span>👥 5 Users</span>
+            </div>
+            <div class="case-progress">
+                <div class="case-progress-label">
+                    <span>Progress</span>
+                    <strong>34%</strong>
+                </div>
+                <div class="case-progress-bar"><div style="width:34%"></div></div>
+            </div>
+            <button class="secondary-btn full">View Case →</button>
+        </div>
+
+    </div>
+
+</section>
 
                     <div class="case-grid">
 

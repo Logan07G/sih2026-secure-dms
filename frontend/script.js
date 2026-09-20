@@ -1169,3 +1169,38 @@ window.login = function() {
 setTimeout(() => {
     if (window.initIcons) window.initIcons();
 }, 200);
+
+// =====================================================
+// SIDEBAR TOGGLE
+// =====================================================
+
+function toggleSidebar() {
+    document.body.classList.toggle("sidebar-collapsed");
+    // Persist preference
+    localStorage.setItem(
+        "sidebar-collapsed",
+        document.body.classList.contains("sidebar-collapsed") ? "1" : "0"
+    );
+}
+
+// Restore on load
+window.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("sidebar-collapsed") === "1") {
+        document.body.classList.add("sidebar-collapsed");
+    }
+});
+
+function filterCases(status, btn) {
+    document.querySelectorAll(".case-filters .filter-chip").forEach(b => b.classList.remove("active"));
+    if (btn) btn.classList.add("active");
+
+    document.querySelectorAll(".case-grid .large-case-card").forEach(card => {
+        const s = card.dataset.status;
+        card.style.display = (status === "all" || s === status) ? "" : "none";
+    });
+}
+
+// Re-run icon init after splash disappears
+setTimeout(() => {
+    if (window.initIcons) window.initIcons();
+}, 6600);
