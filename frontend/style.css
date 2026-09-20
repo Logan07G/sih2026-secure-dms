@@ -2537,3 +2537,343 @@ th {
     z-index: 2;
     background: var(--bg);
 }
+/* ============================================================
+   V2 — PREMIUM SIDEBAR + ICONS + SPLASH
+   Appended styles override earlier ones.
+   ============================================================ */
+
+/* ---------- Icon base ---------- */
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+    width: 268px;
+    background: linear-gradient(180deg, #07111f 0%, #0a1a2e 100%);
+    border-right: 1px solid rgba(96, 165, 250, 0.08);
+    box-shadow: 4px 0 40px rgba(0, 0, 0, 0.35);
+}
+
+.sidebar::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(37, 99, 235, 0.18), transparent 45%),
+        radial-gradient(circle at 0% 100%, rgba(6, 182, 212, 0.10), transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.sidebar > * { position: relative; z-index: 1; }
+
+/* Brand */
+.brand {
+    padding: 26px 22px 22px;
+    border-bottom: 1px solid rgba(96, 165, 250, 0.08);
+}
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, #2563eb, #06b6d4);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.45),
+                inset 0 0 0 1px rgba(255,255,255,0.08);
+    font-size: 20px;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.brand:hover .brand-icon { transform: rotate(-8deg) scale(1.05); }
+
+.brand h2 { font-weight: 800; letter-spacing: 2px; }
+
+/* Nav */
+.navigation { padding: 20px 14px; }
+
+.nav-item {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    margin-bottom: 4px;
+    border-radius: 12px;
+    color: #8ba3c4;
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    text-align: left;
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+}
+
+.nav-item .icon {
+    font-size: 19px;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                color 0.25s ease;
+    flex-shrink: 0;
+}
+
+.nav-item .nav-label {
+    flex: 1;
+    transition: transform 0.25s ease;
+}
+
+/* Hover: slide + glow */
+.nav-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 3px;
+    height: 0;
+    background: linear-gradient(180deg, #3b82f6, #06b6d4);
+    border-radius: 0 4px 4px 0;
+    transform: translateY(-50%);
+    transition: height 0.3s ease;
+    box-shadow: 0 0 14px rgba(59, 130, 246, 0.7);
+}
+
+.nav-item:hover {
+    background: rgba(37, 99, 235, 0.10);
+    color: #e2e8f0;
+    transform: translateX(3px);
+}
+
+.nav-item:hover .icon {
+    color: #60a5fa;
+    transform: scale(1.15) rotate(-6deg);
+}
+
+.nav-item:hover::before { height: 60%; }
+
+/* Active: gradient pill + left accent */
+.nav-item.active {
+    background: linear-gradient(90deg,
+        rgba(37, 99, 235, 0.28),
+        rgba(37, 99, 235, 0.08));
+    color: #ffffff;
+    box-shadow:
+        0 8px 24px rgba(37, 99, 235, 0.28),
+        inset 0 0 0 1px rgba(96, 165, 250, 0.15);
+}
+
+.nav-item.active::before { height: 70%; }
+
+.nav-item.active .icon { color: #60a5fa; }
+
+/* Alert count pill */
+.alert-count {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.55);
+    font-weight: 700;
+}
+
+/* System status block */
+.system-status {
+    background: linear-gradient(135deg, rgba(13, 27, 46, 0.9), rgba(15, 35, 60, 0.9));
+    border: 1px solid rgba(96, 165, 250, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.system-status:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(34, 197, 94, 0.12);
+}
+
+/* Logout */
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.logout-btn .icon { font-size: 17px; }
+
+.logout-btn:hover {
+    background: rgba(239, 68, 68, 0.12);
+    color: #fca5a5;
+    transform: translateX(3px);
+}
+
+/* Search + bell in header */
+.search-box .icon { font-size: 16px; color: #64748b; }
+.notification-btn .icon { font-size: 20px; color: #475569; transition: color 0.2s, transform 0.2s; }
+.notification-btn:hover .icon { color: #2563eb; transform: rotate(-12deg); }
+
+/* Collapse behaviour on mobile — labels disappear, icons centered */
+@media (max-width: 800px) {
+    .nav-item .nav-label { display: none; }
+    .nav-item { justify-content: center; padding: 14px; }
+    .nav-item .icon { font-size: 20px; }
+    .sidebar { width: 72px; }
+}
+
+/* ============================================================
+   V2 — REMASTERED SPLASH
+   ============================================================ */
+
+.splash {
+    background:
+        radial-gradient(circle at 50% 40%, #0c2146 0%, #050b17 55%, #020617 100%);
+}
+
+/* Animated glow behind logo */
+.splash::before {
+    content: "";
+    position: absolute;
+    top: 38%;
+    left: 50%;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(59, 130, 246, 0.35) 0%,
+        rgba(59, 130, 246, 0.08) 40%,
+        transparent 70%);
+    transform: translate(-50%, -50%);
+    animation: pulseGlow 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes pulseGlow {
+    0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+    50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.15); }
+}
+
+.splash-content { position: relative; z-index: 2; }
+
+/* New logo — hexagon with shield */
+.splash-logo {
+    width: 130px;
+    height: 130px;
+    margin-bottom: 34px;
+    position: relative;
+}
+
+.splash-logo-ring {
+    border-width: 2px;
+    border-top-color: #3b82f6;
+    border-right-color: #06b6d4;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    animation: ringSpin 1.6s cubic-bezier(0.6, 0.05, 0.3, 0.95) infinite;
+    filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.5));
+}
+
+.splash-logo-ring::after {
+    inset: 12px;
+    border-bottom-color: #60a5fa;
+    border-left-color: #3b82f6;
+    animation: ringSpin 2.2s linear infinite reverse;
+}
+
+.splash-logo-icon {
+    font-size: 50px;
+    color: #93c5fd;
+    filter: drop-shadow(0 0 24px rgba(59, 130, 246, 0.7));
+    animation: logoPulse 2s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50%      { transform: scale(1.08) rotate(-4deg); }
+}
+
+/* Title with gradient */
+.splash-title {
+    font-size: 46px;
+    letter-spacing: 14px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ffffff 0%, #93c5fd 60%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 40px rgba(59, 130, 246, 0.25);
+    margin-bottom: 14px;
+}
+
+.splash-title .accent {
+    background: linear-gradient(135deg, #60a5fa, #06b6d4);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Subtitle */
+.splash-subtitle {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+/* Loader — dual ring, no bar */
+.splash-loader {
+    width: 220px;
+    height: 3px;
+    background: rgba(30, 41, 59, 0.7);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 42px auto 16px;
+    position: relative;
+}
+
+.splash-loader::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(59, 130, 246, 0.4) 40%,
+        rgba(6, 182, 212, 0.6) 60%,
+        transparent 100%);
+    animation: shimmer 2.4s linear infinite;
+}
+
+.splash-loader-bar {
+    background: linear-gradient(90deg, #2563eb, #3b82f6, #06b6d4, #60a5fa);
+    background-size: 300% 100%;
+    animation: loaderFill 5s ease-in-out 1.5s forwards,
+               gradientFlow 3s linear infinite;
+    box-shadow: 0 0 16px rgba(59, 130, 246, 0.8);
+}
+
+@keyframes shimmer {
+    from { transform: translateX(-100%); }
+    to   { transform: translateX(100%); }
+}
+
+@keyframes gradientFlow {
+    from { background-position: 0% 0; }
+    to   { background-position: 300% 0; }
+}
+
+/* Status text — typewriter glow */
+.splash-status {
+    color: #60a5fa;
+    font-family: "SF Mono", Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    animation: fadeUp 0.6s ease 1.6s forwards,
+               blink 1.2s step-end infinite 2s;
+}
+
+@keyframes blink {
+    50% { opacity: 0.4; }
+}

@@ -106,80 +106,53 @@
 
             <nav class="navigation">
 
-                <button
-                    class="nav-item active"
-                    onclick="showPage('dashboard', this)"
-                >
-                    <span>📊</span>
-                    Dashboard
-                </button>
+    <button class="nav-item active" onclick="showPage('dashboard', this)">
+        <i data-icon="dashboard"></i>
+        <span class="nav-label">Dashboard</span>
+    </button>
 
-                <button
-                    class="nav-item"
-                    onclick="showPage('cases', this)"
-                >
-                    <span>📁</span>
-                    Cases
-                </button>
+    <button class="nav-item" onclick="showPage('cases', this)">
+        <i data-icon="folder"></i>
+        <span class="nav-label">Cases</span>
+    </button>
 
-                <button
-                    class="nav-item"
-                    onclick="showPage('documents', this)"
-                >
-                    <span>📄</span>
-                    Documents
-                </button>
+    <button class="nav-item" onclick="showPage('documents', this)">
+        <i data-icon="file"></i>
+        <span class="nav-label">Documents</span>
+    </button>
 
-                <button
-                    class="nav-item"
-                    onclick="showPage('custody', this)"
-                >
-                    <span>🔗</span>
-                    Chain of Custody
-                </button>
+    <button class="nav-item" onclick="showPage('custody', this)">
+        <i data-icon="link"></i>
+        <span class="nav-label">Chain of Custody</span>
+    </button>
 
-                <button
-                    class="nav-item"
-                    onclick="showPage('audit', this)"
-                >
-                    <span>🛡️</span>
-                    Audit Logs
-                </button>
+    <button class="nav-item" onclick="showPage('audit', this)">
+        <i data-icon="shield"></i>
+        <span class="nav-label">Audit Logs</span>
+    </button>
 
-                <button
-                    class="nav-item"
-                    onclick="showPage('alerts', this)"
-                >
-                    <span>🚨</span>
-                    Security Alerts
-                    <span class="alert-count">4</span>
-                </button>
+    <button class="nav-item" onclick="showPage('alerts', this)">
+        <i data-icon="alert"></i>
+        <span class="nav-label">Security Alerts</span>
+        <span class="alert-count">4</span>
+    </button>
 
-                <button
-                    class="nav-item"
-                    onclick="showPage('ai', this)"
-                >
-                    <span>🤖</span>
-                    AI Analysis
-                </button>
+    <button class="nav-item" onclick="showPage('ai', this)">
+        <i data-icon="cpu"></i>
+        <span class="nav-label">AI Analysis</span>
+    </button>
 
-                <button
-                    class="nav-item"
-                    onclick="showPage('settings', this)"
-                >
-                    <span>⚙️</span>
-                    Settings
-                </button>
+    <button class="nav-item" onclick="showPage('settings', this)">
+        <i data-icon="settings"></i>
+        <span class="nav-label">Settings</span>
+    </button>
 
-                <button
-                    class="nav-item"
-                    onclick="showPage('author', this)"
-                >
-                    <span>👨‍💻</span>
-                    Author
-                </button>
+    <button class="nav-item" onclick="showPage('author', this)">
+        <i data-icon="user"></i>
+        <span class="nav-label">Author</span>
+    </button>
 
-            </nav>
+</nav>
 
 
             <div class="sidebar-bottom">
@@ -194,8 +167,9 @@
                 </div>
 
                 <button class="logout-btn" onclick="logout()">
-                    🚪 Logout
-                </button>
+                    <i data-icon="logout"></i>
+                    <span>Logout</span>
+                    </button>
 
             </div>
 
@@ -210,7 +184,7 @@
 
                 <div class="search-box">
 
-                    <span>🔍</span>
+                    <i data-icon="search"></i>
 
                     <input
                         type="text"
@@ -225,9 +199,9 @@
                 <div class="header-right">
 
                     <button class="notification-btn" onclick="showNotifications()">
-                        🔔
+                        <i data-icon="bell"></i>
                         <span></span>
-                    </button>
+                        </button>
 
                     <div class="profile">
 
@@ -1675,6 +1649,7 @@
 
     </div>
 
+    <script src="icons.js"></script>
     <script src="config.js"></script>
     <script src="script.js"></script>
 

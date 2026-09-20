@@ -1164,3 +1164,8 @@ window.login = function() {
     _origLogin && _origLogin();
     setTimeout(loadDocuments, 200);
 };
+
+// Ensure icons render even if the splash delays DOMContentLoaded
+setTimeout(() => {
+    if (window.initIcons) window.initIcons();
+}, 200);
