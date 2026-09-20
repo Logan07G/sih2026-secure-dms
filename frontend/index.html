@@ -15,93 +15,57 @@
     <canvas id="bgCanvas"></canvas>
 
     <!-- SPLASH SCREEN -->
-<div id="splash" class="splash">
-    <div class="splash-content">
+    <div id="splash" class="splash">
+        <div class="splash-content">
 
-        <div class="splash-logo">
-            <div class="splash-logo-ring"></div>
-            <div class="splash-logo-ring2"></div>
-            <div class="splash-logo-icon">
-                <svg viewBox="0 0 64 64" width="56" height="56" fill="none">
-                    <defs>
-                        <linearGradient id="vaultGrad" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stop-color="#60a5fa"/>
-                            <stop offset="100%" stop-color="#06b6d4"/>
-                        </linearGradient>
-                    </defs>
-                    <path d="M32 6 L54 14 V30 C54 44 44 54 32 58 C20 54 10 44 10 30 V14 Z"
-                          stroke="url(#vaultGrad)" stroke-width="2.5" fill="rgba(59,130,246,0.08)"/>
-                    <circle cx="32" cy="27" r="5" stroke="url(#vaultGrad)" stroke-width="2.5" fill="none"/>
-                    <path d="M32 32 L32 42 M29 42 L35 42" stroke="url(#vaultGrad)" stroke-width="2.5" stroke-linecap="round"/>
-                </svg>
+            <div class="splash-logo">
+                <div class="splash-logo-ring"></div>
+                <div class="splash-logo-ring2"></div>
+                <div class="splash-logo-icon">
+                    <svg viewBox="0 0 64 64" width="56" height="56" fill="none">
+                        <defs>
+                            <linearGradient id="vaultGrad" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stop-color="#60a5fa"/>
+                                <stop offset="100%" stop-color="#06b6d4"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M32 6 L54 14 V30 C54 44 44 54 32 58 C20 54 10 44 10 30 V14 Z"
+                              stroke="url(#vaultGrad)" stroke-width="2.5" fill="rgba(59,130,246,0.08)"/>
+                        <circle cx="32" cy="27" r="5" stroke="url(#vaultGrad)" stroke-width="2.5" fill="none"/>
+                        <path d="M32 32 L32 42 M29 42 L35 42" stroke="url(#vaultGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
             </div>
+
+            <h1 class="splash-title">
+                <span>C</span><span>A</span><span>S</span><span>E</span><span class="accent">V</span><span class="accent">A</span><span class="accent">U</span><span class="accent">L</span><span class="accent">T</span>
+            </h1>
+
+            <p class="splash-subtitle">SECURE EVIDENCE MANAGEMENT SYSTEM</p>
+
+            <div class="splash-scan">
+                <div class="splash-scan-line"></div>
+            </div>
+
+            <p class="splash-status" id="splashStatus">Initializing secure environment...</p>
+
+            <div class="splash-metrics">
+                <div class="splash-metric">
+                    <span class="metric-label">ENCRYPTION</span>
+                    <span class="metric-value">AES-256</span>
+                </div>
+                <div class="splash-metric">
+                    <span class="metric-label">INTEGRITY</span>
+                    <span class="metric-value">SHA-256</span>
+                </div>
+                <div class="splash-metric">
+                    <span class="metric-label">LEDGER</span>
+                    <span class="metric-value">HASH-CHAINED</span>
+                </div>
+            </div>
+
         </div>
-
-        <h1 class="splash-title">
-            <span>C</span><span>A</span><span>S</span><span>E</span><span class="accent">V</span><span class="accent">A</span><span class="accent">U</span><span class="accent">L</span><span class="accent">T</span>
-        </h1>
-
-        <p class="splash-subtitle">SECURE EVIDENCE MANAGEMENT SYSTEM</p>
-
-        <div class="splash-scan">
-            <div class="splash-scan-line"></div>
-        </div>
-
-        <p class="splash-status" id="splashStatus">Initializing secure environment...</p>
-
-        <div class="splash-metrics">
-            <div class="splash-metric">
-                <span class="metric-label">ENCRYPTION</span>
-                <span class="metric-value">AES-256</span>
-            </div>
-            <div class="splash-metric">
-                <span class="metric-label">INTEGRITY</span>
-                <span class="metric-value">SHA-256</span>
-            </div>
-            <div class="splash-metric">
-                <span class="metric-label">LEDGER</span>
-                <span class="metric-value">HASH-CHAINED</span>
-            </div>
-        </div>
-
     </div>
-</div>
-
-        <div class="splash-logo">
-    <div class="splash-logo-ring"></div>
-    <div class="splash-logo-ring2"></div>
-    <div class="splash-logo-icon">
-        <svg viewBox="0 0 64 64" width="56" height="56" fill="none">
-            <defs>
-                <linearGradient id="vaultGrad" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#60a5fa"/>
-                    <stop offset="100%" stop-color="#06b6d4"/>
-                </linearGradient>
-            </defs>
-            <!-- Outer shield -->
-                <path d="M32 6 L54 14 V30 C54 44 44 54 32 58 C20 54 10 44 10 30 V14 Z"
-                  stroke="url(#vaultGrad)" stroke-width="2.5" fill="rgba(59,130,246,0.08)"/>
-            <!-- Keyhole -->
-                     <circle cx="32" cy="27" r="5" stroke="url(#vaultGrad)" stroke-width="2.5" fill="none"/>
-                    <path d="M32 32 L32 42 M29 42 L35 42" stroke="url(#vaultGrad)" stroke-width="2.5" stroke-linecap="round"/>
-                </svg>
-            </div>
-        </div>
-
-        <h1 class="splash-title">
-            <span>C</span><span>A</span><span>S</span><span>E</span><span class="accent">V</span><span class="accent">A</span><span class="accent">U</span><span class="accent">L</span><span class="accent">T</span>
-        </h1>
-
-        <p class="splash-subtitle">Secure Evidence Management System</p>
-
-        <div class="splash-loader">
-            <div class="splash-loader-bar"></div>
-        </div>
-
-        <p class="splash-status" id="splashStatus">Initializing secure environment...</p>
-
-    </div>
-</div>
 
     <!-- LOGIN SCREEN -->
     <section id="loginScreen" class="login-screen">
@@ -118,6 +82,8 @@
             </p>
 
             <div class="security-line"></div>
+
+            <div id="loginError"></div>
 
             <label>Email Address</label>
             <input
@@ -171,53 +137,53 @@
 
             <nav class="navigation">
 
-    <button class="nav-item active" onclick="showPage('dashboard', this)">
-        <i data-icon="dashboard"></i>
-        <span class="nav-label">Dashboard</span>
-    </button>
+                <button class="nav-item active" onclick="showPage('dashboard', this)">
+                    <i data-icon="dashboard"></i>
+                    <span class="nav-label">Dashboard</span>
+                </button>
 
-    <button class="nav-item" onclick="showPage('cases', this)">
-        <i data-icon="folder"></i>
-        <span class="nav-label">Cases</span>
-    </button>
+                <button class="nav-item" onclick="showPage('cases', this)">
+                    <i data-icon="folder"></i>
+                    <span class="nav-label">Cases</span>
+                </button>
 
-    <button class="nav-item" onclick="showPage('documents', this)">
-        <i data-icon="file"></i>
-        <span class="nav-label">Documents</span>
-    </button>
+                <button class="nav-item" onclick="showPage('documents', this)">
+                    <i data-icon="file"></i>
+                    <span class="nav-label">Documents</span>
+                </button>
 
-    <button class="nav-item" onclick="showPage('custody', this)">
-        <i data-icon="link"></i>
-        <span class="nav-label">Chain of Custody</span>
-    </button>
+                <button class="nav-item" onclick="showPage('custody', this)">
+                    <i data-icon="link"></i>
+                    <span class="nav-label">Chain of Custody</span>
+                </button>
 
-    <button class="nav-item" onclick="showPage('audit', this)">
-        <i data-icon="shield"></i>
-        <span class="nav-label">Audit Logs</span>
-    </button>
+                <button class="nav-item" onclick="showPage('audit', this)">
+                    <i data-icon="shield"></i>
+                    <span class="nav-label">Audit Logs</span>
+                </button>
 
-    <button class="nav-item" onclick="showPage('alerts', this)">
-        <i data-icon="alert"></i>
-        <span class="nav-label">Security Alerts</span>
-        <span class="alert-count">4</span>
-    </button>
+                <button class="nav-item" onclick="showPage('alerts', this)">
+                    <i data-icon="alert"></i>
+                    <span class="nav-label">Security Alerts</span>
+                    <span class="alert-count">4</span>
+                </button>
 
-    <button class="nav-item" onclick="showPage('ai', this)">
-        <i data-icon="cpu"></i>
-        <span class="nav-label">AI Analysis</span>
-    </button>
+                <button class="nav-item" onclick="showPage('ai', this)">
+                    <i data-icon="cpu"></i>
+                    <span class="nav-label">AI Analysis</span>
+                </button>
 
-    <button class="nav-item" onclick="showPage('settings', this)">
-        <i data-icon="settings"></i>
-        <span class="nav-label">Settings</span>
-    </button>
+                <button class="nav-item" onclick="showPage('settings', this)">
+                    <i data-icon="settings"></i>
+                    <span class="nav-label">Settings</span>
+                </button>
 
-    <button class="nav-item" onclick="showPage('author', this)">
-        <i data-icon="user"></i>
-        <span class="nav-label">Author</span>
-    </button>
+                <button class="nav-item" onclick="showPage('author', this)">
+                    <i data-icon="user"></i>
+                    <span class="nav-label">Author</span>
+                </button>
 
-</nav>
+            </nav>
 
 
             <div class="sidebar-bottom">
@@ -234,7 +200,7 @@
                 <button class="logout-btn" onclick="logout()">
                     <i data-icon="logout"></i>
                     <span>Logout</span>
-                    </button>
+                </button>
 
             </div>
 
@@ -247,14 +213,14 @@
             <!-- HEADER -->
             <header class="header">
 
-                    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+                <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="6" x2="21" y2="6"/>
-                    <line x1="3" y1="12" x2="21" y2="12"/>
-                    <line x1="3" y1="18" x2="21" y2="18"/>
-                </svg>
-            </button>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
+                </button>
 
                 <div class="search-box">
 
@@ -275,7 +241,7 @@
                     <button class="notification-btn" onclick="showNotifications()">
                         <i data-icon="bell"></i>
                         <span></span>
-                        </button>
+                    </button>
 
                     <div class="profile">
 
@@ -610,606 +576,509 @@
                 <!-- CASES PAGE -->
                 <section id="cases" class="page">
 
-    <div class="page-title">
-        <div>
-            <h1>Cases</h1>
-            <p>Manage and investigate every case in your vault</p>
-        </div>
-        <button class="primary-btn" onclick="openModal()">
-            + New Case
-        </button>
-    </div>
-
-    <!-- Filter chips -->
-    <div class="case-filters">
-        <button class="filter-chip active" onclick="filterCases('all', this)">All Cases <span class="chip-count">12</span></button>
-        <button class="filter-chip" onclick="filterCases('active', this)">Active <span class="chip-count">4</span></button>
-        <button class="filter-chip" onclick="filterCases('review', this)">Under Review <span class="chip-count">5</span></button>
-        <button class="filter-chip" onclick="filterCases('closed', this)">Closed <span class="chip-count">3</span></button>
-    </div>
-
-    <!-- Hero case (featured) -->
-    <div class="case-hero">
-        <div class="case-hero-glow"></div>
-        <div class="case-hero-inner">
-            <div class="case-hero-left">
-                <span class="case-badge-pill">● ACTIVE INVESTIGATION</span>
-                <h2>Criminal Investigation Case</h2>
-                <p class="case-hero-desc">Evidence collection, forensic analysis and witness coordination for case CR-2026-0142.</p>
-
-                <div class="case-hero-metrics">
-                    <div class="hero-metric">
-                        <span>Documents</span>
-                        <strong>24</strong>
+                    <div class="page-title">
+                        <div>
+                            <h1>Cases</h1>
+                            <p>Manage and investigate every case in your vault</p>
+                        </div>
+                        <button class="primary-btn" onclick="openModal()">
+                            + New Case
+                        </button>
                     </div>
-                    <div class="hero-metric">
-                        <span>Evidence</span>
-                        <strong>18</strong>
+
+                    <!-- Filter chips -->
+                    <div class="case-filters">
+                        <button class="filter-chip active" onclick="filterCases('all', this)">All Cases <span class="chip-count">12</span></button>
+                        <button class="filter-chip" onclick="filterCases('active', this)">Active <span class="chip-count">4</span></button>
+                        <button class="filter-chip" onclick="filterCases('review', this)">Under Review <span class="chip-count">5</span></button>
+                        <button class="filter-chip" onclick="filterCases('closed', this)">Closed <span class="chip-count">3</span></button>
                     </div>
-                    <div class="hero-metric">
-                        <span>Team</span>
-                        <strong>6</strong>
+
+                    <!-- Hero case (featured) -->
+                    <div class="case-hero">
+                        <div class="case-hero-glow"></div>
+                        <div class="case-hero-inner">
+                            <div class="case-hero-left">
+                                <span class="case-badge-pill">● ACTIVE INVESTIGATION</span>
+                                <h2>Criminal Investigation Case</h2>
+                                <p class="case-hero-desc">Evidence collection, forensic analysis and witness coordination for case CR-2026-0142.</p>
+
+                                <div class="case-hero-metrics">
+                                    <div class="hero-metric">
+                                        <span>Documents</span>
+                                        <strong>24</strong>
+                                    </div>
+                                    <div class="hero-metric">
+                                        <span>Evidence</span>
+                                        <strong>18</strong>
+                                    </div>
+                                    <div class="hero-metric">
+                                        <span>Team</span>
+                                        <strong>6</strong>
+                                    </div>
+                                    <div class="hero-metric">
+                                        <span>Integrity</span>
+                                        <strong class="metric-green">98%</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="case-hero-right">
+                                <span class="case-hero-id">CR-2026-0142</span>
+                                <button class="case-hero-btn" onclick="openCaseDetails()">
+                                    Open Case
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-left:6px;">
+                                        <line x1="5" y1="12" x2="19" y2="12"/>
+                                        <polyline points="12 5 19 12 12 19"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="hero-metric">
-                        <span>Integrity</span>
-                        <strong class="metric-green">98%</strong>
-                    </div>
-                </div>
-            </div>
-            <div class="case-hero-right">
-                <span class="case-hero-id">CR-2026-0142</span>
-                <button class="case-hero-btn" onclick="openCaseDetails()">
-                    Open Case
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-left:6px;">
-                        <line x1="5" y1="12" x2="19" y2="12"/>
-                        <polyline points="12 5 19 12 12 19"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </div>
 
-    <!-- Case grid -->
-    <div class="case-grid">
-
-        <div class="large-case-card" data-status="review">
-            <div class="case-top">
-                <span class="case-number">CR-2026-0138</span>
-                <span class="badge review">Under Review</span>
-            </div>
-            <h3>Financial Fraud Investigation</h3>
-            <p>Multi-bank transaction analysis with forensic accounting.</p>
-            <div class="case-info">
-                <span>📄 31 Documents</span>
-                <span>🔗 42 Evidence</span>
-                <span>👥 4 Users</span>
-            </div>
-            <div class="case-progress">
-                <div class="case-progress-label">
-                    <span>Progress</span>
-                    <strong>72%</strong>
-                </div>
-                <div class="case-progress-bar"><div style="width:72%"></div></div>
-            </div>
-            <button class="secondary-btn full">View Case →</button>
-        </div>
-
-        <div class="large-case-card" data-status="closed">
-            <div class="case-top">
-                <span class="case-number">CR-2026-0129</span>
-                <span class="badge closed">Closed</span>
-            </div>
-            <h3>Cyber Crime Investigation</h3>
-            <p>Digital forensics and chain-of-custody complete.</p>
-            <div class="case-info">
-                <span>📄 56 Documents</span>
-                <span>🔗 63 Evidence</span>
-                <span>👥 8 Users</span>
-            </div>
-            <div class="case-progress">
-                <div class="case-progress-label">
-                    <span>Progress</span>
-                    <strong>100%</strong>
-                </div>
-                <div class="case-progress-bar"><div style="width:100%"></div></div>
-            </div>
-            <button class="secondary-btn full">View Case →</button>
-        </div>
-
-        <div class="large-case-card" data-status="active">
-            <div class="case-top">
-                <span class="case-number">CR-2026-0155</span>
-                <span class="badge active">Active</span>
-            </div>
-            <h3>Narcotics Investigation</h3>
-            <p>Surveillance logs and chain-of-custody for seized evidence.</p>
-            <div class="case-info">
-                <span>📄 18 Documents</span>
-                <span>🔗 27 Evidence</span>
-                <span>👥 5 Users</span>
-            </div>
-            <div class="case-progress">
-                <div class="case-progress-label">
-                    <span>Progress</span>
-                    <strong>34%</strong>
-                </div>
-                <div class="case-progress-bar"><div style="width:34%"></div></div>
-            </div>
-            <button class="secondary-btn full">View Case →</button>
-        </div>
-
-    </div>
-
-</section>
-
+                    <!-- Case grid -->
                     <div class="case-grid">
 
-                        <div class="large-case-card">
+                        <div class="large-case-card" data-status="review">
                             <div class="case-top">
-                                <span class="case-number">
-                                    CR-2026-0142
-                                </span>
-
-                                <span class="badge active">
-                                    Active
-                                </span>
+                                <span class="case-number">CR-2026-0138</span>
+                                <span class="badge review">Under Review</span>
                             </div>
-
-                            <h3>Criminal Investigation Case</h3>
-
-                            <p>
-                                Evidence collection and investigation
-                                management.
-                            </p>
-
-                            <div class="case-info">
-                                <span>📄 24 Documents</span>
-                                <span>🔗 18 Evidence</span>
-                                <span>👥 6 Users</span>
-                            </div>
-
-                            <button
-                                class="secondary-btn full"
-                                onclick="openCaseDetails()"
-                            >
-                                View Case →
-                            </button>
-                        </div>
-
-
-                        <div class="large-case-card">
-                            <div class="case-top">
-                                <span class="case-number">
-                                    CR-2026-0138
-                                </span>
-
-                                <span class="badge review">
-                                    Under Review
-                                </span>
-                            </div>
-
                             <h3>Financial Fraud Investigation</h3>
-
-                            <p>
-                                Financial transaction evidence analysis.
-                            </p>
-
+                            <p>Multi-bank transaction analysis with forensic accounting.</p>
                             <div class="case-info">
                                 <span>📄 31 Documents</span>
                                 <span>🔗 42 Evidence</span>
                                 <span>👥 4 Users</span>
                             </div>
-
-                            <button class="secondary-btn full">
-                                View Case →
-                            </button>
+                            <div class="case-progress">
+                                <div class="case-progress-label">
+                                    <span>Progress</span>
+                                    <strong>72%</strong>
+                                </div>
+                                <div class="case-progress-bar"><div style="width:72%"></div></div>
+                            </div>
+                            <button class="secondary-btn full">View Case →</button>
                         </div>
 
-
-                        <div class="large-case-card">
+                        <div class="large-case-card" data-status="closed">
                             <div class="case-top">
-                                <span class="case-number">
-                                    CR-2026-0129
-                                </span>
-
-                                <span class="badge closed">
-                                    Closed
-                                </span>
+                                <span class="case-number">CR-2026-0129</span>
+                                <span class="badge closed">Closed</span>
                             </div>
-
                             <h3>Cyber Crime Investigation</h3>
-
-                            <p>
-                                Digital evidence and cyber investigation.
-                            </p>
-
+                            <p>Digital forensics and chain-of-custody complete.</p>
                             <div class="case-info">
                                 <span>📄 56 Documents</span>
                                 <span>🔗 63 Evidence</span>
                                 <span>👥 8 Users</span>
                             </div>
+                            <div class="case-progress">
+                                <div class="case-progress-label">
+                                    <span>Progress</span>
+                                    <strong>100%</strong>
+                                </div>
+                                <div class="case-progress-bar"><div style="width:100%"></div></div>
+                            </div>
+                            <button class="secondary-btn full">View Case →</button>
+                        </div>
 
-                            <button class="secondary-btn full">
-                                View Case →
-                            </button>
+                        <div class="large-case-card" data-status="active">
+                            <div class="case-top">
+                                <span class="case-number">CR-2026-0155</span>
+                                <span class="badge active">Active</span>
+                            </div>
+                            <h3>Narcotics Investigation</h3>
+                            <p>Surveillance logs and chain-of-custody for seized evidence.</p>
+                            <div class="case-info">
+                                <span>📄 18 Documents</span>
+                                <span>🔗 27 Evidence</span>
+                                <span>👥 5 Users</span>
+                            </div>
+                            <div class="case-progress">
+                                <div class="case-progress-label">
+                                    <span>Progress</span>
+                                    <strong>34%</strong>
+                                </div>
+                                <div class="case-progress-bar"><div style="width:34%"></div></div>
+                            </div>
+                            <button class="secondary-btn full">View Case →</button>
                         </div>
 
                     </div>
 
                 </section>
 
-<!-- CASE DETAILS -->
-<section id="caseDetails" class="page">
 
-    <div class="page-title">
+                <!-- CASE DETAILS -->
+                <section id="caseDetails" class="page">
 
-        <div>
-            <button
-                class="back-btn"
-                onclick="showPageByName('cases')"
-            >
-                ← Back to Cases
-            </button>
+                    <div class="page-title">
 
-            <h1>Case CR-2026-0142</h1>
+                        <div>
+                            <button
+                                class="back-btn"
+                                onclick="showPageByName('cases')"
+                            >
+                                ← Back to Cases
+                            </button>
 
-            <p>
-                Criminal Investigation Case
-            </p>
-        </div>
+                            <h1>Case CR-2026-0142</h1>
 
-        <span class="badge active">
-            ● Active Case
-        </span>
+                            <p>
+                                Criminal Investigation Case
+                            </p>
+                        </div>
 
-    </div>
+                        <span class="badge active">
+                            ● Active Case
+                        </span>
 
+                    </div>
 
-    <!-- CASE SUMMARY -->
 
-    <div class="case-detail-grid">
+                    <!-- CASE SUMMARY -->
+                    <div class="case-detail-grid">
 
-        <div class="detail-card">
+                        <div class="detail-card">
 
-            <span class="detail-label">
-                CASE ID
-            </span>
+                            <span class="detail-label">
+                                CASE ID
+                            </span>
 
-            <strong>
-                CR-2026-0142
-            </strong>
+                            <strong>
+                                CR-2026-0142
+                            </strong>
 
-        </div>
+                        </div>
 
 
-        <div class="detail-card">
+                        <div class="detail-card">
 
-            <span class="detail-label">
-                CASE TYPE
-            </span>
+                            <span class="detail-label">
+                                CASE TYPE
+                            </span>
 
-            <strong>
-                Criminal Investigation
-            </strong>
+                            <strong>
+                                Criminal Investigation
+                            </strong>
 
-        </div>
+                        </div>
 
 
-        <div class="detail-card">
+                        <div class="detail-card">
 
-            <span class="detail-label">
-                CREATED
-            </span>
+                            <span class="detail-label">
+                                CREATED
+                            </span>
 
-            <strong>
-                12 Sep 2026
-            </strong>
+                            <strong>
+                                12 Sep 2026
+                            </strong>
 
-        </div>
+                        </div>
 
 
-        <div class="detail-card">
+                        <div class="detail-card">
 
-            <span class="detail-label">
-                SECURITY
-            </span>
+                            <span class="detail-label">
+                                SECURITY
+                            </span>
 
-            <strong class="green">
-                ● Protected
-            </strong>
+                            <strong class="green">
+                                ● Protected
+                            </strong>
 
-        </div>
+                        </div>
 
-    </div>
+                    </div>
 
 
-    <!-- CASE INFORMATION -->
+                    <!-- CASE INFORMATION -->
+                    <div class="detail-layout">
 
-    <div class="detail-layout">
+                        <div class="panel">
 
-        <div class="panel">
+                            <div class="panel-title">
 
-            <div class="panel-title">
+                                <div>
+                                    <h3>Case Information</h3>
 
-                <div>
-                    <h3>Case Information</h3>
+                                    <p>
+                                        Investigation details
+                                    </p>
+                                </div>
 
-                    <p>
-                        Investigation details
-                    </p>
-                </div>
+                                <span class="shield">
+                                    🔐
+                                </span>
 
-                <span class="shield">
-                    🔐
-                </span>
+                            </div>
 
-            </div>
 
+                            <div class="information-list">
 
-            <div class="information-list">
+                                <div>
+                                    <span>Lead Investigator</span>
+                                    <strong>Admin User</strong>
+                                </div>
 
-                <div>
-                    <span>Lead Investigator</span>
-                    <strong>Admin User</strong>
-                </div>
+                                <div>
+                                    <span>Assigned Team</span>
+                                    <strong>Investigation Unit A</strong>
+                                </div>
 
-                <div>
-                    <span>Assigned Team</span>
-                    <strong>Investigation Unit A</strong>
-                </div>
+                                <div>
+                                    <span>Priority</span>
+                                    <strong class="orange-text">
+                                        High
+                                    </strong>
+                                </div>
 
-                <div>
-                    <span>Priority</span>
-                    <strong class="orange-text">
-                        High
-                    </strong>
-                </div>
+                                <div>
+                                    <span>Access Level</span>
+                                    <strong>
+                                        Restricted
+                                    </strong>
+                                </div>
 
-                <div>
-                    <span>Access Level</span>
-                    <strong>
-                        Restricted
-                    </strong>
-                </div>
+                            </div>
 
-            </div>
+                        </div>
 
-        </div>
 
+                        <div class="panel">
 
-        <div class="panel">
+                            <div class="panel-title">
 
-            <div class="panel-title">
+                                <div>
+                                    <h3>Case Integrity</h3>
 
-                <div>
-                    <h3>Case Integrity</h3>
+                                    <p>
+                                        Digital security status
+                                    </p>
+                                </div>
 
-                    <p>
-                        Digital security status
-                    </p>
-                </div>
+                                <span class="shield">
+                                    🛡️
+                                </span>
 
-                <span class="shield">
-                    🛡️
-                </span>
+                            </div>
 
-            </div>
 
+                            <div class="integrity-score">
 
-            <div class="integrity-score">
+                                <div class="score-circle">
+                                    <strong>98%</strong>
+                                    <small>Secure</small>
+                                </div>
 
-                <div class="score-circle">
-                    <strong>98%</strong>
-                    <small>Secure</small>
-                </div>
+                                <div>
 
-                <div>
+                                    <p>
+                                        All critical evidence has passed
+                                        integrity verification.
+                                    </p>
 
-                    <p>
-                        All critical evidence has passed
-                        integrity verification.
-                    </p>
+                                    <span class="security-badge">
+                                        ✓ Hash Verified
+                                    </span>
 
-                    <span class="security-badge">
-                        ✓ Hash Verified
-                    </span>
+                                </div>
 
-                </div>
+                            </div>
 
-            </div>
+                        </div>
 
-        </div>
+                    </div>
 
-    </div>
 
+                    <!-- EVIDENCE -->
+                    <div class="section-heading case-section">
 
-    <!-- EVIDENCE -->
+                        <div>
+                            <h2>Case Evidence</h2>
 
-    <div class="section-heading case-section">
+                            <p>
+                                Documents and digital evidence associated
+                                with this case
+                            </p>
+                        </div>
 
-        <div>
-            <h2>Case Evidence</h2>
+                        <button
+                            class="primary-btn"
+                            onclick="uploadEvidence()"
+                        >
+                            + Upload Evidence
+                        </button>
 
-            <p>
-                Documents and digital evidence associated
-                with this case
-            </p>
-        </div>
+                    </div>
 
-        <button
-            class="primary-btn"
-            onclick="uploadEvidence()"
-        >
-            + Upload Evidence
-        </button>
 
-    </div>
+                    <div class="evidence-table">
 
+                        <div class="evidence-header">
 
-    <div class="evidence-table">
+                            <span>Evidence</span>
+                            <span>Type</span>
+                            <span>Integrity</span>
+                            <span>Access</span>
+                            <span>Action</span>
 
-        <div class="evidence-header">
+                        </div>
 
-            <span>Evidence</span>
-            <span>Type</span>
-            <span>Integrity</span>
-            <span>Access</span>
-            <span>Action</span>
 
-        </div>
+                        <div class="evidence-row">
 
+                            <div class="evidence-name">
+                                <span class="file-icon">📄</span>
 
-        <div class="evidence-row">
+                                <div>
+                                    <strong>FIR_2026_0142.pdf</strong>
+                                    <small>2.4 MB</small>
+                                </div>
+                            </div>
 
-            <div class="evidence-name">
-                <span class="file-icon">📄</span>
+                            <span>FIR Document</span>
 
-                <div>
-                    <strong>FIR_2026_0142.pdf</strong>
-                    <small>2.4 MB</small>
-                </div>
-            </div>
+                            <span class="green">
+                                ✓ Verified
+                            </span>
 
-            <span>FIR Document</span>
+                            <span>Standard</span>
 
-            <span class="green">
-                ✓ Verified
-            </span>
+                            <button
+                                class="icon-btn"
+                                onclick="viewEvidence('FIR_2026_0142.pdf')"
+                            >
+                                👁
+                            </button>
 
-            <span>Standard</span>
+                        </div>
 
-            <button
-                class="icon-btn"
-                onclick="viewEvidence('FIR_2026_0142.pdf')"
-            >
-                👁
-            </button>
 
-        </div>
+                        <div class="evidence-row">
 
+                            <div class="evidence-name">
+                                <span class="file-icon">📋</span>
 
-        <div class="evidence-row">
+                                <div>
+                                    <strong>Witness_Statement.pdf</strong>
+                                    <small>1.8 MB</small>
+                                </div>
+                            </div>
 
-            <div class="evidence-name">
-                <span class="file-icon">📋</span>
+                            <span>Statement</span>
 
-                <div>
-                    <strong>Witness_Statement.pdf</strong>
-                    <small>1.8 MB</small>
-                </div>
-            </div>
+                            <span class="green">
+                                ✓ Verified
+                            </span>
 
-            <span>Statement</span>
+                            <span>Standard</span>
 
-            <span class="green">
-                ✓ Verified
-            </span>
+                            <button
+                                class="icon-btn"
+                                onclick="viewEvidence('Witness_Statement.pdf')"
+                            >
+                                👁
+                            </button>
 
-            <span>Standard</span>
+                        </div>
 
-            <button
-                class="icon-btn"
-                onclick="viewEvidence('Witness_Statement.pdf')"
-            >
-                👁
-            </button>
 
-        </div>
+                        <div class="evidence-row restricted-row">
 
+                            <div class="evidence-name">
+                                <span class="file-icon">🔒</span>
 
-        <div class="evidence-row restricted-row">
+                                <div>
+                                    <strong>Forensic_Report.pdf</strong>
+                                    <small>8.7 MB</small>
+                                </div>
+                            </div>
 
-            <div class="evidence-name">
-                <span class="file-icon">🔒</span>
+                            <span>Forensic</span>
 
-                <div>
-                    <strong>Forensic_Report.pdf</strong>
-                    <small>8.7 MB</small>
-                </div>
-            </div>
+                            <span class="orange-text">
+                                🔒 Restricted
+                            </span>
 
-            <span>Forensic</span>
+                            <span>Restricted</span>
 
-            <span class="orange-text">
-                🔒 Restricted
-            </span>
+                            <button
+                                class="icon-btn"
+                                onclick="viewEvidence('Forensic_Report.pdf')"
+                            >
+                                👁
+                            </button>
 
-            <span>Restricted</span>
+                        </div>
 
-            <button
-                class="icon-btn"
-                onclick="viewEvidence('Forensic_Report.pdf')"
-            >
-                👁
-            </button>
 
-        </div>
+                        <div class="evidence-row">
 
+                            <div class="evidence-name">
+                                <span class="file-icon">📝</span>
 
-        <div class="evidence-row">
+                                <div>
+                                    <strong>Charge_Sheet.pdf</strong>
+                                    <small>3.1 MB</small>
+                                </div>
+                            </div>
 
-            <div class="evidence-name">
-                <span class="file-icon">📝</span>
+                            <span>Legal</span>
 
-                <div>
-                    <strong>Charge_Sheet.pdf</strong>
-                    <small>3.1 MB</small>
-                </div>
-            </div>
+                            <span class="orange-text">
+                                ⏳ Review
+                            </span>
 
-            <span>Legal</span>
+                            <span>Restricted</span>
 
-            <span class="orange-text">
-                ⏳ Review
-            </span>
+                            <button
+                                class="icon-btn"
+                                onclick="viewEvidence('Charge_Sheet.pdf')"
+                            >
+                                👁
+                            </button>
 
-            <span>Restricted</span>
+                        </div>
 
-            <button
-                class="icon-btn"
-                onclick="viewEvidence('Charge_Sheet.pdf')"
-            >
-                👁
-            </button>
+                    </div>
 
-        </div>
 
-    </div>
+                    <!-- HASH -->
+                    <div class="hash-panel">
 
+                        <div class="hash-icon">
+                            #️⃣
+                        </div>
 
-    <!-- HASH -->
+                        <div>
 
-    <div class="hash-panel">
+                            <strong>
+                                Evidence Integrity Protection
+                            </strong>
 
-        <div class="hash-icon">
-            #️⃣
-        </div>
+                            <p>
+                                Every uploaded evidence item is assigned
+                                a unique SHA-256 digital fingerprint.
+                            </p>
 
-        <div>
+                            <code>
+                                SHA-256:
+                                8f4a91cd7281e9b3...c81291cd
+                            </code>
 
-            <strong>
-                Evidence Integrity Protection
-            </strong>
+                        </div>
 
-            <p>
-                Every uploaded evidence item is assigned
-                a unique SHA-256 digital fingerprint.
-            </p>
+                        <span class="security-badge">
+                            ✓ Verified
+                        </span>
 
-            <code>
-                SHA-256:
-                8f4a91cd7281e9b3...c81291cd
-            </code>
+                    </div>
 
-        </div>
+                </section>
 
-        <span class="security-badge">
-            ✓ Verified
-        </span>
 
-    </div>
-
-</section>
                 <!-- DOCUMENTS -->
                 <section id="documents" class="page">
 
@@ -1382,7 +1251,7 @@
                         </div>
 
                         <button id="verifyChainBtn" class="security-badge" style="border:none;cursor:pointer;">
-                        🛡️ Verify Chain
+                            🛡️ Verify Chain
                         </button>
 
                     </div>
@@ -1665,14 +1534,14 @@
 
                         <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 8px; padding-top: 20px; border-top: 1px solid var(--border);">
                             <div>
-                            <h3>Built By</h3>
-                            <p style="margin-top: 4px;"><strong>Team:</strong> InnoVanta</p>
-                            <p style="margin-top: 2px;"><strong>Hackathon:</strong> SIH26190 — Secure Digital Document Management System</p>
-                            <p style="margin-top: 2px;"><strong>Contact:</strong> <a href="mailto:team@innovanta.dev" style="color: var(--blue); text-decoration: none;">team@innovanta.dev</a></p>
-                            <p style="margin-top: 6px; font-size: 13px; color: var(--muted);">
-                                © 2026 Team InnoVanta. All Rights Reserved. Built for MHA.
-                            </p>
-                        </div>
+                                <h3>Built By</h3>
+                                <p style="margin-top: 4px;"><strong>Team:</strong> InnoVanta</p>
+                                <p style="margin-top: 2px;"><strong>Hackathon:</strong> SIH26190 — Secure Digital Document Management System</p>
+                                <p style="margin-top: 2px;"><strong>Contact:</strong> <a href="mailto:team@innovanta.dev" style="color: var(--blue); text-decoration: none;">team@innovanta.dev</a></p>
+                                <p style="margin-top: 6px; font-size: 13px; color: var(--muted);">
+                                    © 2026 Team InnoVanta. All Rights Reserved. Built for MHA.
+                                </p>
+                            </div>
                         </div>
 
                     </div>
@@ -1683,113 +1552,115 @@
                 <!-- AUTHOR PAGE -->
                 <section id="author" class="page">
 
-    <div class="page-title">
-        <div>
-            <h1>Team InnoVanta</h1>
-            <p>Project ownership, team details, and legal notice</p>
-        </div>
-    </div>
+                    <div class="page-title">
+                        <div>
+                            <h1>Team InnoVanta</h1>
+                            <p>Project ownership, team details, and legal notice</p>
+                        </div>
+                    </div>
 
-    <div class="author-grid">
+                    <div class="author-grid">
 
-        <!-- TEAM CARD -->
-        <div class="author-card">
-            <div class="author-header">
-                <div class="author-avatar" style="background: linear-gradient(135deg, #0d1b2e, #2563eb);">🚀</div>
-                <div class="author-meta">
-                    <h2>Team InnoVanta</h2>
-                    <p>Creator & Lead Architects</p>
-                    <span class="author-badge">Project Owner</span>
-                </div>
+                        <!-- TEAM CARD -->
+                        <div class="author-card">
+                            <div class="author-header">
+                                <div class="author-avatar" style="background: linear-gradient(135deg, #0d1b2e, #2563eb);">🚀</div>
+                                <div class="author-meta">
+                                    <h2>Team InnoVanta</h2>
+                                    <p>Creator & Lead Architects</p>
+                                    <span class="author-badge">Project Owner</span>
+                                </div>
+                            </div>
+
+                            <div class="author-details-list">
+                                <div class="author-detail-item">
+                                    <strong>Application</strong>
+                                    <span>Secure CaseVault</span>
+                                </div>
+                                <div class="author-detail-item">
+                                    <strong>Problem Statement</strong>
+                                    <span>SIH26190 — MHA</span>
+                                </div>
+                                <div class="author-detail-item">
+                                    <strong>Contact</strong>
+                                    <a href="mailto:team@innovanta.dev">team@innovanta.dev</a>
+                                </div>
+                                <div class="author-detail-item">
+                                    <strong>Repository</strong>
+                                    <a href="https://github.com/Logan07G/sih2026-secure-dms" target="_blank">Logan07G/sih2026-secure-dms</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MEMBERS CARD -->
+                        <div class="author-card">
+                            <div class="author-header">
+                                <div class="author-avatar" style="background: linear-gradient(135deg, #0d1b2e, #16a34a);">👥</div>
+                                <div class="author-meta">
+                                    <h2>Team Members</h2>
+                                    <p>Six roles, one mission</p>
+                                </div>
+                            </div>
+
+                            <div class="author-details-list">
+                                <div class="author-detail-item"><strong>Cryptography &amp; Security</strong><span>Member 1</span></div>
+                                <div class="author-detail-item"><strong>Backend / API</strong><span>Member 2</span></div>
+                                <div class="author-detail-item"><strong>Database &amp; Storage</strong><span>Member 3</span></div>
+                                <div class="author-detail-item"><strong>Frontend</strong><span>Member 4</span></div>
+                                <div class="author-detail-item"><strong>Access Control &amp; Audit</strong><span>Member 5</span></div>
+                                <div class="author-detail-item"><strong>DevOps / Air-Gap</strong><span>Member 6</span></div>
+                            </div>
+                        </div>
+
+                        <!-- LEGAL CARD -->
+                        <div class="author-card">
+                            <div class="author-header">
+                                <div class="author-avatar" style="background: linear-gradient(135deg, #0d1b2e, #dc2626);">🛡️</div>
+                                <div class="author-meta">
+                                    <h2>Legal Notice</h2>
+                                    <p>Proprietary Software Rights</p>
+                                    <span class="author-badge" style="background: rgba(220,38,38,0.1); color: var(--red);">All Rights Reserved</span>
+                                </div>
+                            </div>
+
+                            <div class="author-details-list">
+                                <div class="author-detail-item">
+                                    <strong>Copyright</strong>
+                                    <span>© 2026 Team InnoVanta</span>
+                                </div>
+                                <div class="author-detail-item">
+                                    <strong>License Type</strong>
+                                    <span>Proprietary / Closed Source</span>
+                                </div>
+                            </div>
+
+                            <p style="margin-top: 16px; font-size: 13px; color: var(--muted); line-height: 1.6;">
+                                This software, source code, visual layout, and underlying architecture are the confidential
+                                and proprietary property of <strong>Team InnoVanta</strong>. Unauthorized copying, distribution,
+                                decompilation, or commercial reuse is strictly prohibited.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </section>
+
             </div>
-
-            <div class="author-details-list">
-                <div class="author-detail-item">
-                    <strong>Application</strong>
-                    <span>Secure CaseVault</span>
-                </div>
-                <div class="author-detail-item">
-                    <strong>Problem Statement</strong>
-                    <span>SIH26190 — MHA</span>
-                </div>
-                <div class="author-detail-item">
-                    <strong>Contact</strong>
-                    <a href="mailto:team@innovanta.dev">team@innovanta.dev</a>
-                </div>
-                <div class="author-detail-item">
-                    <strong>Repository</strong>
-                    <a href="https://github.com/Logan07G/sih2026-secure-dms" target="_blank">Logan07G/sih2026-secure-dms</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- MEMBERS CARD -->
-        <div class="author-card">
-            <div class="author-header">
-                <div class="author-avatar" style="background: linear-gradient(135deg, #0d1b2e, #16a34a);">👥</div>
-                <div class="author-meta">
-                    <h2>Team Members</h2>
-                    <p>Six roles, one mission</p>
-                </div>
-            </div>
-
-            <div class="author-details-list">
-                <div class="author-detail-item"><strong>Cryptography &amp; Security</strong><span>Member 1</span></div>
-                <div class="author-detail-item"><strong>Backend / API</strong><span>Member 2</span></div>
-                <div class="author-detail-item"><strong>Database &amp; Storage</strong><span>Member 3</span></div>
-                <div class="author-detail-item"><strong>Frontend</strong><span>Member 4</span></div>
-                <div class="author-detail-item"><strong>Access Control &amp; Audit</strong><span>Member 5</span></div>
-                <div class="author-detail-item"><strong>DevOps / Air-Gap</strong><span>Member 6</span></div>
-            </div>
-        </div>
-
-        <!-- LEGAL CARD -->
-        <div class="author-card">
-            <div class="author-header">
-                <div class="author-avatar" style="background: linear-gradient(135deg, #0d1b2e, #dc2626);">🛡️</div>
-                <div class="author-meta">
-                    <h2>Legal Notice</h2>
-                    <p>Proprietary Software Rights</p>
-                    <span class="author-badge" style="background: rgba(220,38,38,0.1); color: var(--red);">All Rights Reserved</span>
-                </div>
-            </div>
-
-            <div class="author-details-list">
-                <div class="author-detail-item">
-                    <strong>Copyright</strong>
-                    <span>© 2026 Team InnoVanta</span>
-                </div>
-                <div class="author-detail-item">
-                    <strong>License Type</strong>
-                    <span>Proprietary / Closed Source</span>
-                </div>
-            </div>
-
-            <p style="margin-top: 16px; font-size: 13px; color: var(--muted); line-height: 1.6;">
-                This software, source code, visual layout, and underlying architecture are the confidential
-                and proprietary property of <strong>Team InnoVanta</strong>. Unauthorized copying, distribution,
-                decompilation, or commercial reuse is strictly prohibited.
-            </p>
-        </div>
-
-    </div>
-
-</section>
 
             <div class="security-ticker">
-         <div class="ticker-track">
-        <span>🛡️ System Secure</span>
-        <span>🔐 AES-256-GCM Active</span>
-        <span>#️⃣ SHA-256 Integrity OK</span>
-        <span>🔗 Chain-of-Custody Verified</span>
-        <span>🚨 4 Alerts Pending Review</span>
-        <span>🛡️ System Secure</span>
-        <span>🔐 AES-256-GCM Active</span>
-        <span>#️⃣ SHA-256 Integrity OK</span>
-        <span>🔗 Chain-of-Custody Verified</span>
-        <span>🚨 4 Alerts Pending Review</span>
-        </div>
-    </div>
+                <div class="ticker-track">
+                    <span>🛡️ System Secure</span>
+                    <span>🔐 AES-256-GCM Active</span>
+                    <span>#️⃣ SHA-256 Integrity OK</span>
+                    <span>🔗 Chain-of-Custody Verified</span>
+                    <span>🚨 4 Alerts Pending Review</span>
+                    <span>🛡️ System Secure</span>
+                    <span>🔐 AES-256-GCM Active</span>
+                    <span>#️⃣ SHA-256 Integrity OK</span>
+                    <span>🔗 Chain-of-Custody Verified</span>
+                    <span>🚨 4 Alerts Pending Review</span>
+                </div>
+            </div>
 
         </main>
 
@@ -1838,293 +1709,285 @@
 
     </div>
 
-    <script src="icons.js"></script>
-    <script src="config.js"></script>
-    <script src="script.js"></script>
+    <!-- UPLOAD EVIDENCE MODAL -->
+    <div id="uploadModal" class="modal-overlay">
 
-<!-- ================= UPLOAD EVIDENCE MODAL ================= -->
+        <div class="upload-modal">
 
-<div id="uploadModal" class="modal-overlay">
+            <!-- HEADER -->
+            <div class="upload-modal-header">
 
-    <div class="upload-modal">
+                <div>
 
-        <!-- HEADER -->
+                    <h2>Upload Evidence</h2>
 
-        <div class="upload-modal-header">
+                    <p>
+                        Add secure evidence to Case CR-2026-0142
+                    </p>
 
-            <div>
+                </div>
 
-                <h2>Upload Evidence</h2>
+                <button
+                    class="modal-close"
+                    onclick="closeUploadModal()"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <!-- UPLOAD AREA -->
+            <div
+                id="uploadArea"
+                class="upload-area"
+                onclick="document.getElementById('evidenceFile').click()"
+            >
+
+                <div class="upload-cloud">
+                    ↑
+                </div>
+
+                <h3>
+                    Drop evidence here
+                </h3>
 
                 <p>
-                    Add secure evidence to Case CR-2026-0142
+                    or click to browse files
                 </p>
 
-            </div>
-
-            <button
-                class="modal-close"
-                onclick="closeUploadModal()"
-            >
-                ×
-            </button>
-
-        </div>
-
-
-        <!-- UPLOAD AREA -->
-
-        <div
-            id="uploadArea"
-            class="upload-area"
-            onclick="document.getElementById('evidenceFile').click()"
-        >
-
-            <div class="upload-cloud">
-                ↑
-            </div>
-
-            <h3>
-                Drop evidence here
-            </h3>
-
-            <p>
-                or click to browse files
-            </p>
-
-            <small>
-                PDF, JPG, PNG, DOCX up to 50 MB
-            </small>
-
-        </div>
-
-
-        <input
-            type="file"
-            id="evidenceFile"
-            hidden
-            onchange="handleEvidenceFile(this)"
-        />
-
-
-        <!-- SELECTED FILE -->
-
-        <div
-            id="selectedFile"
-            class="selected-file hidden"
-        >
-
-            <div class="selected-file-icon">
-                📄
-            </div>
-
-            <div class="selected-file-info">
-
-                <strong id="selectedFileName">
-                    Evidence.pdf
-                </strong>
-
-                <small id="selectedFileSize">
-                    0 MB
+                <small>
+                    PDF, JPG, PNG, DOCX up to 50 MB
                 </small>
 
             </div>
 
-            <button
-                onclick="removeSelectedFile()"
-                class="remove-file"
+
+            <input
+                type="file"
+                id="evidenceFile"
+                hidden
+                onchange="handleEvidenceFile(this)"
+            />
+
+
+            <!-- SELECTED FILE -->
+            <div
+                id="selectedFile"
+                class="selected-file hidden"
             >
-                ×
-            </button>
 
-        </div>
+                <div class="selected-file-icon">
+                    📄
+                </div>
 
+                <div class="selected-file-info">
 
-        <!-- SECURITY OPTIONS -->
-
-        <div
-            id="securityOptions"
-            class="security-options hidden"
-        >
-
-            <div class="security-option">
-
-                <span>🔐</span>
-
-                <div>
-
-                    <strong>
-                        AES-256 Encryption
+                    <strong id="selectedFileName">
+                        Evidence.pdf
                     </strong>
 
-                    <small>
-                        Evidence will be securely encrypted
+                    <small id="selectedFileSize">
+                        0 MB
                     </small>
 
                 </div>
 
-                <span class="verified-mini">
-                    ✓
-                </span>
+                <button
+                    onclick="removeSelectedFile()"
+                    class="remove-file"
+                >
+                    ×
+                </button>
 
             </div>
 
 
-            <div class="security-option">
-                <span>#️⃣</span>
+            <!-- SECURITY OPTIONS -->
+            <div
+                id="securityOptions"
+                class="security-options hidden"
+            >
 
-                <div>
+                <div class="security-option">
 
-                <strong>SHA-256 Integrity Hash</strong>
+                    <span>🔐</span>
 
-                <small>Unique digital fingerprint generated</small>
+                    <div>
 
-                <code id="liveHash" style="display:block;margin-top:6px;font-size:9px;color:#60a5fa;background:#0f172a;padding:4px 6px;border-radius:4px;">SHA-256: waiting for file...</code>
+                        <strong>
+                            AES-256 Encryption
+                        </strong>
+
+                        <small>
+                            Evidence will be securely encrypted
+                        </small>
+
+                    </div>
+
+                    <span class="verified-mini">
+                        ✓
+                    </span>
+
+                </div>
+
+
+                <div class="security-option">
+                    <span>#️⃣</span>
+
+                    <div>
+
+                        <strong>SHA-256 Integrity Hash</strong>
+
+                        <small>Unique digital fingerprint generated</small>
+
+                        <code id="liveHash" style="display:block;margin-top:6px;font-size:9px;color:#60a5fa;background:#0f172a;padding:4px 6px;border-radius:4px;">SHA-256: waiting for file...</code>
+                    </div>
+
+                    <span class="verified-mini">✓</span>
+
+                </div>
+
+                <div class="security-option">
+
+                    <span>🔗</span>
+
+                    <div>
+
+                        <strong>
+                            Chain-of-Custody
+                        </strong>
+
+                        <small>
+                            Access history will be recorded
+                        </small>
+
+                    </div>
+
+                    <span class="verified-mini">
+                        ✓
+                    </span>
+
+                </div>
+
             </div>
 
-                <span class="verified-mini">✓</span>
 
-            </div>
+            <!-- UPLOAD PROGRESS -->
+            <div
+                id="uploadProgress"
+                class="upload-progress hidden"
+            >
 
-            <div class="security-option">
+                <div class="progress-top">
 
-                <span>🔗</span>
+                    <span id="progressText">
+                        Securing evidence...
+                    </span>
 
-                <div>
-
-                    <strong>
-                        Chain-of-Custody
+                    <strong id="progressPercent">
+                        0%
                     </strong>
 
-                    <small>
-                        Access history will be recorded
-                    </small>
+                </div>
+
+                <div class="progress-track">
+
+                    <div
+                        id="progressBar"
+                        class="progress-bar"
+                    ></div>
 
                 </div>
 
-                <span class="verified-mini">
+                <p id="progressStatus">
+                    Preparing secure upload...
+                </p>
+
+            </div>
+
+
+            <!-- SUCCESS -->
+            <div
+                id="uploadSuccess"
+                class="upload-success hidden"
+            >
+
+                <div class="success-circle">
                     ✓
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <!-- UPLOAD PROGRESS -->
-
-        <div
-            id="uploadProgress"
-            class="upload-progress hidden"
-        >
-
-            <div class="progress-top">
-
-                <span id="progressText">
-                    Securing evidence...
-                </span>
-
-                <strong id="progressPercent">
-                    0%
-                </strong>
-
-            </div>
-
-            <div class="progress-track">
-
-                <div
-                    id="progressBar"
-                    class="progress-bar"
-                ></div>
-
-            </div>
-
-            <p id="progressStatus">
-                Preparing secure upload...
-            </p>
-
-        </div>
-
-
-        <!-- SUCCESS -->
-
-        <div
-            id="uploadSuccess"
-            class="upload-success hidden"
-        >
-
-            <div class="success-circle">
-                ✓
-            </div>
-
-            <h2>
-                Evidence Secured
-            </h2>
-
-            <p>
-                Evidence has been successfully added
-                to the case repository.
-            </p>
-
-
-            <div class="success-details">
-
-                <div>
-                    <span>Integrity</span>
-                    <strong>✓ SHA-256 Verified</strong>
                 </div>
 
-                <div>
-                    <span>Encryption</span>
-                    <strong>✓ AES-256 Protected</strong>
+                <h2>
+                    Evidence Secured
+                </h2>
+
+                <p>
+                    Evidence has been successfully added
+                    to the case repository.
+                </p>
+
+
+                <div class="success-details">
+
+                    <div>
+                        <span>Integrity</span>
+                        <strong>✓ SHA-256 Verified</strong>
+                    </div>
+
+                    <div>
+                        <span>Encryption</span>
+                        <strong>✓ AES-256 Protected</strong>
+                    </div>
+
+                    <div>
+                        <span>Chain-of-Custody</span>
+                        <strong>✓ Entry Created</strong>
+                    </div>
+
                 </div>
 
-                <div>
-                    <span>Chain-of-Custody</span>
-                    <strong>✓ Entry Created</strong>
-                </div>
+
+                <button
+                    class="primary-btn full-btn"
+                    onclick="finishUpload()"
+                >
+                    Done
+                </button>
 
             </div>
 
 
-            <button
-                class="primary-btn full-btn"
-                onclick="finishUpload()"
+            <!-- FOOTER -->
+            <div
+                id="uploadFooter"
+                class="upload-footer"
             >
-                Done
-            </button>
 
-        </div>
+                <button
+                    class="cancel-btn"
+                    onclick="closeUploadModal()"
+                >
+                    Cancel
+                </button>
 
+                <button
+                    id="secureUploadBtn"
+                    class="primary-btn"
+                    disabled
+                    onclick="startEvidenceUpload()"
+                >
+                    🔐 Secure Upload
+                </button>
 
-        <!-- FOOTER -->
-
-        <div
-            id="uploadFooter"
-            class="upload-footer"
-        >
-
-            <button
-                class="cancel-btn"
-                onclick="closeUploadModal()"
-            >
-                Cancel
-            </button>
-
-            <button
-                id="secureUploadBtn"
-                class="primary-btn"
-                disabled
-                onclick="startEvidenceUpload()"
-            >
-                🔐 Secure Upload
-            </button>
+            </div>
 
         </div>
 
     </div>
 
-</div>
+    <script src="icons.js"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
