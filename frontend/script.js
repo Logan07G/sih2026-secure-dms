@@ -1,3 +1,65 @@
+/* =====================================================
+   BOOT SEQUENCE   splash  ->  login  ->  interface
+   -----------------------------------------------------
+   1. Splash animation plays            (SPLASH_HOLD_MS)
+   2. Splash fades out and is removed   (SPLASH_FADE_MS)
+   3. ONLY THEN the login card animates in
+   4. Interface fades in after a successful login
+
+   While <body class="booting"> is set, style.css keeps the
+   login card invisible and un-clickable, so it can never
+   show through / merge with the splash.
+   This is the ONLY place that removes the splash.
+   ===================================================== */
+(function bootSequence() {
+
+    const SPLASH_HOLD_MS = 6000;   // how long the splash plays
+    const SPLASH_FADE_MS = 800;    // keep in sync with #splash.fade-out in style.css
+
+    const body   = document.body;
+    const splash = document.getElementById("splash");
+
+    body.classList.add("booting");
+
+    function finishBoot() {
+        if (splash && splash.parentNode) splash.remove();
+        body.classList.remove("booting");          // login card animates in now
+    }
+
+    // No splash, or dev shortcut: index.html?skipSplash=1
+    if (!splash || location.search.includes("skipSplash")) {
+        finishBoot();
+        return;
+    }
+
+    // Rotating status text (unchanged from before)
+    const status   = document.getElementById("splashStatus");
+    const messages = [
+        "Initializing secure environment...",
+        "Loading AES-256 encryption engine...",
+        "Verifying audit ledger chain...",
+        "Establishing secure session...",
+        "Ready."
+    ];
+    let i = 0;
+    const statusTimer = setInterval(() => {
+        i++;
+        if (i < messages.length && status) {
+            status.textContent = messages[i];
+        } else {
+            clearInterval(statusTimer);
+        }
+    }, 1200);
+
+    // Play the splash, fade it out, remove it, then reveal login
+    setTimeout(() => {
+        clearInterval(statusTimer);
+        splash.classList.add("fade-out");
+        setTimeout(finishBoot, SPLASH_FADE_MS + 50);
+    }, SPLASH_HOLD_MS);
+
+})();
+
 const API = window.CASEVAULT_API || "http://localhost:8000";
 
 async function loadDocuments() {
@@ -906,48 +968,6 @@ if (uploadArea) {
 
 }
 
-// =====================================================
-// SPLASH SCREEN
-// =====================================================
-
-(function runSplash() {
-
-    const splash = document.getElementById("splash");
-    if (!splash) return;
-
-    // Allow skipping during dev: index.html?skipSplash=1
-    if (location.search.includes("skipSplash")) {
-        splash.remove();
-        return;
-    }
-
-    const status = document.getElementById("splashStatus");
-
-    const messages = [
-        "Initializing secure environment...",
-        "Loading AES-256 encryption engine...",
-        "Verifying audit ledger chain...",
-        "Establishing secure session...",
-        "Ready."
-    ];
-
-    let i = 0;
-    const statusTimer = setInterval(() => {
-        i++;
-        if (i < messages.length && status) {
-            status.textContent = messages[i];
-        } else {
-            clearInterval(statusTimer);
-        }
-    }, 1200);
-
-    // Fade out after ~6s
-    setTimeout(() => {
-        splash.classList.add("fade-out");
-        setTimeout(() => splash.remove(), 900);
-    }, 6000);
-
-})();
 
 // =====================================================
 // PARTICLE NETWORK BACKGROUND
@@ -1204,20 +1224,4 @@ function filterCases(status, btn) {
 setTimeout(() => {
     if (window.initIcons) window.initIcons();
 }, 6600);
-/* ============================================================
-   EMERGENCY SPLASH KILLER
-   Removes any #splash element from the DOM after 6.5s no matter what.
-   ============================================================ */
-setTimeout(function () {
-    var s = document.getElementById("splash");
-    if (s && s.parentNode) {
-        s.parentNode.removeChild(s);
-        console.log("[CaseVault] splash removed");
-    }
-}, 6500);
 
-/* Also kill it on any nav within 10s just in case */
-window.addEventListener("pageshow", function () {
-    var s = document.getElementById("splash");
-    if (s && s.parentNode) s.parentNode.removeChild(s);
-});
