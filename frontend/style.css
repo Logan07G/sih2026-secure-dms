@@ -3737,3 +3737,146 @@ td { color: var(--text-light); border-bottom: 1px solid var(--border-soft); }
     .case-hero h2 { font-size: 20px; }
     .case-hero-metrics { gap: 20px; }
 }
+/* ============================================================
+   V3.1 — DARK THEME FIX + SPLASH TITLE FIX
+   ============================================================ */
+
+/* ---------- Containers: transparent so body shows through ---------- */
+.app,
+.main-content,
+.page-container,
+.page,
+.dashboard-bottom {
+    background: transparent !important;
+}
+
+/* ---------- Body: solid dark ---------- */
+body {
+    background: #060d1a !important;
+    color: #e2e8f0 !important;
+}
+
+/* ---------- Header: solid + blur ---------- */
+.header {
+    background: rgba(6, 13, 26, 0.9) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(96, 165, 250, 0.1) !important;
+}
+
+/* ---------- Cards: OPAQUE dark so nothing bleeds through ---------- */
+.stat-card,
+.panel,
+.table-panel,
+.settings-panel,
+.large-case-card,
+.document-list,
+.case-overview,
+.evidence-table,
+.timeline-card,
+.author-card,
+.ai-panel,
+.detail-card,
+.security-alert {
+    background: #0d1a2e !important;
+    border: 1px solid rgba(96, 165, 250, 0.12) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+.stat-card:hover,
+.large-case-card:hover,
+.detail-card:hover {
+    background: #122440 !important;
+    border-color: rgba(96, 165, 250, 0.35) !important;
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.45),
+        0 0 30px rgba(37, 99, 235, 0.15) !important;
+}
+
+/* ---------- Stat icons (light → dark) ---------- */
+.stat-icon,
+.stat-icon.blue,
+.stat-icon.purple,
+.stat-icon.orange {
+    background: rgba(59, 130, 246, 0.12) !important;
+    border: 1px solid rgba(96, 165, 250, 0.2);
+    color: #60a5fa !important;
+}
+
+.stat-icon.red,
+.danger-card .stat-icon {
+    background: rgba(220, 38, 38, 0.15) !important;
+    border-color: rgba(220, 38, 38, 0.35);
+    color: #f87171 !important;
+}
+
+/* ---------- File icons in document list ---------- */
+.file-icon,
+.evidence-name .file-icon {
+    background: rgba(59, 130, 246, 0.12) !important;
+    border: 1px solid rgba(96, 165, 250, 0.2);
+    color: #60a5fa;
+}
+
+/* ---------- Document rows ---------- */
+.document-row {
+    border-bottom: 1px solid rgba(96, 165, 250, 0.08) !important;
+}
+
+.document-row:hover {
+    background: rgba(37, 99, 235, 0.06) !important;
+}
+
+/* ---------- Case overview inner blocks ---------- */
+.case-header {
+    border-bottom: 1px solid rgba(96, 165, 250, 0.1) !important;
+}
+
+.document-status {
+    background: rgba(15, 27, 46, 0.6) !important;
+    border: 1px solid rgba(96, 165, 250, 0.1) !important;
+}
+
+/* ---------- Timeline / dividers ---------- */
+.information-list > div {
+    border-bottom: 1px solid rgba(96, 165, 250, 0.08) !important;
+}
+
+.setting-row {
+    border-bottom: 1px solid rgba(96, 165, 250, 0.1) !important;
+}
+
+/* ---------- Scrollbar already themed — nothing to change ---------- */
+
+/* ============================================================
+   SPLASH TITLE FIX — per-span gradients so all letters show
+   ============================================================ */
+
+.splash-title {
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
+    color: #ffffff;
+    padding-left: 0 !important;
+}
+
+.splash-title span {
+    display: inline-block;
+    color: #ffffff;
+    background: linear-gradient(135deg, #ffffff 0%, #93c5fd 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: letterIn 0.5s ease forwards;
+}
+
+.splash-title span.accent {
+    background: linear-gradient(135deg, #60a5fa 0%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
