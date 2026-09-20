@@ -3880,3 +3880,225 @@ body {
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+/* ============================================================
+   V3.2 — SPLASH POSITIONING FIX + LOGIN DARK THEME
+   ============================================================ */
+
+/* ---------- Splash: force full-screen centered overlay ---------- */
+#splash.splash {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 99999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    background: radial-gradient(ellipse at 50% 40%, #0c2146 0%, #050b17 60%, #020617 100%) !important;
+}
+
+#splash .splash-content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    max-width: 90vw;
+}
+
+/* Fade-out leaves nothing behind */
+#splash.splash.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+/* ============================================================
+   LOGIN SCREEN — DARK THEME
+   ============================================================ */
+
+.login-screen {
+    background:
+        radial-gradient(ellipse at 20% 20%, rgba(12, 33, 70, 0.85) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 80%, rgba(6, 182, 212, 0.10) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, #071a33 0%, #020617 100%) !important;
+    min-height: 100vh !important;
+}
+
+/* Keep the animated grid visible */
+.login-screen::before {
+    background-image:
+        linear-gradient(rgba(59, 130, 246, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.06) 1px, transparent 1px) !important;
+    background-size: 50px 50px !important;
+}
+
+/* Card — glassmorphism dark */
+.login-card {
+    background: linear-gradient(135deg,
+        rgba(13, 26, 46, 0.85),
+        rgba(10, 23, 41, 0.9)) !important;
+    border: 1px solid rgba(96, 165, 250, 0.18) !important;
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.6),
+        0 0 60px rgba(37, 99, 235, 0.12),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle glow orb inside the card */
+.login-card::before {
+    content: "";
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.15), transparent 65%);
+    pointer-events: none;
+}
+
+/* Logo box */
+.login-card .logo-box h1 {
+    color: #f1f5f9 !important;
+    letter-spacing: 3px;
+}
+
+.login-card .logo-box h1 span {
+    color: #60a5fa !important;
+}
+
+.login-card .logo-icon {
+    background: linear-gradient(135deg, #2563eb, #06b6d4) !important;
+    box-shadow:
+        0 8px 24px rgba(37, 99, 235, 0.45),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.login-subtitle {
+    color: #64748b !important;
+}
+
+.security-line {
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(96, 165, 250, 0.3),
+        transparent) !important;
+    height: 1px !important;
+}
+
+/* Labels */
+.login-card label {
+    color: #94a3b8 !important;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+/* Inputs */
+.login-card input {
+    background: rgba(2, 6, 23, 0.85) !important;
+    border: 1px solid rgba(96, 165, 250, 0.15) !important;
+    color: #f1f5f9 !important;
+    transition: all 0.25s ease;
+}
+
+.login-card input::placeholder {
+    color: #475569;
+}
+
+.login-card input:focus {
+    border-color: rgba(96, 165, 250, 0.55) !important;
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.15),
+        0 0 24px rgba(37, 99, 235, 0.15) !important;
+    background: rgba(10, 23, 41, 0.95) !important;
+}
+
+/* Login button */
+.login-btn {
+    background: linear-gradient(135deg, #2563eb, #3b82f6, #06b6d4) !important;
+    background-size: 200% 200% !important;
+    animation: btnGradient 4s ease infinite;
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.35) !important;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes btnGradient {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+}
+
+.login-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 14px 40px rgba(37, 99, 235, 0.5) !important;
+}
+
+.login-btn:active {
+    transform: translateY(0) !important;
+}
+
+/* Security footer */
+.login-security {
+    color: #475569 !important;
+}
+
+/* Error box (from honeypot) */
+#loginError {
+    background: rgba(220, 38, 38, 0.1) !important;
+    border: 1px solid rgba(220, 38, 38, 0.35) !important;
+    border-left: 3px solid #dc2626 !important;
+    color: #fca5a5 !important;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+/* Shake animation on honeypot — keep it, but with darker ring */
+.login-shake {
+    border-color: rgba(220, 38, 38, 0.6) !important;
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.6),
+        0 0 60px rgba(220, 38, 38, 0.5) !important;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 550px) {
+    .login-card {
+        padding: 28px 22px !important;
+    }
+    .login-card .logo-box h1 {
+        font-size: 22px !important;
+        letter-spacing: 2px;
+    }
+}
+
+/* ============================================================
+   SAFETY: prevent the login from bleeding through the splash
+   ============================================================ */
+
+#loginScreen {
+    position: relative;
+    z-index: 1;
+}
+
+#splash:not(.fade-out) ~ #loginScreen {
+    opacity: 0;
+    pointer-events: none;
+}
