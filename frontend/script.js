@@ -1432,3 +1432,61 @@ window.addEventListener("keydown", (e) => {
         if (modal && modal.classList.contains("show")) closeAlertModal();
     }
 });
+/* ============================================================
+   ALERT BUTTON DELEGATION
+   Catches clicks on any alert button regardless of the onclick
+   attribute, and calls openAlertModal() directly.
+   ============================================================ */
+
+document.addEventListener("click", function (e) {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+
+    const onclick = btn.getAttribute("onclick") || "";
+    const match = onclick.match(/openAlertModal\(['"]([^'"]+)['"]\)/);
+    if (!match) return;
+
+    const alertId = match[1];
+    console.log("[alert] button clicked → openAlertModal(" + alertId + ")");
+
+    // Try the modal opener — if it fails, log so we see why
+    try {
+        if (typeof openAlertModal === "function") {
+            openAlertModal(alertId);
+        } else {
+            console.error("[alert] openAlertModal is not defined");
+            fallbackOpenAlert(alertId);
+        }
+    } catch (err) {
+        console.error("[alert] openAlertModal threw:", err);
+        fallbackOpenAlert(alertId);
+    }
+
+    // Stop the inline onclick from firing twice
+    e.preventDefault();
+    e.stopPropagation();
+}, true);
+
+
+/* Fallback: if the main function is broken, still show the modal
+   by reading data attributes directly from the alert div */
+function fallbackOpenAlert(alertId) {
+    const el = document.querySelector('[data-alert-id="' + alertId + '"]');
+    const modal = document.getElementById("alertModal");
+    if (!el || !modal) {
+        console.warn("[alert] fallback: missing el or modal");
+        return;
+    }
+
+    const set = (id, v) => { const n = document.getElementById(id); if (n) n.textContent = v; };
+    set("alertSeverity",    (el.dataset.severity === "critical") ? "🚨" : "⚠️");
+    set("alertTitle",       el.dataset.title || "Alert");
+    set("alertDescription", el.dataset.desc  || "");
+    set("alertTime",        el.dataset.time  || "");
+    set("alertId",          alertId);
+    set("alertStatus",      (el.dataset.status || "active").replace(/^\w/, c => c.toUpperCase()));
+    set("alertThreat",      el.dataset.threat || "Elevated");
+
+    modal.classList.add("show");
+    currentAlertId = alertId;
+}
