@@ -1313,85 +1313,75 @@
 
                 </section>
 
-
-                <!-- ALERTS -->
+                <!-- ================================================
+                     SECURITY ALERTS
+                     ================================================ -->
                 <section id="alerts" class="page">
 
                     <div class="page-title">
-
                         <div>
                             <h1>Security Alerts</h1>
-
-                            <p>
-                                Monitor suspicious system activity
-                            </p>
+                            <p>Monitor suspicious system activity</p>
                         </div>
-
-                        <span class="security-badge danger-badge">
-                            ⚠ 4 Active Alerts
-                        </span>
-
+                        <span class="security-badge danger-badge" id="alertCountBadge">⚠ 3 Active Alerts</span>
                     </div>
-
 
                     <div class="alert-list">
 
-                        <div class="security-alert critical">
-                            <div class="alert-icon">🚨</div>
+    <div class="security-alert critical"
+         data-alert-id="ALT-0001"
+         data-status="active"
+         data-severity="critical"
+         data-title="Unauthorized Access Attempt"
+         data-desc="Multiple failed attempts detected on restricted forensic report."
+         data-time="10 minutes ago"
+         data-threat="Critical">
+        <div class="alert-icon">🚨</div>
+        <div>
+            <h3>Unauthorized Access Attempt</h3>
+            <p>Multiple failed attempts detected on restricted forensic report.</p>
+            <small>10 minutes ago</small>
+        </div>
+        <button class="secondary-btn" onclick="openAlertModal('ALT-0001')">Investigate</button>
+    </div>
 
-                            <div>
-                                <h3>Unauthorized Access Attempt</h3>
-                                <p>
-                                    Multiple failed attempts detected
-                                    on restricted forensic report.
-                                </p>
-                                <small>10 minutes ago</small>
-                            </div>
+    <div class="security-alert warning-alert"
+         data-alert-id="ALT-0002"
+         data-status="active"
+         data-severity="warning"
+         data-title="Unusual Login Activity"
+         data-desc="Login detected from an unrecognized device."
+         data-time="42 minutes ago"
+         data-threat="Elevated">
+        <div class="alert-icon">⚠️</div>
+        <div>
+            <h3>Unusual Login Activity</h3>
+            <p>Login detected from an unrecognized device.</p>
+            <small>42 minutes ago</small>
+        </div>
+        <button class="secondary-btn" onclick="openAlertModal('ALT-0002')">Review</button>
+    </div>
 
-                            <button class="secondary-btn">
-                                Investigate
-                            </button>
-                        </div>
+    <div class="security-alert warning-alert"
+         data-alert-id="ALT-0003"
+         data-status="active"
+         data-severity="warning"
+         data-title="Restricted Document Access"
+         data-desc="Restricted evidence was accessed by a user outside their clearance."
+         data-time="1 hour ago"
+         data-threat="Elevated">
+        <div class="alert-icon">🔐</div>
+        <div>
+            <h3>Restricted Document Access</h3>
+            <p>Restricted evidence was accessed by a user outside their clearance.</p>
+            <small>1 hour ago</small>
+        </div>
+        <button class="secondary-btn" onclick="openAlertModal('ALT-0003')">Review</button>
+    </div>
 
-
-                        <div class="security-alert warning-alert">
-                            <div class="alert-icon">⚠️</div>
-
-                            <div>
-                                <h3>Unusual Login Activity</h3>
-                                <p>
-                                    Login detected from an unrecognized
-                                    device.
-                                </p>
-                                <small>42 minutes ago</small>
-                            </div>
-
-                            <button class="secondary-btn">
-                                Review
-                            </button>
-                        </div>
-
-
-                        <div class="security-alert warning-alert">
-                            <div class="alert-icon">🔐</div>
-
-                            <div>
-                                <h3>Restricted Document Access</h3>
-                                <p>
-                                    Restricted evidence was accessed.
-                                </p>
-                                <small>1 hour ago</small>
-                            </div>
-
-                            <button class="secondary-btn">
-                                Review
-                            </button>
-                        </div>
-
-                    </div>
+</div>
 
                 </section>
-
 
                 <!-- AI -->
                 <section id="ai" class="page">
@@ -1988,6 +1978,69 @@
     <script src="icons.js"></script>
     <script src="config.js"></script>
     <script src="script.js"></script>
+
+    <!-- =====================================================
+     ALERT ACTION MODAL
+     ===================================================== -->
+<div id="alertModal" class="alert-modal-overlay">
+    <div class="alert-modal">
+        <button class="alert-modal-close" onclick="closeAlertModal()">×</button>
+
+        <div class="alert-modal-header">
+            <div class="alert-severity" id="alertSeverity">🚨</div>
+            <div>
+                <h2 id="alertTitle">Alert</h2>
+                <p id="alertTime">10 minutes ago</p>
+            </div>
+        </div>
+
+        <div class="alert-modal-body">
+            <p id="alertDescription">Description here.</p>
+
+            <div class="alert-meta">
+                <div>
+                    <span>Alert ID</span>
+                    <strong id="alertId">ALT-0000</strong>
+                </div>
+                <div>
+                    <span>Current Status</span>
+                    <strong id="alertStatus">Active</strong>
+                </div>
+                <div>
+                    <span>Threat Level</span>
+                    <strong id="alertThreat">Critical</strong>
+                </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="alert-actions" id="alertActions">
+                <button class="alert-action-btn investigate" onclick="setAlertStatus('investigating')">
+                    <span class="action-icon">🔍</span>
+                    <div>
+                        <strong>Start Investigation</strong>
+                        <small>Assign to an investigation team</small>
+                    </div>
+                </button>
+
+                <button class="alert-action-btn review" onclick="setAlertStatus('reviewed')">
+                    <span class="action-icon">✓</span>
+                    <div>
+                        <strong>Mark as Reviewed</strong>
+                        <small>Alert is benign — close with note</small>
+                    </div>
+                </button>
+
+                <button class="alert-action-btn escalate" onclick="setAlertStatus('escalated')">
+                    <span class="action-icon">⚠</span>
+                    <div>
+                        <strong>Escalate</strong>
+                        <small>Send to senior security officer</small>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>

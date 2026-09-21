@@ -156,14 +156,13 @@ function isHoneypot(email, password) {
 }
 
 // ================= LOGIN =================
-
 function login() {
     const email    = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
     if (Date.now() < loginLockedUntil) {
         const secs = Math.ceil((loginLockedUntil - Date.now()) / 1000);
-        showLoginError(`⏳ Locked out. Try again in ${secs}s.`);
+        showLoginError("⏳ Locked out. Try again in " + secs + "s.");
         return;
     }
 
@@ -179,51 +178,47 @@ function login() {
 
     clearLoginError();
 
-    const session = {
-        email: email,
-        role: "Administrator",
-        name: "Admin User",
-        loginAt: Date.now(),
-        expiresAt: Date.now() + (30 * 60 * 1000)
-    };
-    localStorage.setItem("casevault_session", JSON.stringify(session));
-    document.documentElement.classList.add("has-session");
+    try {
+        localStorage.setItem("cv_session", JSON.stringify({
+            email: email,
+            name: "Admin User",
+            role: "Administrator",
+            expiresAt: Date.now() + (30 * 60 * 1000)
+        }));
+    } catch (_) {}
 
-    enterApp(session);
-}
-
-
-// ================= ENTER APP (shared) =================
-
-function enterApp(session) {
-    const loginEl  = document.getElementById("loginScreen");
-    const appEl    = document.getElementById("app");
-    const splashEl = document.getElementById("splash");
-
-    if (loginEl)  loginEl.classList.add("hidden");
-    if (appEl)    appEl.classList.remove("hidden");
-    if (splashEl && splashEl.parentNode) splashEl.parentNode.removeChild(splashEl);
-
-    const nameEl = document.querySelector(".profile strong");
-    const roleEl = document.querySelector(".profile small");
-    if (nameEl) nameEl.textContent = session.name;
-    if (roleEl) roleEl.textContent = session.role;
-
-    startCounters();
-    if (typeof loadDocuments === "function") setTimeout(loadDocuments, 100);
+    showApp();
 }
 
 
 // ================= LOGOUT =================
-
 function logout() {
-    localStorage.removeItem("casevault_session");
-    document.documentElement.classList.remove("has-session");
+    try { localStorage.removeItem("cv_session"); } catch (_) {}
+    hideApp();
+}
 
-    const appEl   = document.getElementById("app");
+
+// ================= VIEW SWITCHING =================
+function showApp() {
     const loginEl = document.getElementById("loginScreen");
-    if (appEl)   appEl.classList.add("hidden");
+    const appEl   = document.getElementById("app");
+    const splash  = document.getElementById("splash");
+
+    if (loginEl) loginEl.classList.add("hidden");
+    if (appEl)   appEl.classList.remove("hidden");
+    if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
+
+    if (typeof startCounters === "function") startCounters();
+    if (typeof loadDocuments === "function") setTimeout(loadDocuments, 100);
+}
+
+
+function hideApp() {
+    const loginEl = document.getElementById("loginScreen");
+    const appEl   = document.getElementById("app");
+
     if (loginEl) loginEl.classList.remove("hidden");
+    if (appEl)   appEl.classList.add("hidden");
 
     const emailEl = document.getElementById("email");
     const passEl  = document.getElementById("password");
@@ -232,32 +227,20 @@ function logout() {
 }
 
 
-// ================= SESSION CHECK =================
-
-window.addEventListener("DOMContentLoaded", () => {
-    const raw = localStorage.getItem("casevault_session");
-    if (!raw) return;
+// ================= SESSION CHECK ON LOAD =================
+window.addEventListener("load", function () {
     try {
+        const raw = localStorage.getItem("cv_session");
+        if (!raw) return;
         const s = JSON.parse(raw);
-        if (!s.expiresAt || Date.now() > s.expiresAt) {
-            localStorage.removeItem("casevault_session");
-            document.documentElement.classList.remove("has-session");
+        if (!s || !s.expiresAt || Date.now() > s.expiresAt) {
+            localStorage.removeItem("cv_session");
             return;
         }
-        enterApp(s);
-    } catch (_) {}
-});
-
-["click", "keydown", "mousemove"].forEach(evt => {
-    window.addEventListener(evt, () => {
-        const raw = localStorage.getItem("casevault_session");
-        if (!raw) return;
-        try {
-            const s = JSON.parse(raw);
-            s.expiresAt = Date.now() + (30 * 60 * 1000);
-            localStorage.setItem("casevault_session", JSON.stringify(s));
-        } catch (_) {}
-    }, { passive: true });
+        showApp();
+    } catch (_) {
+        localStorage.removeItem("cv_session");
+    }
 });
 
 
@@ -1321,3 +1304,131 @@ setTimeout(() => {
     if (window.initIcons) window.initIcons();
 }, 6600);
 
+// =====================================================
+// ALERT ACTIONS — Investigate / Review / Escalate
+// =====================================================
+
+let currentAlertId = null;
+
+function openAlertModal(alertId) {
+    const el = document.querySelector(`[data-alert-id="${alertId}"]`);
+    if (!el) return;
+
+    currentAlertId = alertId;
+
+    const severity  = el.dataset.severity || "warning";
+    const status    = el.dataset.status   || "active";
+    const title     = el.dataset.title    || "Alert";
+    const desc      = el.dataset.desc     || "";
+    const time      = el.dataset.time     || "";
+    const threat    = el.dataset.threat   || "Elevated";
+
+    document.getElementById("alertSeverity").textContent    = severity === "critical" ? "🚨" : "⚠️";
+    document.getElementById("alertTitle").textContent       = title;
+    document.getElementById("alertDescription").textContent = desc;
+    document.getElementById("alertTime").textContent        = time;
+    document.getElementById("alertId").textContent          = alertId;
+    document.getElementById("alertStatus").textContent      = capitalize(status);
+    document.getElementById("alertThreat").textContent      = threat;
+
+    document.getElementById("alertModal").classList.add("show");
+}
+
+function closeAlertModal() {
+    document.getElementById("alertModal").classList.remove("show");
+    currentAlertId = null;
+}
+
+function setAlertStatus(newStatus) {
+    if (!currentAlertId) return;
+
+    const el = document.querySelector(`[data-alert-id="${currentAlertId}"]`);
+    if (!el) return;
+
+    el.dataset.status = newStatus;
+
+    // Update the badge shown next to the alert title
+    let badge = el.querySelector(".alert-status-badge");
+    if (!badge) {
+        badge = document.createElement("span");
+        badge.className = "alert-status-badge";
+        el.querySelector("div:nth-child(2)").appendChild(badge);
+    }
+    badge.className = "alert-status-badge " + newStatus;
+    badge.textContent = capitalize(newStatus);
+
+    // Disable the button after action
+    const btn = el.querySelector("button");
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = capitalize(newStatus);
+        btn.classList.add("done");
+    }
+
+    // Reduce sidebar count (only if this was a fresh action)
+    decrementAlertCount();
+
+    // Log to audit ledger
+    if (typeof logLedger === "function") {
+        logLedger(`ALERT_${newStatus.toUpperCase()}`, currentAlertId, newStatus === "reviewed" ? "ALLOW" : "BLOCKED");
+    }
+    if (typeof renderLedger === "function") renderLedger();
+
+    // Show toast
+    showAlertToast(`Alert ${currentAlertId} — ${capitalize(newStatus)}`);
+
+    // Close modal after a beat
+    setTimeout(closeAlertModal, 700);
+}
+
+
+function decrementAlertCount() {
+    // Sidebar count
+    const counter = document.querySelector(".nav-item .alert-count");
+    if (counter) {
+        const n = parseInt(counter.textContent, 10) || 0;
+        const next = Math.max(0, n - 1);
+        counter.textContent = next;
+        if (next === 0) counter.style.display = "none";
+    }
+
+    // Page badge (new)
+    const badge = document.getElementById("alertCountBadge");
+    if (badge) {
+        const n = parseInt(badge.textContent.replace(/\D/g, ""), 10) || 0;
+        const next = Math.max(0, n - 1);
+        badge.textContent = `⚠ ${next} Active Alert${next === 1 ? "" : "s"}`;
+        if (next === 0) badge.textContent = "✓ All Clear";
+    }
+}
+
+function capitalize(s) {
+    return String(s).charAt(0).toUpperCase() + String(s).slice(1);
+}
+
+function showAlertToast(msg) {
+    let t = document.getElementById("alertToast");
+    if (!t) {
+        t = document.createElement("div");
+        t.id = "alertToast";
+        document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(() => t.classList.remove("show"), 2400);
+}
+
+// Close modal on backdrop click
+window.addEventListener("click", (e) => {
+    const modal = document.getElementById("alertModal");
+    if (modal && e.target === modal) closeAlertModal();
+});
+
+// Close on Escape
+window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        const modal = document.getElementById("alertModal");
+        if (modal && modal.classList.contains("show")) closeAlertModal();
+    }
+});
