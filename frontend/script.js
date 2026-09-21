@@ -158,11 +158,9 @@ function isHoneypot(email, password) {
 // ================= LOGIN =================
 
 function login() {
-
     const email    = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    // Block if still in lockout
     if (Date.now() < loginLockedUntil) {
         const secs = Math.ceil((loginLockedUntil - Date.now()) / 1000);
         showLoginError(`⏳ Locked out. Try again in ${secs}s.`);
@@ -174,19 +172,93 @@ function login() {
         return;
     }
 
-    // ---- HONEYPOT CHECK ----
     if (isHoneypot(email, password)) {
         triggerHoneypot(email);
         return;
     }
 
-    // Normal login (existing behavior)
     clearLoginError();
 
-    document.getElementById("loginScreen").classList.add("hidden");
-    document.getElementById("app").classList.remove("hidden");
-    startCounters();
+    const session = {
+        email: email,
+        role: "Administrator",
+        name: "Admin User",
+        loginAt: Date.now(),
+        expiresAt: Date.now() + (30 * 60 * 1000)
+    };
+    localStorage.setItem("casevault_session", JSON.stringify(session));
+    document.documentElement.classList.add("has-session");
+
+    enterApp(session);
 }
+
+
+// ================= ENTER APP (shared) =================
+
+function enterApp(session) {
+    const loginEl  = document.getElementById("loginScreen");
+    const appEl    = document.getElementById("app");
+    const splashEl = document.getElementById("splash");
+
+    if (loginEl)  loginEl.classList.add("hidden");
+    if (appEl)    appEl.classList.remove("hidden");
+    if (splashEl && splashEl.parentNode) splashEl.parentNode.removeChild(splashEl);
+
+    const nameEl = document.querySelector(".profile strong");
+    const roleEl = document.querySelector(".profile small");
+    if (nameEl) nameEl.textContent = session.name;
+    if (roleEl) roleEl.textContent = session.role;
+
+    startCounters();
+    if (typeof loadDocuments === "function") setTimeout(loadDocuments, 100);
+}
+
+
+// ================= LOGOUT =================
+
+function logout() {
+    localStorage.removeItem("casevault_session");
+    document.documentElement.classList.remove("has-session");
+
+    const appEl   = document.getElementById("app");
+    const loginEl = document.getElementById("loginScreen");
+    if (appEl)   appEl.classList.add("hidden");
+    if (loginEl) loginEl.classList.remove("hidden");
+
+    const emailEl = document.getElementById("email");
+    const passEl  = document.getElementById("password");
+    if (emailEl) emailEl.value = "";
+    if (passEl)  passEl.value  = "";
+}
+
+
+// ================= SESSION CHECK =================
+
+window.addEventListener("DOMContentLoaded", () => {
+    const raw = localStorage.getItem("casevault_session");
+    if (!raw) return;
+    try {
+        const s = JSON.parse(raw);
+        if (!s.expiresAt || Date.now() > s.expiresAt) {
+            localStorage.removeItem("casevault_session");
+            document.documentElement.classList.remove("has-session");
+            return;
+        }
+        enterApp(s);
+    } catch (_) {}
+});
+
+["click", "keydown", "mousemove"].forEach(evt => {
+    window.addEventListener(evt, () => {
+        const raw = localStorage.getItem("casevault_session");
+        if (!raw) return;
+        try {
+            const s = JSON.parse(raw);
+            s.expiresAt = Date.now() + (30 * 60 * 1000);
+            localStorage.setItem("casevault_session", JSON.stringify(s));
+        } catch (_) {}
+    }, { passive: true });
+});
 
 
 // =====================================================
@@ -254,19 +326,43 @@ function clearLoginError() {
     const box = document.getElementById("loginError");
     if (box) box.style.display = "none";
 }
+// ================= SESSION CHECK ON LOAD =================
 
+function checkSession() {
+    const raw = localStorage.getItem("casevault_session");
+    if (!raw) return false;
 
-// ================= LOGOUT =================
-
-function logout() {
-
-    document.getElementById("app").classList.add("hidden");
-
-    document.getElementById("loginScreen").classList.remove("hidden");
-
+    try {
+        const session = JSON.parse(raw);
+        if (!session.expiresAt || Date.now() > session.expiresAt) {
+            localStorage.removeItem("casevault_session");
+            return false;
+        }
+        enterApp(session);
+        return true;
+    } catch (e) {
+        localStorage.removeItem("casevault_session");
+        return false;
+    }
 }
 
+// Run on page load — if a session exists, skip login
+window.addEventListener("DOMContentLoaded", () => {
+    checkSession();
+});
 
+// Refresh expiry on any activity
+["click", "keydown", "mousemove"].forEach(evt => {
+    window.addEventListener(evt, () => {
+        const raw = localStorage.getItem("casevault_session");
+        if (!raw) return;
+        try {
+            const s = JSON.parse(raw);
+            s.expiresAt = Date.now() + (30 * 60 * 1000);
+            localStorage.setItem("casevault_session", JSON.stringify(s));
+        } catch (_) {}
+    }, { passive: true });
+});
 // ================= PAGE NAVIGATION =================
 
 function showPage(pageId, button) {
