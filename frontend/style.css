@@ -6065,3 +6065,48 @@ html body .upload-modal .nlp-fir-row input:focus {
 @media (max-width: 550px) {
     html body .nlp-results .nlp-grid { grid-template-columns: 1fr !important; }
 }
+
+/* ============================================================
+   AUDIT BADGE — security event notification pill
+   ============================================================ */
+
+.audit-badge {
+    margin-left: auto;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    background: linear-gradient(135deg, #dc2626, #ef4444);
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.55);
+    letter-spacing: 0.2px;
+    line-height: 1;
+}
+
+.audit-badge.pulse {
+    animation: auditBadgePulse 1.2s ease-out;
+}
+
+@keyframes auditBadgePulse {
+    0%   { transform: scale(1);   box-shadow: 0 0 12px rgba(239, 68, 68, 0.55); }
+    30%  { transform: scale(1.35); box-shadow: 0 0 24px rgba(239, 68, 68, 0.9); }
+    60%  { transform: scale(1);   box-shadow: 0 0 12px rgba(239, 68, 68, 0.55); }
+    80%  { transform: scale(1.15); box-shadow: 0 0 20px rgba(239, 68, 68, 0.75); }
+    100% { transform: scale(1);   box-shadow: 0 0 12px rgba(239, 68, 68, 0.55); }
+}
+
+/* When sidebar is collapsed, badge sits over the icon */
+body.sidebar-collapsed .audit-badge {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    margin-left: 0;
+    min-width: 16px;
+    height: 16px;
+    font-size: 9px;
+    padding: 0 4px;
+}

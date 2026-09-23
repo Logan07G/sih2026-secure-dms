@@ -1742,3 +1742,79 @@ document.addEventListener("change", function (e) {
         if (row) row.classList.remove("hidden");
     };
 })();
+
+/* =====================================================
+   AUDIT BADGE — unread security events indicator
+   ===================================================== */
+
+const SECURITY_EVENT_KEYWORDS = [
+    "HONEYPOT",
+    "BLOCKED",
+    "TAMPER",
+    "DENIED",
+    "UNAUTHORIZED",
+    "ESCALATED",
+];
+
+function isSecurityEvent(action, status) {
+    const a = String(action || "").toUpperCase();
+    const s = String(status || "").toUpperCase();
+    if (s === "BLOCKED") return true;
+    return SECURITY_EVENT_KEYWORDS.some(kw => a.includes(kw));
+}
+
+function bumpAuditBadge() {
+    const badge = document.getElementById("auditBadge");
+    if (!badge) return;
+    const current = parseInt(badge.textContent, 10) || 0;
+    const next = current + 1;
+    badge.textContent = next;
+    badge.style.display = "";
+    badge.classList.remove("pulse");
+    void badge.offsetWidth;  // force reflow to restart animation
+    badge.classList.add("pulse");
+}
+
+function clearAuditBadge() {
+    const badge = document.getElementById("auditBadge");
+    if (!badge) return;
+    badge.textContent = "0";
+    badge.style.display = "none";
+    badge.classList.remove("pulse");
+}
+
+// Wrap logLedger so security events bump the badge automatically
+(function () {
+    const _orig = window.logLedger;
+    if (typeof _orig !== "function") return;
+    window.logLedger = async function (action, resource, status) {
+        await _orig(action, resource, status);
+        if (isSecurityEvent(action, status)) {
+            bumpAuditBadge();
+        }
+    };
+})();
+
+// Wrap showPage so opening the Audit page clears the badge
+(function () {
+    const _orig = window.showPage;
+    if (typeof _orig !== "function") return;
+    window.showPage = function (pageId, button) {
+        _orig(pageId, button);
+        if (pageId === "audit") {
+            clearAuditBadge();
+        }
+    };
+})();
+
+// Also handle showPageByName (used by some internal buttons)
+(function () {
+    const _orig = window.showPageByName;
+    if (typeof _orig !== "function") return;
+    window.showPageByName = function (pageId) {
+        _orig(pageId);
+        if (pageId === "audit") {
+            clearAuditBadge();
+        }
+    };
+})();
