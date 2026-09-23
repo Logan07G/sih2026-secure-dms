@@ -5832,3 +5832,93 @@ body,
     .page-title h1 { font-size: 18px !important; }
     .stat-card h2  { font-size: 20px !important; }
 }
+
+/* ============================================================
+   NLP PANEL — theme-aware colors
+   ============================================================ */
+
+:root {
+    --nlp-bg:        rgba(13, 26, 46, 0.92);
+    --nlp-border:    rgba(96, 165, 250, 0.2);
+    --nlp-header:    #93c5fd;
+    --nlp-label:     #64748b;
+    --nlp-value:     #e2e8f0;
+    --nlp-accent:    #60a5fa;
+    --nlp-summary-bg: rgba(2, 6, 23, 0.55);
+    --nlp-summary-text: #cbd5e1;
+}
+
+html[data-theme="light"] {
+    --nlp-bg:        #f8fafc;
+    --nlp-border:    #e2e8f0;
+    --nlp-header:    #1e40af;
+    --nlp-label:     #64748b;
+    --nlp-value:     #0f172a;
+    --nlp-accent:    #2563eb;
+    --nlp-summary-bg: #eff6ff;
+    --nlp-summary-text: #1e293b;
+}
+
+.nlp-results {
+    background: var(--nlp-bg) !important;
+    border-color: var(--nlp-border) !important;
+}
+
+.nlp-header {
+    color: var(--nlp-header) !important;
+    border-bottom-color: var(--nlp-border) !important;
+}
+
+.nlp-header svg {
+    stroke: var(--nlp-header) !important;
+}
+
+.nlp-grid span {
+    color: var(--nlp-label) !important;
+}
+
+.nlp-grid strong {
+    color: var(--nlp-value) !important;
+}
+
+.nlp-grid small {
+    color: var(--nlp-accent) !important;
+}
+
+.nlp-summary {
+    background: var(--nlp-summary-bg) !important;
+    border-left-color: var(--nlp-accent) !important;
+}
+
+.nlp-summary span {
+    color: var(--nlp-accent) !important;
+}
+
+.nlp-summary p {
+    color: var(--nlp-summary-text) !important;
+}
+
+.nlp-empty {
+    color: var(--nlp-label) !important;
+}
+
+.nlp-badge.high         { background: rgba(220, 38, 38, 0.15) !important; color: #fca5a5 !important; }
+.nlp-badge.medium       { background: rgba(245, 158, 11, 0.15) !important; color: #fcd34d !important; }
+.nlp-badge.low          { background: rgba(34, 197, 94, 0.12)  !important; color: #4ade80 !important; }
+.nlp-badge.unclassified { background: rgba(100, 116, 139, 0.15) !important; color: #94a3b8 !important; }
+
+html[data-theme="light"] .nlp-badge.high         { background: #fee2e2 !important; color: #b91c1c !important; }
+html[data-theme="light"] .nlp-badge.medium       { background: #fef3c7 !important; color: #b45309 !important; }
+html[data-theme="light"] .nlp-badge.low          { background: #dcfce7 !important; color: #15803d !important; }
+html[data-theme="light"] .nlp-badge.unclassified { background: #e2e8f0 !important; color: #475569 !important; }
+
+/* NLP FIR number field */
+.nlp-fir-row label {
+    color: var(--nlp-label) !important;
+}
+
+.nlp-fir-row input {
+    background: var(--nlp-bg) !important;
+    border-color: var(--nlp-border) !important;
+    color: var(--nlp-value) !important;
+}

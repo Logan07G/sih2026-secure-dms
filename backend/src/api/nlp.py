@@ -159,10 +159,30 @@ def extract_parties(text: str) -> List[str]:
     return list(dict.fromkeys(found))[:8]
 
 
+def _looks_like_garbage(s: str) -> bool:
+    """True if a string looks like binary/compressed data rather than prose."""
+    if not s or len(s) < 15:
+        return True
+    # Fraction of non-printable / unusual chars
+    odd = sum(1 for c in s if not c.isalnum() and c not in " .,;:!?-'\"()[]/&%\n\t")
+    if odd / max(len(s), 1) > 0.25:
+        return True
+    # Very few real letters
+    letters = sum(1 for c in s if c.isalpha())
+    if letters / max(len(s), 1) < 0.4:
+        return True
+    # Common PDF garbage markers
+    for marker in ("/Filter", "/FlateDecode", "%PDF", "obj <<", "endobj", "stream"):
+        if marker in s:
+            return True
+    return False
+
+
 def summarize(text: str, top_n: int = 3) -> str:
     sentences = re.split(r"(?<=[.!?])\s+", text.strip())
+    sentences = [s for s in sentences if not _looks_like_garbage(s)]
     if not sentences:
-        return ""
+        return "No readable text content found — this appears to be a scanned or binary document."
 
     def score(s: str) -> int:
         return sum(1 for kw in SUMMARY_KEYWORDS if kw in s.lower())
