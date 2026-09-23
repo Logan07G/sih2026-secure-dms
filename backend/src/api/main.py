@@ -2,6 +2,7 @@
 CaseVault API — FastAPI backend for the Secure DMS.
 Wires the crypto modules, the DB, and the endpoints together.
 """
+from backend.src.api.nlp import analyze_text
 from datetime import date
 from pathlib import Path
 import hashlib
@@ -22,6 +23,30 @@ app = FastAPI(
     description="Secure Digital Document Management (SIH26190)",
     version="1.0.0",
 )
+
+@app.post("/api/nlp/analyze")
+async def api_nlp_analyze(file: UploadFile = File(...)):
+    """
+    Rule-based document analyzer (Phase 1 prototype for InLegalBERT).
+    Extracts type, sections, dates, names, case numbers, summary, risk.
+    """
+    contents = await file.read()
+    # Try utf-8 first; fall back to latin-1 to avoid crashes on scanned PDFs
+    try:
+        text = contents.decode("utf-8", errors="ignore")
+    except Exception:
+        text = contents.decode("latin-1", errors="ignore")
+
+    # If it's a real PDF, the bytes will be binary; extract what we can
+    if text.count("\x00") > 100:
+        # Looks binary — do a crude text scrape from PDF strings
+        import re as _re
+        strings = _re.findall(rb"[A-Za-z][A-Za-z0-9 ,.\-/]{6,}", contents)
+        text = " ".join(s.decode("latin-1", errors="ignore") for s in strings[:400])
+
+    result = analyze_text(text)
+    result["filename"] = file.filename
+    return result
 
 app.add_middleware(
     CORSMiddleware,
