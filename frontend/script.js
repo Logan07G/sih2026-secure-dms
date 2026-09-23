@@ -1582,3 +1582,63 @@ window.addEventListener("load", function () {
         else el.value = s[key];
     });
 });
+
+/* =====================================================
+   LOGIN HELPERS — restored
+   (cleared out during an earlier surgical edit)
+   ===================================================== */
+
+function showLoginError(message, severe) {
+    let box = document.getElementById("loginError");
+    if (!box) {
+        box = document.createElement("div");
+        box.id = "loginError";
+        const card = document.querySelector(".login-card");
+        const btn  = document.querySelector(".login-btn");
+        if (card && btn) card.insertBefore(box, btn);
+        else if (card) card.appendChild(box);
+    }
+    box.classList.toggle("severe", !!severe);
+    box.innerText = message;
+    box.style.display = "block";
+}
+
+
+function clearLoginError() {
+    const box = document.getElementById("loginError");
+    if (box) box.style.display = "none";
+}
+
+
+function triggerHoneypot(email) {
+    const card = document.querySelector(".login-card");
+    if (card) card.classList.add("login-shake");
+
+    if (typeof logLedger === "function") {
+        logLedger("HONEYPOT_ATTEMPT", email, "BLOCKED");
+    }
+
+    showLoginError(
+        "\ud83d\udea8 UNAUTHORIZED ACCESS ATTEMPT DETECTED\n" +
+        "This credential has been flagged as a known attacker pattern.\n" +
+        "Your IP and device fingerprint have been recorded.\n" +
+        "Attempt reported to the Security Operations Center.",
+        true
+    );
+
+    const btn = document.querySelector(".login-btn");
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = "<span>\ud83d\udeab</span> ACCESS DENIED";
+    }
+
+    loginLockedUntil = Date.now() + 5000;
+
+    setTimeout(function () {
+        if (card) card.classList.remove("login-shake");
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = "<span>\ud83d\udd10</span> Secure Login";
+        }
+    }, 5000);
+}
