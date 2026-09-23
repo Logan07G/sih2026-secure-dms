@@ -437,13 +437,17 @@ function uploadEvidence() {
 // ================= NOTIFICATIONS =================
 
 function showNotifications() {
-
+    if (typeof syncAlertCounts === "function") syncAlertCounts();
+    const n = window.__activeAlertCount || 0;
+    if (n === 0) {
+        alert("Security Notifications\n\n✓ All clear. No active alerts.");
+        return;
+    }
     alert(
         "Security Notifications\n\n" +
-        "🚨 4 security alerts require attention.\n\n" +
-        "⚠ Unauthorized access attempt detected."
+        "⚠ " + n + " security alert" + (n === 1 ? "" : "s") + " require attention.\n\n" +
+        "Open the Security Alerts page to review."
     );
-
 }
 
 
@@ -1299,23 +1303,7 @@ function setAlertStatus(newStatus) {
 
 
 function decrementAlertCount() {
-    // Sidebar count
-    const counter = document.querySelector(".nav-item .alert-count");
-    if (counter) {
-        const n = parseInt(counter.textContent, 10) || 0;
-        const next = Math.max(0, n - 1);
-        counter.textContent = next;
-        if (next === 0) counter.style.display = "none";
-    }
-
-    // Page badge (new)
-    const badge = document.getElementById("alertCountBadge");
-    if (badge) {
-        const n = parseInt(badge.textContent.replace(/\D/g, ""), 10) || 0;
-        const next = Math.max(0, n - 1);
-        badge.textContent = `⚠ ${next} Active Alert${next === 1 ? "" : "s"}`;
-        if (next === 0) badge.textContent = "✓ All Clear";
-    }
+    if (typeof syncAlertCounts === "function") syncAlertCounts();
 }
 
 function capitalize(s) {
@@ -1406,3 +1394,47 @@ function fallbackOpenAlert(alertId) {
     modal.classList.add("show");
     currentAlertId = alertId;
 }
+
+
+/* ============================================================
+   ALERT COUNT SYNC — derive every count from the real DOM
+   ============================================================ */
+
+function syncAlertCounts() {
+    const alerts = document.querySelectorAll(".security-alert[data-alert-id]");
+    let active = 0;
+    alerts.forEach(function (el) {
+        const st = (el.dataset.status || "active").toLowerCase();
+        if (st === "active") active++;
+    });
+
+    // Sidebar badge
+    const sidebar = document.querySelector(".nav-item .alert-count");
+    if (sidebar) {
+        sidebar.textContent = active;
+        sidebar.style.display = active > 0 ? "" : "none";
+    }
+
+    // Page badge
+    const badge = document.getElementById("alertCountBadge");
+    if (badge) {
+        badge.textContent = active === 0
+            ? "✓ All Clear"
+            : "⚠ " + active + " Active Alert" + (active === 1 ? "" : "s");
+    }
+
+    // Bell red dot
+    const dot = document.querySelector(".notification-btn span");
+    if (dot) dot.style.display = active > 0 ? "" : "none";
+
+    window.__activeAlertCount = active;
+}
+
+window.addEventListener("load", syncAlertCounts);
+
+// Wrap setAlertStatus so it re-syncs after any action
+var _origSetAlertStatus = window.setAlertStatus;
+window.setAlertStatus = function (s) {
+    if (typeof _origSetAlertStatus === "function") _origSetAlertStatus(s);
+    setTimeout(syncAlertCounts, 50);
+};
