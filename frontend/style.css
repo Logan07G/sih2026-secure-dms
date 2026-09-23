@@ -4807,3 +4807,401 @@ body.booting #loginScreen .login-card {
     animation: appEnter 0.6s ease both;
 }
 
+
+/* ============================================================
+   ALERT ACTION MODAL
+   ============================================================ */
+
+.alert-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.alert-modal-overlay.show { display: flex; animation: fadeIn 0.2s ease; }
+
+.alert-modal {
+    width: 520px;
+    max-width: 100%;
+    background: linear-gradient(135deg, #0d1a2e, #0a1729);
+    border: 1px solid rgba(96, 165, 250, 0.18);
+    border-radius: 18px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6),
+                0 0 60px rgba(37, 99, 235, 0.15);
+    position: relative;
+    overflow: hidden;
+    animation: modalIn 0.35s ease;
+}
+
+.alert-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: rgba(15, 27, 46, 0.8);
+    color: #64748b;
+    font-size: 22px;
+    display: grid;
+    place-items: center;
+    z-index: 2;
+    transition: background 0.2s, color 0.2s;
+}
+
+.alert-modal-close:hover { background: rgba(220, 38, 38, 0.2); color: #fca5a5; }
+
+.alert-modal-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 26px 26px 18px;
+    border-bottom: 1px solid rgba(96, 165, 250, 0.1);
+}
+
+.alert-severity {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.15), rgba(245, 158, 11, 0.1));
+    border: 1px solid rgba(220, 38, 38, 0.25);
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.alert-modal-header h2 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #f1f5f9;
+    margin-bottom: 4px;
+    letter-spacing: -0.2px;
+}
+
+.alert-modal-header p {
+    font-size: 11px;
+    color: #64748b;
+    letter-spacing: 0.3px;
+}
+
+.alert-modal-body { padding: 20px 26px 26px; }
+
+#alertDescription {
+    font-size: 13px;
+    color: #cbd5e1;
+    line-height: 1.6;
+    margin-bottom: 22px;
+}
+
+.alert-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 22px;
+    padding: 14px;
+    background: rgba(2, 6, 23, 0.6);
+    border: 1px solid rgba(96, 165, 250, 0.08);
+    border-radius: 12px;
+}
+
+.alert-meta > div { display: flex; flex-direction: column; gap: 5px; }
+
+.alert-meta span {
+    color: #475569;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.alert-meta strong {
+    color: #93c5fd;
+    font-size: 12px;
+    font-family: "SF Mono", Menlo, monospace;
+}
+
+.alert-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.alert-action-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: rgba(15, 27, 46, 0.6);
+    border: 1px solid rgba(96, 165, 250, 0.12);
+    border-radius: 12px;
+    color: #cbd5e1;
+    text-align: left;
+    transition: all 0.22s ease;
+}
+
+.alert-action-btn:hover {
+    transform: translateX(4px);
+    border-color: rgba(96, 165, 250, 0.35);
+    background: rgba(37, 99, 235, 0.1);
+}
+
+.alert-action-btn .action-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+    font-size: 17px;
+    flex-shrink: 0;
+    background: rgba(59, 130, 246, 0.12);
+    border: 1px solid rgba(96, 165, 250, 0.2);
+}
+
+.alert-action-btn.investigate:hover .action-icon { background: rgba(37, 99, 235, 0.25); }
+.alert-action-btn.review:hover      .action-icon { background: rgba(34, 197, 94, 0.2); border-color: rgba(34, 197, 94, 0.35); }
+.alert-action-btn.escalate:hover    .action-icon { background: rgba(220, 38, 38, 0.2); border-color: rgba(220, 38, 38, 0.35); }
+
+.alert-action-btn div { display: flex; flex-direction: column; gap: 3px; }
+.alert-action-btn strong { font-size: 13px; color: #e2e8f0; font-weight: 600; }
+.alert-action-btn small  { font-size: 10px; color: #64748b; }
+
+/* Status badge on alert row */
+.alert-status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-top: 8px;
+}
+
+.alert-status-badge.investigating { background: rgba(37, 99, 235, 0.15); color: #60a5fa; border: 1px solid rgba(37, 99, 235, 0.3); }
+.alert-status-badge.reviewed      { background: rgba(34, 197, 94, 0.12); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+.alert-status-badge.escalated     { background: rgba(220, 38, 38, 0.15); color: #fca5a5; border: 1px solid rgba(220, 38, 38, 0.35); }
+
+.secondary-btn.done { opacity: 0.55; cursor: default; }
+
+/* Toast */
+#alertToast {
+    position: fixed;
+    bottom: 60px;
+    right: 30px;
+    padding: 14px 22px;
+    background: linear-gradient(135deg, #0d1a2e, #0a1729);
+    border: 1px solid rgba(96, 165, 250, 0.3);
+    border-left: 3px solid #3b82f6;
+    border-radius: 12px;
+    color: #e2e8f0;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(37, 99, 235, 0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    z-index: 9999;
+    max-width: 340px;
+}
+
+#alertToast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 550px) {
+    .alert-meta { grid-template-columns: 1fr; }
+    .alert-modal-header { padding: 22px 20px 14px; }
+    .alert-modal-body   { padding: 16px 20px 22px; }
+}
+
+/* ============================================================
+   PAGE VISIBILITY — only .active-page should render
+   ============================================================ */
+
+.page {
+    display: none !important;
+}
+
+.page.active-page {
+    display: block !important;
+}
+
+/* Ensure alerts / audit / documents all obey this */
+#audit,
+#alerts,
+#documents,
+#cases,
+#dashboard,
+#custody,
+#ai,
+#settings,
+#author,
+#caseDetails {
+    display: none !important;
+}
+
+#audit.active-page,
+#alerts.active-page,
+#documents.active-page,
+#cases.active-page,
+#dashboard.active-page,
+#custody.active-page,
+#ai.active-page,
+#settings.active-page,
+#author.active-page,
+#caseDetails.active-page {
+    display: block !important;
+}
+
+/* ============================================================
+   PAGE VISIBILITY — only .active-page should render
+   ============================================================ */
+
+.page {
+    display: none !important;
+}
+
+.page.active-page {
+    display: block !important;
+}
+
+/* Ensure alerts / audit / documents all obey this */
+#audit,
+#alerts,
+#documents,
+#cases,
+#dashboard,
+#custody,
+#ai,
+#settings,
+#author,
+#caseDetails {
+    display: none !important;
+}
+
+#audit.active-page,
+#alerts.active-page,
+#documents.active-page,
+#cases.active-page,
+#dashboard.active-page,
+#custody.active-page,
+#ai.active-page,
+#settings.active-page,
+#author.active-page,
+#caseDetails.active-page {
+    display: block !important;
+}
+
+/* ============================================================
+   PAGE VISIBILITY — hard force
+   ============================================================ */
+
+.page                          { display: none !important; }
+.page.active-page              { display: block !important; }
+#dashboard,
+#cases,
+#caseDetails,
+#documents,
+#custody,
+#audit,
+#alerts,
+#ai,
+#settings,
+#author                        { display: none !important; }
+#dashboard.active-page,
+#cases.active-page,
+#caseDetails.active-page,
+#documents.active-page,
+#custody.active-page,
+#audit.active-page,
+#alerts.active-page,
+#ai.active-page,
+#settings.active-page,
+#author.active-page            { display: block !important; }
+
+/* ============================================================
+   HARD HIDE — force-hide app + ticker when hidden
+   ============================================================ */
+
+html body #app.hidden,
+html body .app.hidden {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    left: -99999px !important;
+}
+
+/* Also kill the ticker independently — it's position:fixed and
+   sometimes escapes parent display:none on some browsers */
+html body .security-ticker {
+    display: none !important;
+}
+
+/* Show the ticker ONLY when app is visible */
+html body #app:not(.hidden) .security-ticker {
+    display: flex !important;
+    position: fixed;
+    bottom: 0;
+    left: 255px;
+    right: 0;
+    height: 34px;
+    background: #0f172a;
+    border-top: 1px solid #1e293b;
+    overflow: hidden;
+    z-index: 50;
+    align-items: center;
+}
+
+/* ============================================================
+   MODAL HARD FORCE
+   ============================================================ */
+
+html body #alertModal.alert-modal-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(2, 6, 23, 0.8) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    z-index: 99999 !important;
+    display: none;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px !important;
+    margin: 0 !important;
+}
+
+html body #alertModal.alert-modal-overlay.show {
+    display: flex !important;
+}
+
+html body #alertModal .alert-modal {
+    width: 520px !important;
+    max-width: 100% !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    background: linear-gradient(135deg, #0d1a2e, #0a1729) !important;
+    border: 1px solid rgba(96, 165, 250, 0.2) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 60px rgba(37, 99, 235, 0.15) !important;
+    position: relative !important;
+}
