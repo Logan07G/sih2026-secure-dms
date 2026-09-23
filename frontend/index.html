@@ -1454,20 +1454,195 @@
                 </section>
 
 
-                <!-- SETTINGS -->
                 <section id="settings" class="page">
 
-                    <div class="page-title">
+    <div class="page-title">
+        <div>
+            <h1>Settings</h1>
+            <p>Manage your CaseVault preferences</p>
+        </div>
+    </div>
 
-                        <div>
-                            <h1>Settings</h1>
+    <!-- APPEARANCE -->
+    <div class="settings-card">
+        <div class="settings-card-header">
+            <h2>Appearance</h2>
+            <p>Customize how CaseVault looks</p>
+        </div>
 
-                            <p>
-                                Manage your CaseVault preferences
-                            </p>
-                        </div>
+        <div class="setting-row">
+            <div>
+                <h3>Theme</h3>
+                <p>Switch between dark and light interface</p>
+            </div>
+            <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+                <div class="theme-option" data-theme="dark">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                    <span>Dark</span>
+                </div>
+                <div class="theme-option" data-theme="light">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <span>Light</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    </div>
+    <!-- SECURITY -->
+    <div class="settings-card">
+        <div class="settings-card-header">
+            <h2>Security</h2>
+            <p>Control session and access behavior</p>
+        </div>
+
+        <div class="setting-row">
+            <div>
+                <h3>Session Timeout</h3>
+                <p>Auto-logout after this period of inactivity</p>
+            </div>
+            <select class="settings-select" id="sessionTimeout" onchange="saveSetting('sessionTimeout', this.value)">
+                <option value="15">15 minutes</option>
+                <option value="30" selected>30 minutes</option>
+                <option value="60">1 hour</option>
+                <option value="120">2 hours</option>
+            </select>
+        </div>
+
+        <div class="setting-row">
+            <div>
+                <h3>Auto-Lock</h3>
+                <p>Lock the screen when you step away</p>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="autoLock" onchange="saveSetting('autoLock', this.checked)">
+                <span></span>
+            </label>
+        </div>
+
+        <div class="setting-row">
+            <div>
+                <h3>Two-Factor Authentication</h3>
+                <p>Add an additional security layer</p>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="twoFactor" checked onchange="saveSetting('twoFactor', this.checked)">
+                <span></span>
+            </label>
+        </div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div class="settings-card">
+        <div class="settings-card-header">
+            <h2>Notifications</h2>
+            <p>Choose what alerts you receive</p>
+        </div>
+
+        <div class="setting-row">
+            <div>
+                <h3>Security Alerts</h3>
+                <p>Get notified about suspicious activity</p>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="notifSecurity" checked onchange="saveSetting('notifSecurity', this.checked)">
+                <span></span>
+            </label>
+        </div>
+
+        <div class="setting-row">
+            <div>
+                <h3>Activity Notifications</h3>
+                <p>Updates when documents are uploaded</p>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="notifActivity" checked onchange="saveSetting('notifActivity', this.checked)">
+                <span></span>
+            </label>
+        </div>
+
+        <div class="setting-row">
+            <div>
+                <h3>Audit Logging</h3>
+                <p>Record all case and evidence activities</p>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="auditLogging" checked onchange="saveSetting('auditLogging', this.checked)">
+                <span></span>
+            </label>
+        </div>
+    </div>
+
+    <!-- DATA -->
+    <div class="settings-card">
+        <div class="settings-card-header">
+            <h2>Data</h2>
+            <p>Export and manage your local data</p>
+        </div>
+
+        <div class="setting-row">
+            <div>
+                <h3>Export Audit Log</h3>
+                <p>Download the hash-chained ledger as JSON</p>
+            </div>
+            <button class="settings-action-btn" onclick="exportAuditLog()">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Export
+            </button>
+        </div>
+
+        <div class="setting-row">
+            <div>
+                <h3>Clear Local Data</h3>
+                <p>Logout and wipe settings from this browser</p>
+            </div>
+            <button class="settings-action-btn danger" onclick="clearLocalData()">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                </svg>
+                Clear
+            </button>
+        </div>
+    </div>
+
+    <!-- ABOUT -->
+    <div class="settings-card">
+        <div class="settings-card-header">
+            <h2>About</h2>
+            <p>Project ownership and license</p>
+        </div>
+
+        <div class="about-row">
+            <div>
+                <h3>Team InnoVanta</h3>
+                <p>SIH26190 — Secure Digital Document Management System</p>
+                <p class="about-meta">Ministry of Home Affairs · Government of India</p>
+                <p class="about-contact"><a href="mailto:team@innovanta.dev">team@innovanta.dev</a></p>
+            </div>
+            <div class="about-copyright">
+                © 2026 Team InnoVanta<br>
+                <span>All Rights Reserved</span>
+            </div>
+        </div>
+    </div>
+
+</section>
 
 
                     <div class="settings-panel">

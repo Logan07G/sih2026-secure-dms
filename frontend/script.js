@@ -1438,3 +1438,147 @@ window.setAlertStatus = function (s) {
     if (typeof _origSetAlertStatus === "function") _origSetAlertStatus(s);
     setTimeout(syncAlertCounts, 50);
 };
+
+/* =====================================================
+   SETTINGS — theme, session, export, preferences
+   ===================================================== */
+
+// ---------- Theme ----------
+function applyTheme(theme) {
+    if (theme === "light") {
+        document.documentElement.setAttribute("data-theme", "light");
+    } else {
+        document.documentElement.removeAttribute("data-theme");
+    }
+    // Update toggle UI
+    document.querySelectorAll(".theme-option").forEach(el => {
+        el.classList.toggle("active", el.dataset.theme === theme);
+    });
+    localStorage.setItem("cv_theme", theme);
+}
+
+function toggleTheme() {
+    const current = localStorage.getItem("cv_theme") || "dark";
+    applyTheme(current === "dark" ? "light" : "dark");
+}
+
+// Initialize theme on load
+(function initTheme() {
+    const saved = localStorage.getItem("cv_theme") || "dark";
+    applyTheme(saved);
+})();
+
+
+// ---------- Settings storage ----------
+const SETTINGS_KEY = "cv_settings";
+
+function getSettings() {
+    try { return JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}"); }
+    catch (_) { return {}; }
+}
+
+function saveSetting(key, value) {
+    const s = getSettings();
+    s[key] = value;
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
+
+    // Live-apply session timeout
+    if (key === "sessionTimeout") {
+        try {
+            const raw = localStorage.getItem("cv_session");
+            if (raw) {
+                const sess = JSON.parse(raw);
+                sess.expiresAt = Date.now() + (parseInt(value, 10) * 60 * 1000);
+                localStorage.setItem("cv_session", JSON.stringify(sess));
+            }
+        } catch (_) {}
+    }
+
+    showSettingsToast(`${key.replace(/([A-Z])/g, ' $1').replace(/^./, c => c.toUpperCase())} saved`);
+}
+
+
+// ---------- Export audit log ----------
+function exportAuditLog() {
+    let ledger = [];
+    try { ledger = JSON.parse(localStorage.getItem("casevault_ledger_v1") || "[]"); }
+    catch (_) {}
+
+    if (!ledger.length) {
+        // Fall back to scraping the visible table
+        document.querySelectorAll("#audit table tbody tr").forEach(tr => {
+            const cells = tr.querySelectorAll("td");
+            if (cells.length >= 5) {
+                ledger.push({
+                    timestamp: cells[0].textContent.trim(),
+                    user:      cells[1].textContent.trim(),
+                    action:    cells[2].textContent.trim(),
+                    resource:  cells[3].textContent.trim(),
+                    status:    cells[4].textContent.trim()
+                });
+            }
+        });
+    }
+
+    const blob = new Blob([JSON.stringify({
+        exported_at: new Date().toISOString(),
+        application: "CaseVault",
+        entries: ledger
+    }, null, 2)], { type: "application/json" });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `casevault-audit-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+
+    showSettingsToast(`Exported ${ledger.length} audit entries`);
+}
+
+
+// ---------- Clear local data ----------
+function clearLocalData() {
+    if (!confirm("Log out and clear all local data from this browser?\n\nThis will not delete anything from the server.")) return;
+    localStorage.removeItem("cv_session");
+    localStorage.removeItem("cv_theme");
+    localStorage.removeItem("cv_settings");
+    showSettingsToast("Local data cleared. Redirecting...");
+    setTimeout(() => location.reload(), 800);
+}
+
+
+// ---------- Toast ----------
+function showSettingsToast(msg) {
+    let t = document.getElementById("settingsToast");
+    if (!t) {
+        t = document.createElement("div");
+        t.id = "settingsToast";
+        document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(window.__settingsToastTimer);
+    window.__settingsToastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+
+// ---------- Restore saved prefs into the UI on load ----------
+window.addEventListener("load", function () {
+    const s = getSettings();
+    const map = {
+        sessionTimeout: "sessionTimeout",
+        autoLock:       "autoLock",
+        twoFactor:      "twoFactor",
+        notifSecurity:  "notifSecurity",
+        notifActivity:  "notifActivity",
+        auditLogging:   "auditLogging"
+    };
+    Object.keys(map).forEach(key => {
+        const el = document.getElementById(key);
+        if (!el) return;
+        if (s[key] === undefined) return;
+        if (el.type === "checkbox") el.checked = !!s[key];
+        else el.value = s[key];
+    });
+});
