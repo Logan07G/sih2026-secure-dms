@@ -1454,7 +1454,7 @@ function applyTheme(theme) {
     document.querySelectorAll(".theme-option").forEach(el => {
         el.classList.toggle("active", el.dataset.theme === theme);
     });
-    localStorage.setItem("cv_theme", theme);
+    
 }
 
 function toggleTheme() {
@@ -1463,12 +1463,6 @@ function toggleTheme() {
 }
 
 // Initialize theme on load
-(function initTheme() {
-    const saved = localStorage.getItem("cv_theme") || "dark";
-    applyTheme(saved);
-})();
-
-
 // ---------- Settings storage ----------
 const SETTINGS_KEY = "cv_settings";
 
@@ -1541,7 +1535,7 @@ function exportAuditLog() {
 function clearLocalData() {
     if (!confirm("Log out and clear all local data from this browser?\n\nThis will not delete anything from the server.")) return;
     localStorage.removeItem("cv_session");
-    localStorage.removeItem("cv_theme");
+    
     localStorage.removeItem("cv_settings");
     showSettingsToast("Local data cleared. Redirecting...");
     setTimeout(() => location.reload(), 800);

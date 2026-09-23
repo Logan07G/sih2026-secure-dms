@@ -5433,112 +5433,6 @@ html body #alertModal .alert-modal {
    LIGHT THEME
    ============================================================ */
 
-html[data-theme="light"] body {
-    background: #f5f7fb !important;
-    color: #0f172a !important;
-}
-
-html[data-theme="light"] .app {
-    background: #f5f7fb !important;
-}
-
-html[data-theme="light"] .main-content {
-    background: #f5f7fb !important;
-}
-
-html[data-theme="light"] .page-container {
-    background: #f5f7fb !important;
-}
-
-html[data-theme="light"] .header {
-    background: #ffffff !important;
-    border-bottom-color: #e2e8f0 !important;
-}
-
-html[data-theme="light"] .sidebar {
-    background: linear-gradient(180deg, #0a1832 0%, #112240 100%) !important;
-}
-
-html[data-theme="light"] .stat-card,
-html[data-theme="light"] .panel,
-html[data-theme="light"] .table-panel,
-html[data-theme="light"] .settings-card,
-html[data-theme="light"] .large-case-card,
-html[data-theme="light"] .document-list,
-html[data-theme="light"] .case-overview,
-html[data-theme="light"] .evidence-table,
-html[data-theme="light"] .timeline-card,
-html[data-theme="light"] .author-card,
-html[data-theme="light"] .ai-panel,
-html[data-theme="light"] .detail-card,
-html[data-theme="light"] .security-alert {
-    background: #ffffff !important;
-    border-color: #e2e8f0 !important;
-    color: #0f172a !important;
-}
-
-html[data-theme="light"] .settings-card-header { border-bottom-color: #f1f5f9 !important; }
-html[data-theme="light"] .setting-row        { border-bottom-color: #f1f5f9 !important; }
-
-html[data-theme="light"] .setting-row h3,
-html[data-theme="light"] .settings-card-header h2,
-html[data-theme="light"] .about-row h3,
-html[data-theme="light"] .stat-card h2,
-html[data-theme="light"] .panel h3,
-html[data-theme="light"] .page-title h1,
-html[data-theme="light"] .case-hero h2 {
-    color: #0f172a !important;
-}
-
-html[data-theme="light"] .setting-row p,
-html[data-theme="light"] .settings-card-header p,
-html[data-theme="light"] .about-row p,
-html[data-theme="light"] .page-title p,
-html[data-theme="light"] .stat-card p,
-html[data-theme="light"] .panel p {
-    color: #64748b !important;
-}
-
-html[data-theme="light"] .search-box {
-    background: #f1f5f9 !important;
-    border-color: #e2e8f0 !important;
-}
-
-html[data-theme="light"] .search-box input { color: #0f172a !important; }
-html[data-theme="light"] .search-box input::placeholder { color: #94a3b8 !important; }
-
-html[data-theme="light"] .settings-select {
-    background: #f8fafc !important;
-    border-color: #e2e8f0 !important;
-    color: #0f172a !important;
-}
-
-html[data-theme="light"] .theme-toggle {
-    background: #f1f5f9 !important;
-    border-color: #e2e8f0 !important;
-}
-
-html[data-theme="light"] .theme-option { color: #64748b !important; }
-
-html[data-theme="light"] .profile strong { color: #0f172a !important; }
-html[data-theme="light"] .profile small  { color: #64748b !important; }
-
-html[data-theme="light"] .secondary-btn {
-    background: #ffffff !important;
-    border-color: #e2e8f0 !important;
-    color: #334155 !important;
-}
-
-html[data-theme="light"] .document-row { border-bottom-color: #f1f5f9 !important; }
-html[data-theme="light"] .document-row:hover { background: #f8fafc !important; }
-
-html[data-theme="light"] #settingsToast {
-    background: #ffffff !important;
-    border-color: #e2e8f0 !important;
-    border-left-color: #2563eb !important;
-    color: #0f172a !important;
-}
-
 /* Smooth transition between themes */
 body,
 .app,
@@ -5848,17 +5742,6 @@ body,
     --nlp-summary-text: #cbd5e1;
 }
 
-html[data-theme="light"] {
-    --nlp-bg:        #f8fafc;
-    --nlp-border:    #e2e8f0;
-    --nlp-header:    #1e40af;
-    --nlp-label:     #64748b;
-    --nlp-value:     #0f172a;
-    --nlp-accent:    #2563eb;
-    --nlp-summary-bg: #eff6ff;
-    --nlp-summary-text: #1e293b;
-}
-
 .nlp-results {
     background: var(--nlp-bg) !important;
     border-color: var(--nlp-border) !important;
@@ -5906,11 +5789,6 @@ html[data-theme="light"] {
 .nlp-badge.medium       { background: rgba(245, 158, 11, 0.15) !important; color: #fcd34d !important; }
 .nlp-badge.low          { background: rgba(34, 197, 94, 0.12)  !important; color: #4ade80 !important; }
 .nlp-badge.unclassified { background: rgba(100, 116, 139, 0.15) !important; color: #94a3b8 !important; }
-
-html[data-theme="light"] .nlp-badge.high         { background: #fee2e2 !important; color: #b91c1c !important; }
-html[data-theme="light"] .nlp-badge.medium       { background: #fef3c7 !important; color: #b45309 !important; }
-html[data-theme="light"] .nlp-badge.low          { background: #dcfce7 !important; color: #15803d !important; }
-html[data-theme="light"] .nlp-badge.unclassified { background: #e2e8f0 !important; color: #475569 !important; }
 
 /* NLP FIR number field */
 .nlp-fir-row label {
