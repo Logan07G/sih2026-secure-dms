@@ -228,124 +228,40 @@ function hideApp() {
 
 
 // ================= SESSION CHECK ON LOAD =================
-window.addEventListener("load", function () {
-    try {
-        const raw = localStorage.getItem("cv_session");
-        if (!raw) return;
-        const s = JSON.parse(raw);
-        if (!s || !s.expiresAt || Date.now() > s.expiresAt) {
-            localStorage.removeItem("cv_session");
-            return;
-        }
-        showApp();
-    } catch (_) {
-        localStorage.removeItem("cv_session");
-    }
-});
-
-
-// =====================================================
-// HONEYPOT RESPONSE
-// =====================================================
-
-function triggerHoneypot(email) {
-
-    const card = document.querySelector(".login-card");
-    card.classList.add("login-shake");
-
-    // Log it (fake log — could later POST to backend audit)
-    console.warn(
-        `[SECURITY] Honeypot triggered at ${new Date().toISOString()} ` +
-        `from ${email}. Attempt logged and reported.`
-    );
-
-    logLedger("HONEYPOT_ATTEMPT", email, "BLOCKED");
-
-    showLoginError(
-        "🚨 UNAUTHORIZED ACCESS ATTEMPT DETECTED\n" +
-        "This credential has been flagged as a known attacker pattern.\n" +
-        "Your IP and device fingerprint have been recorded.\n" +
-        "Attempt reported to the Security Operations Center.",
-        true
-    );
-
-    // Visual lock-down
-    const btn = document.querySelector(".login-btn");
-    btn.disabled = true;
-    btn.innerHTML = "<span>🚫</span> ACCESS DENIED";
-
-    loginLockedUntil = Date.now() + 5000;   // 5-second lockout
-
-    // Reset after 5 seconds
-    setTimeout(() => {
-        card.classList.remove("login-shake");
-        btn.disabled = false;
-        btn.innerHTML = "<span>🔐</span> Secure Login";
-    }, 5000);
-}
-
-
-// =====================================================
-// LOGIN ERROR UI
-// =====================================================
-
-function showLoginError(message, severe = false) {
-    let box = document.getElementById("loginError");
-
-    if (!box) {
-        box = document.createElement("div");
-        box.id = "loginError";
-        const card = document.querySelector(".login-card");
-        const btn  = document.querySelector(".login-btn");
-        card.insertBefore(box, btn);
-    }
-
-    box.classList.toggle("severe", severe);
-    box.innerText = message;
-    box.style.display = "block";
-}
-
-function clearLoginError() {
-    const box = document.getElementById("loginError");
-    if (box) box.style.display = "none";
-}
-// ================= SESSION CHECK ON LOAD =================
 
 function checkSession() {
-    const raw = localStorage.getItem("casevault_session");
-    if (!raw) return false;
-
     try {
+        const raw = localStorage.getItem("cv_session");
+        if (!raw) return false;
         const session = JSON.parse(raw);
         if (!session.expiresAt || Date.now() > session.expiresAt) {
-            localStorage.removeItem("casevault_session");
+            localStorage.removeItem("cv_session");
             return false;
         }
-        enterApp(session);
+        showApp();
         return true;
-    } catch (e) {
-        localStorage.removeItem("casevault_session");
+    } catch (_) {
+        localStorage.removeItem("cv_session");
         return false;
     }
 }
 
-// Run on page load — if a session exists, skip login
-window.addEventListener("DOMContentLoaded", () => {
-    checkSession();
-});
+window.addEventListener("load", checkSession);
 
-// Refresh expiry on any activity
-["click", "keydown", "mousemove"].forEach(evt => {
-    window.addEventListener(evt, () => {
-        const raw = localStorage.getItem("casevault_session");
-        if (!raw) return;
+// Refresh session expiry on any user activity
+["click", "keydown", "mousemove"].forEach(function (evt) {
+    window.addEventListener(evt, function () {
         try {
+            const raw = localStorage.getItem("cv_session");
+            if (!raw) return;
             const s = JSON.parse(raw);
             s.expiresAt = Date.now() + (30 * 60 * 1000);
-            localStorage.setItem("casevault_session", JSON.stringify(s));
+            localStorage.setItem("cv_session", JSON.stringify(s));
         } catch (_) {}
     }, { passive: true });
 });
+
+
 // ================= PAGE NAVIGATION =================
 
 function showPage(pageId, button) {
