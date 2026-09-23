@@ -239,10 +239,31 @@
 
                 <div class="header-right">
 
-                    <button class="notification-btn" onclick="showNotifications()">
-                        <i data-icon="bell"></i>
-                        <span></span>
+                    <div class="notification-wrap">
+
+                    <button class="notification-btn" id="notificationBtn" onclick="toggleNotifications(event)">
+                            <i data-icon="bell"></i>
+                            <span class="notification-dot"></span>
                     </button>
+
+                    <div class="notification-panel" id="notificationPanel">
+                    <div class="notif-header">
+                    <div>
+                    <h3>Notifications</h3>
+                    <p>Latest security events and system updates</p>
+                </div>
+                    <button class="notif-clear" onclick="clearAllNotifications()" title="Clear all">Clear</button>
+                </div>
+
+                <div class="notif-list" id="notifList">
+                 <!-- Filled in by JS -->
+                </div>
+
+                <div class="notif-footer">
+                <button onclick="goToAlerts()">Open Security Alerts →</button>
+                </div>
+                </div>
+            </div>
 
                     <div class="profile">
 

@@ -1818,3 +1818,147 @@ function clearAuditBadge() {
         }
     };
 })();
+
+/* =====================================================
+   NOTIFICATIONS DROPDOWN PANEL
+   Replaces the old alert() popup with a proper UI panel.
+   ===================================================== */
+
+function buildNotifications() {
+    const list = document.getElementById("notifList");
+    if (!list) return;
+
+    // Derive from active alerts
+    const alerts = Array.from(document.querySelectorAll(".security-alert[data-alert-id]"));
+    const items = alerts
+        .filter(el => (el.dataset.status || "active").toLowerCase() === "active")
+        .map(el => ({
+            id:    el.dataset.alertId,
+            title: el.dataset.title || "Security Alert",
+            desc:  el.dataset.desc  || "",
+            time:  el.dataset.time  || "recently",
+            severity: el.dataset.severity || "warning",
+        }));
+
+    if (!items.length) {
+        list.innerHTML = `
+            <div class="notif-empty">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                <p>You're all caught up</p>
+                <small>No new notifications</small>
+            </div>`;
+        return;
+    }
+
+    list.innerHTML = items.map(it => `
+        <div class="notif-item ${it.severity}" onclick="openAlertFromNotif('${it.id}')">
+            <div class="notif-icon">${it.severity === "critical" ? "🚨" : "⚠️"}</div>
+            <div class="notif-content">
+                <strong>${escapeHtml(it.title)}</strong>
+                <p>${escapeHtml(it.desc)}</p>
+                <span class="notif-time">${escapeHtml(it.time)}</span>
+            </div>
+        </div>
+    `).join("");
+}
+
+
+function toggleNotifications(e) {
+    if (e) e.stopPropagation();
+    const panel = document.getElementById("notificationPanel");
+    const btn   = document.getElementById("notificationBtn");
+    if (!panel) return;
+
+    const isOpen = panel.classList.contains("show");
+    if (isOpen) {
+        panel.classList.remove("show");
+        if (btn) btn.classList.remove("active");
+        return;
+    }
+
+    buildNotifications();
+    panel.classList.add("show");
+    if (btn) btn.classList.add("active");
+}
+
+
+function clearAllNotifications() {
+    // Reset the dot + count, keep panel open showing "caught up"
+    const dot = document.querySelector(".notification-dot");
+    if (dot) dot.style.display = "none";
+    const list = document.getElementById("notifList");
+    if (list) {
+        list.innerHTML = `
+            <div class="notif-empty">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                <p>You're all caught up</p>
+                <small>No new notifications</small>
+            </div>`;
+    }
+    if (typeof showSettingsToast === "function") showSettingsToast("Notifications cleared");
+}
+
+
+function openAlertFromNotif(alertId) {
+    // Close panel and open the alerts page + modal
+    const panel = document.getElementById("notificationPanel");
+    if (panel) panel.classList.remove("show");
+    if (typeof showPage === "function") {
+        const btn = document.querySelector('.nav-item[onclick*="alerts"]');
+        showPage("alerts", btn);
+    }
+    setTimeout(() => {
+        if (typeof openAlertModal === "function") openAlertModal(alertId);
+    }, 250);
+}
+
+
+function goToAlerts() {
+    const panel = document.getElementById("notificationPanel");
+    if (panel) panel.classList.remove("show");
+    if (typeof showPage === "function") {
+        const btn = document.querySelector('.nav-item[onclick*="alerts"]');
+        showPage("alerts", btn);
+    }
+}
+
+
+// Override the old alert()-based function so nothing calls it anymore
+window.showNotifications = function () {
+    toggleNotifications();
+};
+
+
+// Click anywhere else → close the panel
+document.addEventListener("click", function (e) {
+    const panel = document.getElementById("notificationPanel");
+    const wrap  = document.querySelector(".notification-wrap");
+    if (!panel || !wrap) return;
+    if (!wrap.contains(e.target)) {
+        panel.classList.remove("show");
+        const btn = document.getElementById("notificationBtn");
+        if (btn) btn.classList.remove("active");
+    }
+});
+
+// ESC closes
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+        const panel = document.getElementById("notificationPanel");
+        if (panel) panel.classList.remove("show");
+    }
+});
+
+// Refresh the dot when alerts change
+setTimeout(() => {
+    if (typeof syncAlertCounts === "function") syncAlertCounts();
+    const dot = document.querySelector(".notification-dot");
+    const activeCount = window.__activeAlertCount || 0;
+    if (dot) dot.style.display = activeCount > 0 ? "" : "none";
+}, 300);
