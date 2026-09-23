@@ -1962,3 +1962,124 @@ setTimeout(() => {
     const activeCount = window.__activeAlertCount || 0;
     if (dot) dot.style.display = activeCount > 0 ? "" : "none";
 }, 300);
+
+/* =====================================================
+   DASHBOARD — real numbers from /api/docs
+   ===================================================== */
+
+async function updateDashboardStats() {
+    const API_BASE = window.CASEVAULT_API || "http://localhost:8000";
+    try {
+        const res = await fetch(`${API_BASE}/api/docs`);
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        const docs = data.results || [];
+
+        // Active Cases = distinct case_number values
+        const caseSet = new Set();
+        docs.forEach(d => { if (d.case_number) caseSet.add(d.case_number); });
+
+        // Evidence = total documents in the DB
+        const evidence = docs.length;
+
+        // Pending Review = documents that need sign-off
+        const pendingReview = docs.filter(d => {
+            const t = String(d.document_type || "").toLowerCase();
+            return t.includes("witness") || t.includes("forensic") || t.includes("charge");
+        }).length;
+
+        // Security Alerts = active alerts currently in the DOM
+        let alerts = 0;
+        document.querySelectorAll('.security-alert[data-alert-id]').forEach(el => {
+            if ((el.dataset.status || "active").toLowerCase() === "active") alerts++;
+        });
+
+        window.__dashboardStats = {
+            activeCases:    caseSet.size,
+            evidence:       evidence,
+            pendingReview:  pendingReview,
+            securityAlerts: alerts,
+        };
+
+        if (typeof window.startCounters === "function") window.startCounters();
+    } catch (e) {
+        console.warn("[dashboard] could not load stats:", e.message);
+    }
+}
+
+
+/* Override the animated counter function to read live stats */
+window.startCounters = function () {
+    const s = window.__dashboardStats || {};
+    const values = [
+        s.activeCases    || 0,
+        s.evidence       || 0,
+        s.pendingReview  || 0,
+        s.securityAlerts || 0,
+    ];
+
+    document.querySelectorAll(".counter").forEach(function (counter, i) {
+        const target = values[i] || 0;
+
+        if (counter.__cvTimer) clearInterval(counter.__cvTimer);
+
+        let current = 0;
+        counter.textContent = "0";
+
+        const steps = 30;
+        const increment = Math.max(1, Math.ceil(target / steps));
+
+        counter.__cvTimer = setInterval(function () {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                clearInterval(counter.__cvTimer);
+            }
+            counter.textContent = current.toLocaleString();
+        }, 25);
+    });
+};
+
+
+/* Fetch stats whenever the app becomes visible */
+(function () {
+    const _orig = window.showApp;
+    if (typeof _orig !== "function") return;
+    window.showApp = function () {
+        _orig.apply(this, arguments);
+        setTimeout(updateDashboardStats, 80);
+    };
+})();
+
+
+/* Re-fetch after documents load (i.e. after an upload) */
+(function () {
+    const _orig = window.loadDocuments;
+    if (typeof _orig !== "function") return;
+    window.loadDocuments = async function () {
+        const r = await _orig.apply(this, arguments);
+        updateDashboardStats();
+        return r;
+    };
+})();
+
+
+/* Just refresh the alerts number when alerts change */
+(function () {
+    const _orig = window.syncAlertCounts;
+    if (typeof _orig !== "function") return;
+    window.syncAlertCounts = function () {
+        _orig.apply(this, arguments);
+        const s = window.__dashboardStats;
+        if (!s) return;
+        s.securityAlerts = window.__activeAlertCount || 0;
+        const counters = document.querySelectorAll(".counter");
+        if (counters[3]) counters[3].textContent = s.securityAlerts.toLocaleString();
+    };
+})();
+
+
+/* Bootstrap — in case user is already logged in on page load */
+window.addEventListener("load", function () {
+    setTimeout(updateDashboardStats, 400);
+});
