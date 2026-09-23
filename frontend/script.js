@@ -2083,3 +2083,47 @@ window.startCounters = function () {
 window.addEventListener("load", function () {
     setTimeout(updateDashboardStats, 400);
 });
+
+/* =====================================================
+   NLP PANEL — ensure hidden until a real file is picked
+   ===================================================== */
+
+function hideNlpPanel() {
+    const box = document.getElementById("nlpResults");
+    if (box) {
+        box.classList.remove("show");
+        box.innerHTML = "";
+        box.style.display = "none";
+    }
+    const firRow = document.getElementById("nlpFirRow");
+    if (firRow) firRow.classList.add("hidden");
+}
+
+// Force-hide on page load (in case of stale state)
+window.addEventListener("load", () => {
+    setTimeout(hideNlpPanel, 50);
+});
+
+// Wrap resetUploadModal so every modal open starts clean
+(function () {
+    const _orig = window.resetUploadModal;
+    window.resetUploadModal = function () {
+        if (typeof _orig === "function") _orig.apply(this, arguments);
+        hideNlpPanel();
+    };
+})();
+
+// Only show NLP panel after a file has been picked AND analysis finished
+(function () {
+    const _orig = window.renderNlpResults;
+    window.renderNlpResults = function (result, file) {
+        // Don't render if no file was selected
+        if (!file) {
+            hideNlpPanel();
+            return;
+        }
+        if (typeof _orig === "function") _orig(result, file);
+        const box = document.getElementById("nlpResults");
+        if (box) box.style.display = "";
+    };
+})();
