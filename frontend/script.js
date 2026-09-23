@@ -1642,3 +1642,109 @@ function triggerHoneypot(email) {
         }
     }, 5000);
 }
+
+/* =====================================================
+   NLP — Analyze file before upload, pre-fill form
+   ===================================================== */
+
+async function nlpAnalyzeFile(file) {
+    const API_BASE = window.CASEVAULT_API || "http://localhost:8000";
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+        const res = await fetch(`${API_BASE}/api/nlp/analyze`, {
+            method: "POST",
+            body: formData,
+        });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return await res.json();
+    } catch (e) {
+        console.warn("[NLP] analyze failed:", e.message);
+        return null;
+    }
+}
+
+
+function renderNlpResults(result, file) {
+    const box = document.getElementById("nlpResults");
+    if (!box) return;
+
+    if (!result) {
+        box.innerHTML = `<p class="nlp-empty">Analysis unavailable — you can still upload manually.</p>`;
+        box.classList.add("show");
+        return;
+    }
+
+    const sections = (result.ipc_sections || []).join(", ") || "—";
+    const dates    = (result.dates || []).slice(0, 3).join(", ") || "—";
+    const officers = (result.officer_names || []).slice(0, 2).join(", ") || "—";
+    const cases    = (result.case_numbers || []).slice(0, 2).join(", ") || "—";
+    const conf     = Math.round((result.confidence || 0) * 100);
+    const risk     = result.risk_level || "—";
+    const riskCls  = risk.toLowerCase();
+
+    box.innerHTML = `
+        <div class="nlp-header">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a10 10 0 1 0 10 10"/>
+                <path d="M12 6v6l4 2"/>
+            </svg>
+            <span>AI Document Analysis</span>
+            <span class="nlp-badge ${riskCls}">${risk} Risk</span>
+        </div>
+        <div class="nlp-grid">
+            <div><span>Document Type</span><strong>${result.document_type || "—"}</strong><small>${conf}% confidence</small></div>
+            <div><span>IPC / BNS Sections</span><strong>${sections}</strong></div>
+            <div><span>Case Numbers</span><strong>${cases}</strong></div>
+            <div><span>Dates Found</span><strong>${dates}</strong></div>
+            <div><span>Officers</span><strong>${officers}</strong></div>
+            <div><span>Word Count</span><strong>${result.word_count || 0}</strong></div>
+        </div>
+        ${result.summary ? `<div class="nlp-summary"><span>Summary</span><p>${escapeHtml(result.summary)}</p></div>` : ""}
+    `;
+    box.classList.add("show");
+
+    // Auto-fill the FIR number if we extracted one
+    const firInput = document.getElementById("nlpFirNumber");
+    if (firInput && !firInput.value) {
+        if (result.case_numbers && result.case_numbers.length) {
+            firInput.value = result.case_numbers[0];
+        } else if (file && file.name) {
+            const guess = file.name.replace(/[^A-Za-z0-9]/g, "-").slice(0, 20).toUpperCase();
+            firInput.value = "FIR-" + guess;
+        }
+    }
+}
+
+
+function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    })[c]);
+}
+
+
+// Hook into existing file selection — runs NLP when a file is picked
+document.addEventListener("change", function (e) {
+    if (e.target && e.target.id === "evidenceFile") {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const box = document.getElementById("nlpResults");
+        if (box) {
+            box.innerHTML = `<p class="nlp-empty">Analyzing document…</p>`;
+            box.classList.add("show");
+        }
+        nlpAnalyzeFile(file).then(r => renderNlpResults(r, file));
+    }
+});
+
+// Reveal FIR row when NLP panel appears
+(function () {
+    var _orig = window.renderNlpResults;
+    window.renderNlpResults = function (result, file) {
+        if (typeof _orig === "function") _orig(result, file);
+        var row = document.getElementById("nlpFirRow");
+        if (row) row.classList.remove("hidden");
+    };
+})();

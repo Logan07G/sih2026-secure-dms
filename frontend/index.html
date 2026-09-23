@@ -1865,6 +1865,9 @@
                 onchange="handleEvidenceFile(this)"
             />
 
+            <!-- ============ NLP RESULTS ============ -->
+            <div id="nlpResults" class="nlp-results"></div>
+
 
             <!-- SELECTED FILE -->
             <div
@@ -1899,6 +1902,13 @@
 
 
             <!-- SECURITY OPTIONS -->
+            <!-- ============ NLP FIR NUMBER ============ -->
+            <div class="nlp-fir-row hidden" id="nlpFirRow">
+                <label>FIR Number (auto-detected — edit if needed)</label>
+                <input type="text" id="nlpFirNumber" placeholder="e.g. FIR-2026-0042">
+            </div>
+
+
             <div
                 id="securityOptions"
                 class="security-options hidden"
