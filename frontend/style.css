@@ -5561,3 +5561,274 @@ body,
     .about-row { flex-direction: column; }
     .about-copyright { text-align: left; }
 }
+
+/* ============================================================
+   MOBILE — collapse sidebar, fix layout, kill overflow
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    /* Sidebar → icon rail */
+    .sidebar {
+        width: 68px !important;
+        min-width: 68px !important;
+    }
+
+    .brand {
+        padding: 16px 8px !important;
+        justify-content: center !important;
+    }
+
+    .brand > div:last-child,
+    .brand h2,
+    .brand p {
+        display: none !important;
+    }
+
+    .brand-icon {
+        margin: 0 auto !important;
+    }
+
+    .navigation {
+        padding: 12px 6px !important;
+    }
+
+    .nav-item {
+        padding: 12px 8px !important;
+        justify-content: center !important;
+        gap: 0 !important;
+    }
+
+    .nav-item .nav-label,
+    .nav-item span:not(.alert-count) {
+        display: none !important;
+    }
+
+    .nav-item .icon,
+    .nav-item i {
+        font-size: 20px !important;
+        margin: 0 !important;
+    }
+
+    .nav-item .alert-count {
+        position: absolute !important;
+        top: 6px !important;
+        right: 6px !important;
+        width: 16px !important;
+        height: 16px !important;
+        font-size: 9px !important;
+        line-height: 16px !important;
+        display: grid !important;
+        place-items: center !important;
+    }
+
+    /* System status + logout — icon only */
+    .sidebar-bottom {
+        padding: 8px 6px !important;
+    }
+
+    .system-status {
+        padding: 10px 6px !important;
+        justify-content: center !important;
+        flex-direction: column !important;
+        gap: 4px !important;
+    }
+
+    .system-status > div { display: none !important; }
+    .system-status strong,
+    .system-status small { display: none !important; }
+
+    .logout-btn {
+        padding: 12px 8px !important;
+        justify-content: center !important;
+    }
+
+    .logout-btn span:last-child { display: none !important; }
+
+    /* Content gets the rest */
+    .main-content {
+        margin-left: 68px !important;
+        width: calc(100% - 68px) !important;
+    }
+
+    /* Header becomes compact */
+    .header {
+        padding: 0 10px !important;
+        height: 60px !important;
+        gap: 8px !important;
+    }
+
+    .sidebar-toggle {
+        margin-right: 4px !important;
+        width: 32px !important;
+        height: 32px !important;
+    }
+
+    .search-box {
+        flex: 1 !important;
+        width: auto !important;
+        max-width: none !important;
+        padding: 8px 12px !important;
+    }
+
+    .search-box input {
+        font-size: 13px !important;
+    }
+
+    .header-right {
+        gap: 10px !important;
+    }
+
+    .profile {
+        display: none !important;
+    }
+
+    /* Page container padding */
+    .page-container {
+        padding: 14px 12px 70px !important;
+    }
+
+    /* Page title stacks */
+    .page-title {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+        margin-bottom: 16px !important;
+    }
+
+    .page-title h1 { font-size: 20px !important; }
+    .page-title p  { font-size: 12px !important; }
+
+    .page-title .primary-btn {
+        width: auto !important;
+        align-self: flex-start !important;
+        padding: 9px 14px !important;
+        font-size: 12px !important;
+    }
+
+    /* Stats grid 2 cols on mobile */
+    .stats-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+    }
+
+    .stat-card {
+        padding: 14px !important;
+    }
+
+    .stat-card h2 { font-size: 22px !important; }
+    .stat-card p  { font-size: 11px !important; }
+
+    .stat-icon {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 16px !important;
+    }
+
+    /* Case grid single column */
+    .case-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Case detail grid */
+    .case-detail-grid {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    .detail-layout {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Document rows wrap nicely */
+    .document-row {
+        flex-wrap: wrap !important;
+        gap: 10px !important;
+        padding: 14px !important;
+    }
+
+    .file-info { flex: 1 1 100% !important; order: 2 !important; }
+    .file-icon { order: 1 !important; }
+    .document-row .badge { order: 3 !important; }
+    .document-row .icon-btn { order: 4 !important; }
+
+    /* Card contents inside */
+    .case-overview,
+    .panel,
+    .table-panel,
+    .settings-card {
+        padding: 14px !important;
+    }
+
+    .case-header {
+        flex-direction: column !important;
+        gap: 12px !important;
+        padding: 16px !important;
+    }
+
+    .case-header h3 { font-size: 15px !important; }
+
+    /* Document status grid */
+    .document-status-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+        padding: 12px !important;
+    }
+
+    /* Settings rows */
+    .setting-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+        padding: 14px 0 !important;
+    }
+
+    .theme-toggle { width: 100% !important; justify-content: space-between !important; }
+
+    /* About row */
+    .about-row {
+        flex-direction: column !important;
+        gap: 12px !important;
+        padding: 14px 0 !important;
+    }
+
+    .about-copyright { text-align: left !important; }
+
+    /* Timeline */
+    .timeline {
+        padding-left: 20px !important;
+        margin-left: 8px !important;
+    }
+
+    /* Hide ticker strip on mobile */
+    .security-ticker {
+        display: none !important;
+    }
+
+    /* Modals fill more screen */
+    .modal-card,
+    .upload-modal,
+    .alert-modal {
+        width: calc(100% - 24px) !important;
+        max-width: calc(100% - 24px) !important;
+    }
+
+    /* Alerts on mobile */
+    .security-alert {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+        padding: 14px !important;
+    }
+
+    .security-alert button { width: 100% !important; }
+}
+
+/* Very small phones */
+@media (max-width: 420px) {
+    .stats-grid { grid-template-columns: 1fr !important; }
+
+    .case-detail-grid { grid-template-columns: 1fr !important; }
+
+    .page-title h1 { font-size: 18px !important; }
+    .stat-card h2  { font-size: 20px !important; }
+}
